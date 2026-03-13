@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentRadar — People Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FAF8F4;--cream2:#F4F1EB;--cream3:#EDE9E0;--white:#FFFFFF;--ink:#1A1714;--ink2:#3D3A35;--ink3:#7A7570;--ink4:#B0ABA4;--gold:#A8864E;--gold-light:#F0E8D6;--gold-mid:#C9A96E;--border:rgba(26,23,20,.08);--border2:rgba(26,23,20,.14);--border3:rgba(26,23,20,.22);--red:#C0392B;--red-bg:#FDF0EE;--amber:#B5660A;--amber-bg:#FDF6EE;--green:#1A6B4A;--green-bg:#EEF7F2;--blue:#1A4A7A;--blue-bg:#EEF3FA;--r:6px;--rlg:10px;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Jost',sans-serif;--sh:0 1px 3px rgba(26,23,20,.06),0 4px 16px rgba(26,23,20,.04);--shlg:0 2px 8px rgba(26,23,20,.08),0 16px 48px rgba(26,23,20,.08)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:13px;line-height:1.55;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:2px}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:222px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream)}
+.content-area{flex:1;overflow-y:auto;padding:28px 32px}
+.brand-wrap{padding:24px 20px 20px;border-bottom:1px solid var(--border)}
+.brand-name{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.2px;line-height:1}
+.brand-name span{color:var(--gold)}
+.brand-sub{font-size:10px;color:var(--ink4);margin-top:4px;letter-spacing:.12em;text-transform:uppercase}
+.nav-lbl{padding:18px 20px 5px;font-size:9px;color:var(--ink4);letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.nav-i{display:flex;align-items:center;gap:9px;padding:8px 14px;margin:1px 6px;border-radius:var(--r);cursor:pointer;font-size:12px;color:var(--ink3);transition:all .15s;font-weight:400}
+.nav-i:hover{background:var(--cream);color:var(--ink2)}
+.nav-i.active{background:var(--gold-light);color:var(--gold)}
+.risk-pip{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.nav-ct{margin-left:auto;font-size:10px;font-weight:500;padding:1px 7px;border-radius:10px;min-width:20px;text-align:center}
+.sb-footer{margin-top:auto;padding:14px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
+.sb-kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px}
+.sb-kpi{background:var(--cream);border-radius:var(--r);padding:8px 10px}
+.sb-kpi-val{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);line-height:1}
+.sb-kpi-lbl{font-size:9px;color:var(--ink4);margin-top:2px;letter-spacing:.06em;text-transform:uppercase}
+.topbar{padding:14px 32px;border-bottom:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.page-t{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);letter-spacing:-.2px}
+.page-bc{font-size:10px;color:var(--ink4);margin-top:1px;letter-spacing:.06em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;font-size:11px;font-family:var(--sans);font-weight:500;letter-spacing:.04em;border:1px solid var(--border2);border-radius:var(--r);cursor:pointer;background:var(--white);color:var(--ink2);transition:all .15s;white-space:nowrap;text-transform:uppercase}
+.btn:hover{background:var(--cream);border-color:var(--border3);color:var(--ink)}
+.btn-gold{background:var(--gold);color:var(--white);border-color:var(--gold)}
+.btn-gold:hover{background:var(--gold-mid);border-color:var(--gold-mid)}
+.btn-og{border-color:var(--gold);color:var(--gold);background:transparent}
+.btn-og:hover{background:var(--gold-light)}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);padding:20px 22px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi-card.gold::after{background:linear-gradient(90deg,var(--gold),var(--gold-mid))}
+.kpi-card.danger::after{background:var(--red)}
+.kpi-card.warning::after{background:var(--amber)}
+.kpi-card.success::after{background:var(--green)}
+.kpi-lbl{font-size:9px;color:var(--ink4);letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:8px}
+.kpi-val{font-family:var(--serif);font-size:34px;font-weight:300;color:var(--ink);line-height:1}
+.kpi-sub{font-size:10px;color:var(--ink4);margin-top:6px}
+.tbl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;box-shadow:var(--sh)}
+.tbl-toolbar{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--cream2)}
+.search-box{flex:1;display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:6px 12px}
+.search-box svg{color:var(--ink4);flex-shrink:0}
+.search-box input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:12px;color:var(--ink);width:100%}
+.search-box input::placeholder{color:var(--ink4)}
+.fpill{padding:5px 12px;border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink3);font-family:var(--sans);transition:all .15s;letter-spacing:.02em}
+.fpill:hover{border-color:var(--gold);color:var(--gold)}
+.fpill.active{background:var(--gold-light);color:var(--gold);border-color:var(--gold-mid)}
+.tbl-head{display:grid;grid-template-columns:210px 60px 80px 80px 90px 100px 110px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
+.tbl-row{display:grid;grid-template-columns:210px 60px 80px 80px 90px 100px 110px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
+.tbl-row:last-child{border-bottom:none}
+.tbl-row:hover{background:var(--cream)}
+.emp-wrap{display:flex;align-items:center;gap:10px}
+.emp-nm{font-weight:500;font-size:12px;color:var(--ink)}
+.emp-jt{font-size:10px;color:var(--ink4);margin-top:1px}
+.cell-sm{font-size:12px;color:var(--ink2)}
+.cell-mu{font-size:11px;color:var(--ink3)}
+.pill{display:inline-flex;align-items:center;padding:3px 9px;border-radius:4px;font-size:10px;font-weight:500;letter-spacing:.03em;text-transform:uppercase}
+.pr{background:var(--red-bg);color:var(--red)}
+.pa{background:var(--amber-bg);color:var(--amber)}
+.pg{background:var(--green-bg);color:var(--green)}
+.pb{background:var(--blue-bg);color:var(--blue)}
+.pgold{background:var(--gold-light);color:var(--gold)}
+.score-track{height:3px;background:var(--cream3);border-radius:2px;width:70px;overflow:hidden;margin-bottom:2px}
+.score-fill{height:100%;border-radius:2px;transition:width .4s}
+.overlay{position:fixed;inset:0;background:rgba(26,23,20,.25);z-index:90;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(2px)}
+.overlay.open{opacity:1;pointer-events:all}
+.dp{position:fixed;right:0;top:0;bottom:0;width:480px;background:var(--white);border-left:1px solid var(--border);overflow-y:auto;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:91;display:flex;flex-direction:column;box-shadow:var(--shlg)}
+.dp.open{transform:translateX(0)}
+.dp-hero{padding:24px 24px 20px;background:var(--cream);border-bottom:1px solid var(--border)}
+.dp-hero-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.dp-hero-inf{flex:1;margin-left:14px}
+.dp-nm{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);line-height:1.1}
+.dp-jt{font-size:11px;color:var(--ink3);margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+.xcls{width:28px;height:28px;border-radius:var(--r);background:var(--white);border:1px solid var(--border);color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .15s}
+.xcls:hover{background:var(--cream3);color:var(--ink)}
+.dp-risk-row{display:flex;align-items:center;gap:14px}
+.risk-dial{font-family:var(--serif);font-size:42px;font-weight:300;line-height:1}
+.risk-dial-sub{font-size:9px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.dp-risk-bar{height:5px;background:var(--cream3);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.dp-risk-fill{height:100%;border-radius:3px;transition:width .5s}
+.tab-nav{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 6px}
+.dp-tab{padding:11px 12px;font-size:10px;color:var(--ink4);cursor:pointer;border-bottom:1.5px solid transparent;margin-bottom:-1px;transition:all .15s;font-weight:400;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.dp-tab:hover{color:var(--ink2)}
+.dp-tab.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:500}
+.dp-body{padding:22px 24px;flex:1}
+.dp-sec{margin-bottom:22px}
+.dp-sec-t{font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.kv2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kv-i{background:var(--cream);border-radius:var(--r);padding:10px 12px;border:1px solid var(--border)}
+.kv-k{font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.kv-v{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--ink);line-height:1.2}
+.kv-n{font-size:10px;color:var(--ink4);margin-top:2px}
+.sk-tag{display:inline-flex;padding:3px 10px;background:var(--cream2);border:1px solid var(--cream3);border-radius:3px;font-size:10px;color:var(--ink3);margin:0 4px 4px 0;letter-spacing:.03em;font-weight:500}
+.frow{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.flbl{width:160px;font-size:11px;color:var(--ink2);flex-shrink:0}
+.ftrack{flex:1;height:3px;background:var(--cream3);border-radius:2px;overflow:hidden}
+.ffill{height:100%;border-radius:2px}
+.fnum{width:24px;text-align:right;font-size:11px;font-family:var(--serif);font-size:14px;color:var(--ink3)}
+.plan-i{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;border-left:2.5px solid transparent}
+.plan-i.urgent{border-left-color:var(--red)}
+.plan-i.medium{border-left-color:var(--amber)}
+.plan-i.low{border-left-color:var(--green)}
+.plan-t{font-size:12px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.plan-d{font-size:11px;color:var(--ink3);line-height:1.55}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:12px}
+.srow:last-child{border-bottom:none}
+.s-lbl{color:var(--ink3)}
+.s-val{font-weight:500;color:var(--ink);font-family:var(--serif);font-size:15px}
+.phase-row{display:flex;gap:12px;margin-bottom:14px}
+.ph-num{width:22px;height:22px;border-radius:50%;background:var(--gold-light);border:1px solid var(--gold-mid);color:var(--gold);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.ph-t{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.ph-d{font-size:11px;color:var(--ink3);line-height:1.5}
+.ai-panel{background:linear-gradient(135deg,var(--cream) 0%,var(--gold-light) 100%);border:1px solid var(--gold-mid);border-radius:var(--rlg);padding:16px 18px;margin-bottom:16px}
+.ai-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ai-pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:breathe 2.5s ease-in-out infinite;flex-shrink:0}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.5}}
+.ai-ttl{font-size:11px;font-weight:500;color:var(--gold);text-transform:uppercase;letter-spacing:.1em}
+.ai-out{font-size:12px;color:var(--ink2);line-height:1.7;white-space:pre-wrap;min-height:60px}
+.ai-out.thinking{color:var(--ink4);font-style:italic}
+.ai-btns{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.ai-pb{padding:5px 11px;background:var(--white);border:1px solid var(--border2);border-radius:var(--r);color:var(--ink3);font-size:10px;cursor:pointer;transition:all .15s;font-family:var(--sans);font-weight:500;letter-spacing:.03em;text-transform:uppercase}
+.ai-pb:hover{background:var(--gold-light);color:var(--gold);border-color:var(--gold-mid)}
+.modal-ov{position:fixed;inset:0;background:rgba(26,23,20,.3);display:none;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(3px)}
+.modal-ov.open{display:flex}
+.modal-box{background:var(--white);border:1px solid var(--border2);border-radius:var(--rlg);width:560px;max-height:88vh;overflow-y:auto;box-shadow:var(--shlg);animation:slideUp .2s ease}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mhd{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--cream)}
+.mhd-t{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink)}
+.mbody{padding:22px 24px}
+.mfoot{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:var(--cream)}
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:9px;color:var(--ink4);margin-bottom:5px;font-weight:500;text-transform:uppercase;letter-spacing:.1em}
+.fi,.fs{width:100%;padding:8px 12px;background:var(--cream);border:1px solid var(--border2);border-radius:var(--r);color:var(--ink);font-family:var(--sans);font-size:12px;outline:none;transition:border-color .15s}
+.fi:focus,.fs:focus{border-color:var(--gold);background:var(--white)}
+.fi::placeholder{color:var(--ink4)}
+.fs option{background:var(--white)}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.asm-box{width:680px;max-height:92vh}
+.asm-hero{background:linear-gradient(135deg,#1A1714 0%,#3D3A35 100%);color:var(--cream);padding:28px 28px 22px;border-radius:var(--rlg) var(--rlg) 0 0}
+.asm-pre{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:6px;font-weight:500}
+.asm-t{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--cream);line-height:1.15}
+.asm-sub{font-size:11px;color:rgba(250,248,244,.55);margin-top:6px;line-height:1.5}
+.asm-body{padding:24px 28px}
+.asm-prog{height:2px;background:var(--cream3);border-radius:1px;margin-bottom:22px;overflow:hidden}
+.asm-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-mid));border-radius:1px;transition:width .4s ease}
+.asm-cat-t{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--ink);margin-bottom:2px}
+.asm-cat-d{font-size:11px;color:var(--ink4);margin-bottom:18px}
+.asm-q{background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:16px 18px;margin-bottom:10px}
+.asm-qtext{font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:12px;font-weight:400}
+.asm-scale{display:flex;gap:8px;align-items:center}
+.asm-slbl{font-size:9px;color:var(--ink4);width:80px;letter-spacing:.04em;text-transform:uppercase}
+.asm-slbl.r{text-align:right}
+.asm-opts{display:flex;gap:6px;flex:1;justify-content:space-between}
+.asm-opt{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--cream3);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink3);font-weight:500;transition:all .15s;font-family:var(--sans)}
+.asm-opt:hover{border-color:var(--gold-mid);color:var(--gold);background:var(--gold-light)}
+.asm-opt.sel{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.asm-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.asm-step{font-size:10px;color:var(--ink4);letter-spacing:.08em;text-transform:uppercase}
+.dim-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.dim-lbl{width:170px;font-size:11px;color:var(--ink2);flex-shrink:0}
+.dim-track{flex:1;height:4px;background:var(--cream3);border-radius:2px;overflow:hidden}
+.dim-fill{height:100%;border-radius:2px;transition:width .6s ease}
+.dim-sc{width:28px;text-align:right;font-family:var(--serif);font-size:14px;color:var(--ink3)}
+.prof-badge{display:inline-flex;flex-direction:column;align-items:center;gap:4px;background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:var(--rlg);padding:14px 20px;margin-bottom:14px}
+.prof-badge-lbl{font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;font-weight:500}
+.prof-badge-nm{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink)}
+.prof-badge-d{font-size:11px;color:var(--ink3);text-align:center;line-height:1.5}
+.bench-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.bench-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);padding:20px;box-shadow:var(--sh)}
+.bench-role{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--ink);margin-bottom:2px}
+.bench-ct{font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.bench-trio{display:flex;justify-content:space-between;margin-bottom:10px}
+.bt-item{text-align:center}
+.bt-val{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--ink)}
+.bt-lbl{font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.bench-bar-t{height:5px;background:var(--cream3);border-radius:3px;overflow:hidden}
+.bench-bar-f{height:100%;border-radius:3px;transition:width .5s}
+.bench-bar-leg{display:flex;justify-content:space-between;font-size:9px;color:var(--ink4);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.api-bar{padding:8px 32px;background:var(--cream2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.api-lbl{font-size:9px;color:var(--ink4);white-space:nowrap;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.api-inp{flex:1;max-width:300px;padding:4px 10px;background:var(--white);border:1px solid var(--border2);border-radius:var(--r);color:var(--ink2);font-family:monospace;font-size:11px;outline:none}
+.api-inp:focus{border-color:var(--gold)}
+.api-st{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+.api-st.set{background:var(--green-bg);color:var(--green)}
+.api-st.unset{background:var(--amber-bg);color:var(--amber)}
+.notif{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--cream);border-radius:var(--r);padding:12px 18px;font-size:12px;z-index:400;transform:translateY(8px);opacity:0;transition:all .3s;max-width:280px;box-shadow:var(--shlg)}
+.notif.show{transform:translateY(0);opacity:1}
+.notif.success{border-left:3px solid var(--green)}
+.notif.error{border-left:3px solid var(--red)}
+.empty{padding:52px;text-align:center;color:var(--ink4)}
+.empty-ico{font-family:var(--serif);font-size:36px;margin-bottom:10px;opacity:.3}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="sidebar">
+  <div class="brand-wrap">
+    <div class="brand-name">Talent<span>Radar</span></div>
+    <div class="brand-sub">People Intelligence Platform</div>
+  </div>
+  <div class="nav-lbl">Navigazione</div>
+  <div class="nav-i active" id="nav-dashboard" onclick="showView('dashboard')">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".4"/></svg>
+    Overview
+  </div>
+  <div class="nav-i" id="nav-team" onclick="showView('team')">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="5.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 12c0-2.485 2.015-4.5 4.5-4.5S10 9.515 10 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="11" cy="4.5" r="1.8" stroke="currentColor" stroke-width="1.2"/><path d="M13 12c0-1.49-1.21-2.7-2.7-2.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Collaboratori
+  </div>
+  <div class="nav-i" id="nav-benchmark" onclick="showView('benchmark')">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 10l3-3.5 2.5 2L11 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 13h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".35"/></svg>
+    Benchmark
+  </div>
+  <div class="nav-lbl">Filtro rischio</div>
+  <div class="nav-i" onclick="filterByRisk('alto')">
+    <div class="risk-pip" style="background:var(--red)"></div><span>Alto rischio</span>
+    <span id="count-alto" class="nav-ct" style="background:var(--red-bg);color:var(--red)">0</span>
+  </div>
+  <div class="nav-i" onclick="filterByRisk('medio')">
+    <div class="risk-pip" style="background:var(--amber)"></div><span>Medio rischio</span>
+    <span id="count-medio" class="nav-ct" style="background:var(--amber-bg);color:var(--amber)">0</span>
+  </div>
+  <div class="nav-i" onclick="filterByRisk('basso')">
+    <div class="risk-pip" style="background:var(--green)"></div><span>Basso rischio</span>
+    <span id="count-basso" class="nav-ct" style="background:var(--green-bg);color:var(--green)">0</span>
+  </div>
+  <div class="sb-footer">
+    <div class="sb-kpi-row">
+      <div class="sb-kpi"><div class="sb-kpi-val" id="sb-total">0</div><div class="sb-kpi-lbl">Totale</div></div>
+      <div class="sb-kpi"><div class="sb-kpi-val" id="sb-risk" style="color:var(--amber)">0</div><div class="sb-kpi-lbl">Risk medio</div></div>
+    </div>
+    <button class="btn btn-gold" onclick="openAddModal()" style="width:100%;justify-content:center;font-size:10px">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Aggiungi Collaboratore
+    </button>
+    <label style="width:100%">
+      <div class="btn" style="width:100%;justify-content:center;cursor:pointer;font-size:10px">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5M2 4l3 3 3-3M1 8h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Importa CSV
+      </div>
+      <input type="file" accept=".csv" style="display:none" onchange="importCSV(event)">
+    </label>
+  </div>
+</nav>
+<div class="main">
+  <div class="api-bar">
+    <div class="ai-pulse"></div>
+    <span class="api-lbl">Anthropic API Key</span>
+    <input type="password" class="api-inp" id="apiKeyInput" placeholder="sk-ant-..." oninput="updateApiStatus()">
+    <span class="api-st unset" id="apiStatus">Non configurata</span>
+    <span style="font-size:9px;color:var(--ink4);margin-left:4px">— Usata solo in locale</span>
+    <button class="btn btn-og" style="margin-left:auto;font-size:9px;padding:4px 12px" onclick="exportCSV()">Esporta CSV</button>
+  </div>
+  <div id="view-dashboard" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+    <div class="topbar">
+      <div><div class="page-t">People Intelligence</div><div class="page-bc" id="topbar-date"></div></div>
+    </div>
+    <div class="content-area">
+      <div class="kpi-grid">
+        <div class="kpi-card gold"><div class="kpi-lbl">Collaboratori</div><div class="kpi-val" id="s-total">0</div><div class="kpi-sub">In forza</div></div>
+        <div class="kpi-card danger"><div class="kpi-lbl">Alto rischio</div><div class="kpi-val" id="s-high" style="color:var(--red)">0</div><div class="kpi-sub">Azione urgente</div></div>
+        <div class="kpi-card warning"><div class="kpi-lbl">Gap RAL medio</div><div class="kpi-val" id="s-gap" style="color:var(--amber)">0%</div><div class="kpi-sub">vs benchmark mercato</div></div>
+        <div class="kpi-card success"><div class="kpi-lbl">Con Assessment</div><div class="kpi-val" id="s-assessed" style="color:var(--green)">0</div><div class="kpi-sub">Profilo psicometrico</div></div>
+      </div>
+      <div style="font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px">Mappa del team</div>
+      <div class="tbl-card">
+        <div class="tbl-toolbar">
+          <div class="search-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><input type="text" placeholder="Cerca per nome o ruolo..." oninput="renderTable(this.value)"></div>
+          <button class="fpill active" id="fb-all" onclick="setFilter('all')">Tutti</button>
+          <button class="fpill" id="fb-alto" onclick="setFilter('alto')">Alto</button>
+          <button class="fpill" id="fb-medio" onclick="setFilter('medio')">Medio</button>
+          <button class="fpill" id="fb-basso" onclick="setFilter('basso')">Basso</button>
+        </div>
+        <div class="tbl-head"><div>Collaboratore</div><div>Età</div><div>Anzianità</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div id="tableBody"></div>
+      </div>
+    </div>
+  </div>
+  <div id="view-team" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div class="topbar"><div><div class="page-t">Collaboratori</div><div class="page-bc">Vista completa</div></div></div>
+    <div class="content-area">
+      <div class="tbl-card">
+        <div class="tbl-toolbar"><div class="search-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><input type="text" placeholder="Cerca..." oninput="renderTable2(this.value)"></div></div>
+        <div class="tbl-head"><div>Collaboratore</div><div>Età</div><div>Anzianità</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div id="tableBody2"></div>
+      </div>
+    </div>
+  </div>
+  <div id="view-benchmark" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div class="topbar"><div><div class="page-t">Benchmark di Mercato</div><div class="page-bc">Confronto retributivo per ruolo</div></div></div>
+    <div class="content-area" id="benchContent"></div>
+  </div>
+</div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeDetail()"></div>
+<div class="dp" id="detailPanel">
+  <div class="dp-hero">
+    <div class="dp-hero-top">
+      <div id="dp-avi" style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0"></div>
+      <div class="dp-hero-inf"><div class="dp-nm" id="dp-name"></div><div class="dp-jt" id="dp-role"></div></div>
+      <button class="xcls" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="dp-risk-row">
+      <div><div class="risk-dial" id="dp-risk-num"></div><div class="risk-dial-sub">Indice rischio</div></div>
+      <div style="flex:1;margin-left:16px">
+        <div class="dp-risk-bar"><div class="dp-risk-fill" id="dp-risk-bar"></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px" id="dp-risk-pills"></div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-nav">
+    <div class="dp-tab active" onclick="dpTab(0)">Profilo</div>
+    <div class="dp-tab" onclick="dpTab(1)">Rischio</div>
+    <div class="dp-tab" onclick="dpTab(2)">Assessment</div>
+    <div class="dp-tab" onclick="dpTab(3)">Retention AI</div>
+    <div class="dp-tab" onclick="dpTab(4)">Successione</div>
+  </div>
+  <div class="dp-body" id="dpBody"></div>
+</div>
+
+<div class="modal-ov" id="addModal">
+  <div class="modal-box">
+    <div class="mhd"><div class="mhd-t">Nuovo Collaboratore</div><button class="xcls" onclick="closeAddModal()">✕</button></div>
+    <div class="mbody">
+      <div class="fg2">
+        <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="f-name" placeholder="Mario Rossi"></div>
+        <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="f-role" placeholder="Senior Developer"></div>
+        <div class="fg"><label class="fl">Età</label><input class="fi" id="f-age" type="number" placeholder="35"></div>
+        <div class="fg"><label class="fl">Anzianità (anni)</label><input class="fi" id="f-sen" type="number" placeholder="3" step="0.5"></div>
+        <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="f-ral" type="number" placeholder="40000"></div>
+        <div class="fg"><label class="fl">RAL benchmark (€)</label><input class="fi" id="f-mkt" type="number" placeholder="46000"></div>
+        <div class="fg"><label class="fl">Performance (1–5)</label><input class="fi" id="f-perf" type="number" min="1" max="5" placeholder="3"></div>
+        <div class="fg"><label class="fl">Soddisfazione (1–5)</label><input class="fi" id="f-sat" type="number" min="1" max="5" placeholder="3"></div>
+        <div class="fg"><label class="fl">Contratto</label><select class="fs" id="f-contract"><option value="indeterminato">Tempo indeterminato</option><option value="determinato">Tempo determinato</option><option value="apprendistato">Apprendistato</option><option value="consulenza">Consulenza / P.IVA</option></select></div>
+        <div class="fg"><label class="fl">Ruolo critico?</label><select class="fs" id="f-critical"><option value="no">No</option><option value="si">Sì</option></select></div>
+      </div>
+      <div class="fg"><label class="fl">Competenze chiave (virgola)</label><input class="fi" id="f-skills" placeholder="React, Leadership..."></div>
+      <div class="fg"><label class="fl">Note / Segnali</label><input class="fi" id="f-notes" placeholder="es. colloquio esterno..."></div>
+    </div>
+    <div class="mfoot"><button class="btn" onclick="closeAddModal()">Annulla</button><button class="btn btn-gold" onclick="saveEmployee()">Salva</button></div>
+  </div>
+</div>
+
+<div class="modal-ov" id="asmModal">
+  <div class="modal-box asm-box">
+    <div class="asm-hero">
+      <div class="asm-pre">Valutazione Psicometrica</div>
+      <div class="asm-t" id="asm-title">Assessment comportamentale</div>
+      <div class="asm-sub" id="asm-subtitle">Questionario strutturato — 30 domande, 6 dimensioni</div>
+    </div>
+    <div class="asm-body">
+      <div class="asm-prog"><div class="asm-prog-fill" id="asmProg" style="width:0%"></div></div>
+      <div id="asmContent"></div>
+      <div class="asm-nav">
+        <button class="btn" id="asmBack" onclick="asmPrev()" style="display:none">← Indietro</button>
+        <div class="asm-step" id="asmStepInd"></div>
+        <button class="btn btn-gold" id="asmNext" onclick="asmNext()">Avanti →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+const AC=[
+  {id:"stress",name:"Resistenza allo Stress",desc:"Capacità di mantenere performance elevate sotto pressione, scadenze e imprevisti",color:"#C0392B",
+   qs:[{q:"Di fronte a scadenze ravvicinate e imprevisti simultanei, riesco a mantenere lucidità e qualità del lavoro.",l:"Mai",h:"Sempre"},{q:"Dopo periodi prolungati di alta pressione, recupero rapidamente senza strascichi emotivi o fisici.",l:"Con difficoltà",h:"Facilmente"},{q:"Le critiche dirette o i feedback negativi in pubblico non compromettono la mia concentrazione.",l:"Mi destabilizzano",h:"Mi motivano"},{q:"Riesco a gestire situazioni di ambiguità dove le istruzioni non sono chiare.",l:"Mi blocca",h:"Mi stimola"},{q:"Quando i piani cambiano all'ultimo momento, mantengo la calma e riorganizzo rapidamente le priorità.",l:"È difficile",h:"È naturale"}]},
+  {id:"change",name:"Propensione al Cambiamento",desc:"Apertura all'innovazione, adattabilità a nuovi contesti e disposizione verso la trasformazione",color:"#1A4A7A",
+   qs:[{q:"Accolgo con entusiasmo nuovi strumenti e metodologie, anche quando richiedono sforzo iniziale.",l:"Li evito",h:"Li cerco"},{q:"Sono proattivo nel suggerire miglioramenti ai processi esistenti, anche se funzionano.",l:"Raramente",h:"Continuamente"},{q:"In presenza di cambiamenti organizzativi importanti, mi adatto velocemente senza perdere efficacia.",l:"Fatico",h:"Mi adatto"},{q:"Mi trovo a mio agio in ambienti di lavoro che cambiano frequentemente obiettivi e priorità.",l:"Preferisco stabilità",h:"Preferisco dinamismo"},{q:"Cerco attivamente esperienze nuove e sfidanti per ampliare le mie competenze.",l:"Non è prioritario",h:"È fondamentale"}]},
+  {id:"sprint",name:"Sprint Operativi",desc:"Capacità di concentrazione intensa, esecuzione rapida e produzione di risultati in tempi brevi",color:"#B5660A",
+   qs:[{q:"Riesco a entrare in modalità di produzione intensa per ore senza perdere qualità.",l:"Fatico",h:"È il mio normale"},{q:"Ho la disciplina per completare compiti noiosi o ripetitivi quando necessari.",l:"Procrastino spesso",h:"Li completo subito"},{q:"In fase di sprint, riesco a ignorare distrazioni e interruzioni mantenendo il focus.",l:"È una sfida",h:"Entro in flow"},{q:"Quando ricevo un compito urgente, ho strategie chiare per priorizzarlo rispetto ad altre attività.",l:"Mi confondo",h:"Ho un sistema"},{q:"Riesco a consegnare lavoro di qualità anche con risorse limitate (tempo, budget, team ridotto).",l:"La qualità cala",h:"Trovo sempre un modo"}]},
+  {id:"relations",name:"Capacità Relazionale",desc:"Efficacia nel costruire e mantenere relazioni, empatia e intelligenza interpersonale",color:"#1A6B4A",
+   qs:[{q:"Riesco a costruire rapidamente un rapporto di fiducia con persone che non conosco.",l:"Richiede tempo",h:"È immediato"},{q:"Riconosco quando un collega è in difficoltà anche se non lo dichiara esplicitamente.",l:"Fatico a notarlo",h:"Lo percepisco subito"},{q:"Gestisco i conflitti interpersonali cercando soluzioni win-win.",l:"Li evito",h:"Li gestisco bene"},{q:"La mia rete di contatti professionali è una risorsa attiva che mobilito per creare opportunità.",l:"È limitata",h:"È ampia e attiva"},{q:"Mi interfaccio con persone di livelli gerarchici molto diversi con la stessa efficacia.",l:"Con difficoltà",h:"Con naturalezza"}]},
+  {id:"communication",name:"Comunicazione",desc:"Chiarezza espressiva, ascolto attivo, capacità persuasiva e adattamento dello stile comunicativo",color:"#553B9A",
+   qs:[{q:"Riesco a presentare concetti complessi in modo chiaro a persone non esperte del settore.",l:"Con difficoltà",h:"Con naturalezza"},{q:"In una discussione, ascolto attivamente prima di rispondere e verifico di aver compreso.",l:"Tendo a parlare",h:"Ascolto prima"},{q:"So adattare il mio stile comunicativo in base all'interlocutore (analitico, emotivo, direttivo).",l:"Ho uno stile fisso",h:"Cambio istintivamente"},{q:"Riesco a comunicare cattive notizie o feedback critici in modo costruttivo.",l:"È difficile",h:"Lo faccio bene"},{q:"Le mie comunicazioni scritte sono chiare, concise e orientate all'azione.",l:"Tendono ad essere lunghe",h:"Sono sempre efficaci"}]},
+  {id:"social",name:"Socializzazione e Team",desc:"Integrazione nel gruppo, contributo alla cultura aziendale e spirito di squadra",color:"#8B6914",
+   qs:[{q:"Partecipo attivamente alla vita sociale del team (eventi, pause, momenti informali).",l:"Preferisco il mio spazio",h:"Partecipo sempre"},{q:"Condivido spontaneamente conoscenze e best practice con i colleghi.",l:"Solo se richiesto",h:"È il mio default"},{q:"Mi sento parte della cultura aziendale e la promuovo nelle mie azioni.",l:"Non mi identifico",h:"Sono un ambassador"},{q:"In un team con personalità diverse, riesco a lavorare efficacemente con tutti.",l:"Con alcune persone fatico",h:"Con chiunque"},{q:"Supporto proattivamente i colleghi in difficoltà, anche oltre le mie responsabilità.",l:"Resto nel mio ruolo",h:"Sempre disponibile"}]}
+];
+
+let employees=[
+  {id:1,name:"Giulia Ferretti",role:"Senior Developer",age:34,seniority:6,ral:52000,market:64000,perf:5,sat:2,contract:"indeterminato",critical:"si",skills:["React","Node.js","AWS","Leadership"],notes:"Ha partecipato a colloquio esterno a gennaio",assessment:null},
+  {id:2,name:"Marco Bianchi",role:"Sales Manager",age:41,seniority:8,ral:58000,market:67000,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["CRM","Negoziazione","Team Management"],notes:"",assessment:null},
+  {id:3,name:"Sofia Ricci",role:"UX Designer",age:28,seniority:1.5,ral:30000,market:40000,perf:4,sat:2,contract:"determinato",critical:"no",skills:["Figma","User Research","Prototipazione"],notes:"Contratto in scadenza tra 4 mesi",assessment:null},
+  {id:4,name:"Luca Moretti",role:"CFO",age:52,seniority:12,ral:95000,market:112000,perf:5,sat:4,contract:"indeterminato",critical:"si",skills:["Finance","M&A","Strategy"],notes:"",assessment:null},
+  {id:5,name:"Elena Conti",role:"Marketing Manager",age:31,seniority:3,ral:36000,market:40000,perf:3,sat:3,contract:"indeterminato",critical:"no",skills:["Digital Marketing","SEO","Brand"],notes:"",assessment:null},
+  {id:6,name:"Andrea Costa",role:"DevOps Engineer",age:37,seniority:4,ral:48000,market:58000,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["AWS","Docker","Kubernetes"],notes:"",assessment:null},
+  {id:7,name:"Martina Villa",role:"HR Specialist",age:29,seniority:2,ral:32000,market:35000,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["Recruiting","L&D","Compliance"],notes:"",assessment:null},
+  {id:8,name:"Roberto Galli",role:"Account Executive",age:45,seniority:7,ral:55000,market:59000,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["B2B Sales","Retail"],notes:"",assessment:null},
+  {id:9,name:"Chiara Russo",role:"Data Analyst",age:26,seniority:1,ral:28000,market:36000,perf:4,sat:3,contract:"apprendistato",critical:"no",skills:["SQL","Python","Power BI"],notes:"Fine apprendistato tra 6 mesi",assessment:null},
+  {id:10,name:"Davide Marini",role:"Product Manager",age:38,seniority:5,ral:60000,market:70000,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["Product Strategy","Agile","Stakeholder"],notes:"",assessment:null},
+  {id:11,name:"Francesca Bruno",role:"Customer Care Lead",age:33,seniority:4,ral:28000,market:30000,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["CX","Training"],notes:"",assessment:null},
+  {id:12,name:"Simone Ferrari",role:"CTO",age:44,seniority:9,ral:88000,market:108000,perf:5,sat:3,contract:"indeterminato",critical:"si",skills:["Tech Vision","Cloud","Leadership"],notes:"Riceve headhunter mensilmente",assessment:null},
+];
+
+const aviColors=['#C9A96E','#A86FAA','#4A7FC1','#4AAA78','#C0643C','#6A7FC0','#B0955A','#4A9AA8'];
+function avi(e,sz=30,fs=10){const c=aviColors[e.id%aviColors.length],ini=e.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();return`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${c}22;color:${c};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:500;font-family:var(--serif);flex-shrink:0">${ini}</div>`;}
+function fmt(n){return'€'+(n/1000).toFixed(0)+'k';}
+function gap(e){return Math.round((e.market-e.ral)/e.market*100);}
+
+function calcRisk(e){
+  let s=0;const g=(e.market-e.ral)/e.market;
+  if(g>.25)s+=35;else if(g>.15)s+=25;else if(g>.08)s+=15;else if(g>.03)s+=8;
+  if(e.sat<=1)s+=30;else if(e.sat===2)s+=22;else if(e.sat===3)s+=10;
+  if(e.perf>=4&&e.sat<=3)s+=12;
+  if(e.seniority<1.5)s+=18;else if(e.seniority<3)s+=10;else if(e.seniority>8)s+=5;
+  if(e.age<30)s+=8;else if(e.age>45&&e.age<55)s+=5;
+  if(e.contract==='determinato')s+=10;else if(e.contract==='apprendistato')s+=8;
+  if(e.critical==='si')s=Math.round(s*1.15);
+  if(e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter')))s+=15;
+  if(e.assessment){const av=Object.values(e.assessment).reduce((a,b)=>a+b,0)/Object.values(e.assessment).length;if(av<2.5)s+=10;else if(av>3.8)s-=8;}
+  return Math.min(Math.round(s),99);
+}
+function riskInfo(s){if(s>=60)return{lbl:'Alto',cls:'pr',c:'var(--red)'};if(s>=35)return{lbl:'Medio',cls:'pa',c:'var(--amber)'};return{lbl:'Basso',cls:'pg',c:'var(--green)'};}
+
+let currentFilter='all';
+function filteredEmp(search='',filter=currentFilter){
+  let d=employees;
+  if(filter!=='all')d=d.filter(e=>{const s=calcRisk(e);if(filter==='alto')return s>=60;if(filter==='medio')return s>=35&&s<60;return s<35;});
+  if(search){const q=search.toLowerCase();d=d.filter(e=>e.name.toLowerCase().includes(q)||e.role.toLowerCase().includes(q));}
+  return d;
+}
+
+function rowsHTML(data){
+  if(!data.length)return`<div class="empty"><div class="empty-ico">◎</div><div style="font-size:13px">Nessun collaboratore trovato</div></div>`;
+  return data.map(e=>{
+    const s=calcRisk(e),r=riskInfo(s),g=gap(e),gc=g>15?'var(--red)':g>7?'var(--amber)':'var(--ink3)';
+    const fc=s>=60?'var(--red)':s>=35?'var(--amber)':'var(--green)';
+    const st=e.assessment?`<span class="pill pgold" style="font-size:9px">Assessment ✓</span>`:`<span style="font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em">— da fare</span>`;
+    return`<div class="tbl-row" onclick="openDetail(${e.id})">
+      <div class="emp-wrap">${avi(e,30,10)}<div><div class="emp-nm">${e.name}</div><div class="emp-jt">${e.role}</div></div></div>
+      <div class="cell-mu">${e.age}</div>
+      <div class="cell-mu">${e.seniority}a</div>
+      <div class="cell-sm">${fmt(e.ral)}</div>
+      <div class="cell-sm" style="color:${gc};font-weight:${g>7?500:400}">+${g}%</div>
+      <div><span class="pill ${r.cls}">${r.lbl}</span></div>
+      <div><div class="score-track"><div class="score-fill" style="width:${s}%;background:${fc}"></div></div><div style="font-size:9px;color:var(--ink4);margin-top:1px">${s}/99</div></div>
+      <div>${st}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTable(search=''){document.getElementById('tableBody').innerHTML=rowsHTML(filteredEmp(search));}
+function renderTable2(search=''){document.getElementById('tableBody2').innerHTML=rowsHTML(filteredEmp(search,'all'));}
+function setFilter(f){currentFilter=f;['all','alto','medio','basso'].forEach(k=>document.getElementById('fb-'+k).classList.toggle('active',k===f));renderTable();}
+
+function updateStats(){
+  const n=employees.length,scores=employees.map(calcRisk);
+  const high=scores.filter(s=>s>=60).length,med=scores.filter(s=>s>=35&&s<60).length,low=scores.filter(s=>s<35).length;
+  const avgGap=Math.round(employees.reduce((a,e)=>a+gap(e),0)/n);
+  const assessed=employees.filter(e=>e.assessment).length;
+  const avgRisk=Math.round(scores.reduce((a,s)=>a+s,0)/n);
+  document.getElementById('s-total').textContent=n;
+  document.getElementById('s-high').textContent=high;
+  document.getElementById('s-gap').textContent='+'+avgGap+'%';
+  document.getElementById('s-assessed').textContent=assessed;
+  document.getElementById('sb-total').textContent=n;
+  document.getElementById('sb-risk').textContent=avgRisk;
+  document.getElementById('count-alto').textContent=high;
+  document.getElementById('count-medio').textContent=med;
+  document.getElementById('count-basso').textContent=low;
+  document.getElementById('topbar-date').textContent='Aggiornato '+new Date().toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'});
+}
+
+let currentEmp=null,currentTab=0;
+function openDetail(id){
+  currentEmp=employees.find(e=>e.id===id);currentTab=0;
+  const s=calcRisk(currentEmp),r=riskInfo(s),ac=aviColors[currentEmp.id%aviColors.length];
+  const ini=currentEmp.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const dpAvi=document.getElementById('dp-avi');
+  dpAvi.style.cssText=`width:52px;height:52px;border-radius:50%;background:${ac}22;color:${ac};display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0`;
+  dpAvi.textContent=ini;
+  document.getElementById('dp-name').textContent=currentEmp.name;
+  document.getElementById('dp-role').textContent=currentEmp.role+' · '+currentEmp.seniority+' anni';
+  document.getElementById('dp-risk-num').textContent=s;
+  document.getElementById('dp-risk-num').style.color=r.c;
+  document.getElementById('dp-risk-bar').style.cssText=`width:${s}%;background:${r.c}`;
+  document.getElementById('dp-risk-pills').innerHTML=`<span class="pill ${r.cls}">${r.lbl} rischio</span>${currentEmp.critical==='si'?'<span class="pill pgold" style="margin-left:4px">Critico</span>':''}${currentEmp.assessment?'<span class="pill pb" style="margin-left:4px">Assessment ✓</span>':''}`;
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  document.querySelectorAll('.dp-tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  renderDPC();
+}
+function closeDetail(){document.getElementById('detailPanel').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+function dpTab(i){currentTab=i;document.querySelectorAll('.dp-tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));renderDPC();}
+
+function renderDPC(){
+  const e=currentEmp,s=calcRisk(e),r=riskInfo(s),g=gap(e),c=document.getElementById('dpBody');
+  if(currentTab===0)renderProfile(e,g,c);
+  else if(currentTab===1)renderRisk(e,s,r,g,c);
+  else if(currentTab===2)renderAssessment(e,c);
+  else if(currentTab===3)renderRetAI(e,s,c);
+  else renderSuccession(e,c);
+}
+
+function renderProfile(e,g,c){
+  c.innerHTML=`
+    <div class="dp-sec"><div class="dp-sec-t">Dati anagrafici e contrattuali</div>
+    <div class="kv2">
+      <div class="kv-i"><div class="kv-k">Età</div><div class="kv-v">${e.age} anni</div></div>
+      <div class="kv-i"><div class="kv-k">Anzianità</div><div class="kv-v">${e.seniority} anni</div></div>
+      <div class="kv-i"><div class="kv-k">RAL attuale</div><div class="kv-v">${fmt(e.ral)}</div><div class="kv-n">€${e.ral.toLocaleString('it')}</div></div>
+      <div class="kv-i"><div class="kv-k">Benchmark</div><div class="kv-v" style="color:${g>10?'var(--red)':'var(--ink)'}">${fmt(e.market)}</div></div>
+      <div class="kv-i"><div class="kv-k">Performance</div><div class="kv-v" style="font-size:14px">${'★'.repeat(e.perf)}${'☆'.repeat(5-e.perf)}</div></div>
+      <div class="kv-i"><div class="kv-k">Soddisfazione</div><div class="kv-v" style="font-size:14px">${'★'.repeat(e.sat)}${'☆'.repeat(5-e.sat)}</div></div>
+      <div class="kv-i"><div class="kv-k">Contratto</div><div class="kv-v" style="font-size:12px">${e.contract}</div></div>
+      <div class="kv-i"><div class="kv-k">Ruolo critico</div><div class="kv-v">${e.critical==='si'?'<span style="color:var(--gold)">Sì</span>':'No'}</div></div>
+    </div></div>
+    <div class="dp-sec"><div class="dp-sec-t">Competenze chiave</div>
+    <div style="display:flex;flex-wrap:wrap">${e.skills.map(sk=>`<span class="sk-tag">${sk}</span>`).join('')}</div></div>
+    <div class="dp-sec"><div class="dp-sec-t">Gap retributivo</div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:8px"><span>Attuale: <strong style="color:var(--ink)">${fmt(e.ral)}</strong></span><span style="color:${g>10?'var(--red)':'var(--ink3)'}">Gap: +${g}%</span><span>Mercato: <strong style="color:var(--ink)">${fmt(e.market)}</strong></span></div>
+    <div style="height:6px;background:var(--cream3);border-radius:3px;overflow:hidden"><div style="height:100%;width:${Math.round(e.ral/e.market*100)}%;background:var(--blue);border-radius:3px;transition:width .4s"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.06em"><span>${fmt(e.ral)}</span><span>100% = ${fmt(e.market)}</span></div>
+    </div>
+    ${e.notes?`<div class="dp-sec"><div class="dp-sec-t">Note e segnali</div><div style="background:var(--amber-bg);border:1px solid rgba(181,102,10,.15);border-radius:var(--r);padding:10px 13px;font-size:11px;color:var(--ink2);line-height:1.6;border-left:2.5px solid var(--amber)">${e.notes}</div></div>`:''}`;
+}
+
+function renderRisk(e,s,r,g,c){
+  const factors=[{l:'Gap retributivo',v:Math.min(Math.round(g*1.5),38),c:'var(--red)'},{l:'Soddisfazione bassa',v:Math.round((5-e.sat)/4*32),c:'var(--amber)'},{l:'Top performer insoddisfatto',v:e.perf>=4&&e.sat<=3?15:3,c:'#553B9A'},{l:'Anzianità breve',v:e.seniority<2?18:e.seniority<3?10:3,c:'var(--blue)'},{l:'Contratto non stabile',v:e.contract!=='indeterminato'?12:2,c:'var(--amber)'},{l:'Segnali attivi (note)',v:e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter'))?18:0,c:'var(--red)'}];
+  c.innerHTML=`
+    <div style="text-align:center;background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:20px;margin-bottom:18px">
+    <div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Indice di rischio uscita</div>
+    <div style="font-family:var(--serif);font-size:56px;font-weight:300;color:${r.c};line-height:1">${s}</div>
+    <div style="font-size:9px;color:var(--ink4);margin-bottom:10px">su 99 punti</div>
+    <span class="pill ${r.cls}" style="font-size:11px;padding:4px 14px">${r.lbl} rischio</span></div>
+    <div class="dp-sec"><div class="dp-sec-t">Breakdown fattori</div>
+    ${factors.filter(f=>f.v>0).map(f=>`<div class="frow"><div class="flbl">${f.l}</div><div class="ftrack"><div class="ffill" style="width:${f.v/40*100}%;background:${f.c}"></div></div><div class="fnum">${f.v}</div></div>`).join('')}</div>`;
+}
+
+function renderAssessment(e,c){
+  if(!e.assessment){
+    c.innerHTML=`<div style="text-align:center;padding:32px 20px">
+      <div style="font-family:var(--serif);font-size:28px;font-weight:300;color:var(--ink);margin-bottom:8px">Nessun assessment</div>
+      <div style="font-size:12px;color:var(--ink4);line-height:1.6;max-width:300px;margin:0 auto 20px">Avvia il questionario per ottenere il profilo comportamentale completo di ${e.name.split(' ')[0]}.</div>
+      <button class="btn btn-gold" onclick="startAssessment(${e.id})" style="font-size:11px">Avvia Assessment Comportamentale</button>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:4px">
+    <div class="dp-sec-t" style="font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px">Dimensioni valutate</div>
+    ${AC.map(cat=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><div style="width:8px;height:8px;border-radius:50%;background:${cat.color};flex-shrink:0"></div><div><div style="font-size:12px;font-weight:500;color:var(--ink)">${cat.name}</div><div style="font-size:10px;color:var(--ink4);margin-top:1px">${cat.desc}</div></div></div>`).join('')}
+    </div>`;
+    return;
+  }
+  const dims=AC.map(cat=>({id:cat.id,name:cat.name,score:e.assessment[cat.id],color:cat.color}));
+  const avg=(dims.reduce((a,d)=>a+d.score,0)/dims.length).toFixed(1);
+  const prof=getProfile(dims,e.assessment);
+  c.innerHTML=`
+    <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">
+      <div class="prof-badge"><div class="prof-badge-lbl">Profilo prevalente</div><div class="prof-badge-nm">${prof.name}</div><div class="prof-badge-d">${prof.desc}</div></div>
+      <div style="flex:1"><div style="text-align:center;background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:14px"><div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Score medio</div><div style="font-family:var(--serif);font-size:38px;font-weight:300;color:var(--ink)">${avg}</div><div style="font-size:9px;color:var(--ink4)">su 5.0</div></div></div>
+    </div>
+    <div class="dp-sec"><div class="dp-sec-t">Profilo per dimensione</div>
+    ${dims.map(d=>`<div class="dim-row"><div class="dim-lbl"><div style="display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:${d.color};flex-shrink:0"></div>${d.name}</div></div><div class="dim-track"><div class="dim-fill" style="width:${Math.round(d.score/5*100)}%;background:${d.color}"></div></div><div class="dim-sc">${d.score.toFixed(1)}</div></div>`).join('')}
+    </div>
+    <button class="btn btn-og" onclick="startAssessment(${e.id})" style="font-size:10px;width:100%;justify-content:center">Rifai assessment</button>`;
+}
+
+function getProfile(dims,asm){
+  const s={};dims.forEach(d=>s[d.id]=d.score);
+  const avg=dims.reduce((a,d)=>a+d.score,0)/dims.length;
+  if(s.stress>3.8&&s.sprint>3.8)return{name:'Esecutore d\'Élite',desc:'Alta resistenza allo stress ed eccellente esecuzione operativa. Ideale per ruoli ad alta pressione e deliverable critici.'};
+  if(s.relations>3.8&&s.communication>3.8)return{name:'Connettore Strategico',desc:'Eccezionali capacità relazionali e comunicative. Catalizzatore di relazioni e influenza organizzativa.'};
+  if(s.change>3.8&&s.sprint>3.5)return{name:'Innovatore Pragmatico',desc:'Alta propensione al cambiamento con forte capacità esecutiva. Agente di trasformazione efficace.'};
+  if(avg>3.5)return{name:'Profilo Bilanciato',desc:'Competenze omogenee su tutte le dimensioni. Alta versatilità e affidabilità in contesti diversi.'};
+  if(s.social>3.5&&s.relations>3.5)return{name:'Team Builder',desc:'Forte orientamento al gruppo. Costruisce ambienti di lavoro coesi e ad alta collaborazione.'};
+  if(s.stress<2.5)return{name:'Profilo Fragile',desc:'Attenzione: la bassa resilienza allo stress può impattare la performance in fasi critiche.'};
+  return{name:'Profilo in Sviluppo',desc:'Alcune dimensioni mostrano margini di crescita. Piano di sviluppo personalizzato consigliato.'};
+}
+
+function renderRetAI(e,s,c){
+  const apiKey=document.getElementById('apiKeyInput').value.trim();
+  c.innerHTML=`
+    <div class="ai-panel">
+      <div class="ai-hdr"><div class="ai-pulse"></div><div class="ai-ttl">Analisi Intelligenza Artificiale</div></div>
+      <div class="ai-out thinking" id="aiOut">Seleziona un'analisi per generare raccomandazioni personalizzate con AI...</div>
+      <div class="ai-btns">
+        <button class="ai-pb" onclick="runAI('retention')">Piano Retention</button>
+        <button class="ai-pb" onclick="runAI('conversation')">Guida Colloquio</button>
+        <button class="ai-pb" onclick="runAI('salary')">Adeguamento RAL</button>
+        <button class="ai-pb" onclick="runAI('career')">Sviluppo Carriera</button>
+        ${e.assessment?'<button class="ai-pb" onclick="runAI(\'behavioral\')">Analisi Comportamentale</button>':''}
+      </div>
+      ${!apiKey?'<div style="margin-top:10px;font-size:10px;color:var(--amber);background:var(--amber-bg);padding:8px 10px;border-radius:var(--r)">Inserisci la chiave Anthropic nella barra in cima per abilitare l\'AI.</div>':''}
+    </div>
+    <div class="dp-sec"><div class="dp-sec-t">Azioni prioritarie suggerite</div>${buildPlans(e,s)}</div>`;
+}
+
+function buildPlans(e,s){
+  const g=gap(e),plans=[];
+  if(g>15)plans.push({t:'Revisione RAL urgente',d:`Adeguamento minimo del ${Math.round(g*.6)}% entro 30 giorni. Target: ${fmt(e.market)}.`,u:'urgent'});
+  if(g>5)plans.push({t:'Piano adeguamento retributivo',d:'Step progressivi per raggiungere il benchmark entro 12–18 mesi.',u:'medium'});
+  if(e.sat<=2)plans.push({t:'Colloquio 1:1 urgente',d:'Identificare le cause reali di insoddisfazione. Azione entro 7 giorni.',u:'urgent'});
+  if(e.perf>=4)plans.push({t:'Percorso di crescita',d:'Definire piano di carriera con milestone a 6/12 mesi e budget formazione.',u:'medium'});
+  if(e.critical==='si')plans.push({t:'Knowledge transfer',d:'Documentare processi critici. Ridurre la dipendenza da singolo individuo.',u:'medium'});
+  plans.push({t:'Revisione benefit e welfare',d:'Smart working, formazione, welfare aziendale, bonus performance.',u:'low'});
+  return plans.map(p=>`<div class="plan-i ${p.u}"><div class="plan-t">${p.t}${p.u==='urgent'?`<span class="pill pr" style="font-size:9px;padding:2px 6px">Urgente</span>`:''}</div><div class="plan-d">${p.d}</div></div>`).join('');
+}
+
+function renderSuccession(e,c){
+  const months=e.critical==='si'?(e.seniority>5?4:3):(e.seniority>5?2.5:2);
+  const cost=Math.round(e.ral*.35+(e.critical==='si'?12000:6000));
+  c.innerHTML=`
+    <div class="dp-sec"><div class="dp-sec-t">Stima impatto sostituzione</div>
+    <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg)">
+      <div class="srow" style="padding:10px 14px"><span class="s-lbl">Tempo ricerca candidato</span><span class="s-val">${months}–${(months+1.5).toFixed(1)} mesi</span></div>
+      <div class="srow" style="padding:10px 14px"><span class="s-lbl">Costo totale stimato</span><span class="s-val" style="color:var(--red)">€${cost.toLocaleString('it')}</span></div>
+      <div class="srow" style="padding:10px 14px"><span class="s-lbl">Periodo onboarding</span><span class="s-val">${e.critical==='si'?'3–4':'2–3'} mesi</span></div>
+      <div class="srow" style="padding:10px 14px"><span class="s-lbl">Produttività piena</span><span class="s-val">${Math.round(months+4)}–${Math.round(months+6)} mesi</span></div>
+      <div class="srow" style="padding:10px 14px"><span class="s-lbl">RAL offerta consigliata</span><span class="s-val">${fmt(e.market)}</span></div>
+    </div></div>
+    <div class="dp-sec"><div class="dp-sec-t">Roadmap ricerca e subentro</div>
+    <div class="phase-row"><div class="ph-num">1</div><div><div class="ph-t">Brief e canali (sett. 1–2)</div><div class="ph-d">Job description, apertura annunci${e.critical==='si'?', ingaggio headhunter (obbligatorio)':''}.</div></div></div>
+    <div class="phase-row"><div class="ph-num">2</div><div><div class="ph-t">Screening e colloqui (sett. 3–${Math.round(months*4+2)})</div><div class="ph-d">CV review, colloquio HR e tecnico, assessment su: ${e.skills.slice(0,2).join(', ')}.</div></div></div>
+    <div class="phase-row"><div class="ph-num">3</div><div><div class="ph-t">Offerta e firma (sett. ${Math.round(months*4+3)}–${Math.round(months*4+6)})</div><div class="ph-d">Proposta a ${fmt(e.market)}, negoziazione benefit, firma contratto.</div></div></div>
+    <div class="phase-row"><div class="ph-num">4</div><div><div class="ph-t">Onboarding strutturato (${e.critical==='si'?'3–4':'2–3'} mesi)</div><div class="ph-d">Piano onboarding, buddy program, KPI del primo trimestre.</div></div></div>
+    </div>
+    <div style="background:var(--red-bg);border:1px solid rgba(192,57,43,.15);border-radius:var(--r);padding:12px 14px;font-size:11px;color:var(--ink2);line-height:1.6">
+    Il costo di <strong style="color:var(--red)">€${cost.toLocaleString('it')}</strong> include recruiting, formazione e perdita produttività. Il ROI della retention è stimato <strong>3–5×</strong> vs sostituzione.
+    </div>`;
+}
+
+async function runAI(type){
+  const apiKey=document.getElementById('apiKeyInput').value.trim();
+  if(!apiKey){showNotif('Inserisci la API Key Anthropic nella barra in alto','error');return;}
+  const e=currentEmp,s=calcRisk(e),g=gap(e),out=document.getElementById('aiOut');
+  if(!out)return;
+  out.className='ai-out thinking';out.textContent='Analisi in corso...';
+  const asmCtx=e.assessment?`\nAssessment completato:\n${AC.map(cat=>`- ${cat.name}: ${e.assessment[cat.id]?e.assessment[cat.id].toFixed(1)+'/5.0':'N/D'}`).join('\n')}\nProfilo: ${getProfile(AC.map(cat=>({id:cat.id,score:e.assessment[cat.id]||3,color:cat.color,name:cat.name})),e.assessment).name}`:'Assessment psicometrico: non ancora compilato.';
+  const ctx=`Collaboratore: ${e.name} | Ruolo: ${e.role} ${e.critical==='si'?'(CRITICO)':''}\nEtà: ${e.age} | Anzianità: ${e.seniority} anni | Contratto: ${e.contract}\nRAL: €${e.ral.toLocaleString()} | Benchmark: €${e.market.toLocaleString()} | Gap: +${g}%\nPerformance: ${e.perf}/5 | Soddisfazione: ${e.sat}/5\nCompetenze: ${e.skills.join(', ')}\nIndice rischio: ${s}/99\n${asmCtx}\nNote: ${e.notes||'nessuna'}`;
+  const prompts={
+    retention:`Sei un Chief People Officer con 20+ anni di esperienza. Analizza questo collaboratore e genera un piano retention strutturato e immediatamente azionabile.\n\n${ctx}\n\nFornisci: 4-5 azioni concrete ordinate per priorità con responsabile suggerito, timeline precisa e KPI di successo. Sii diretto, pratico, no ovvietà. Tono C-level.`,
+    conversation:`Sei un executive coach specializzato in conversazioni difficili. Prepara una guida per un colloquio 1:1 strategico.\n\n${ctx}\n\nFornisci: obiettivo preciso, 5 domande aperte potenti, come interpretare le risposte, come chiudere con commitment concreto. Tono autorevole ed empatico.`,
+    salary:`Sei un Compensation & Benefits specialist senior. Costruisci una proposta di adeguamento retributivo convincente.\n\n${ctx}\n\nFornisci: importo target con step (immediato/6 mesi/12 mesi), eventuale variabile, argomentazione per il CFO con ROI della retention vs sostituzione.`,
+    career:`Sei un career development expert. Disegna un percorso di crescita professionale.\n\n${ctx}\n\nFornisci: 2-3 percorsi alternativi (verticale/laterale/specializzazione), skills da acquisire, risorse formative concrete, milestone a 6/12/24 mesi. Collega ogni percorso alla retention.`,
+    behavioral:`Sei uno psicologo del lavoro e organizational consultant. Analizza il profilo psicometrico.\n\n${ctx}\n\nInterpreta ogni dimensione nel contesto lavorativo specifico, identifica i driver motivazionali profondi, suggerisci lo stile manageriale più efficace e le situazioni che questo profilo deve assolutamente evitare.`
+  };
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:prompts[type]}]})});
+    const data=await res.json();
+    if(data.error){out.className='ai-out';out.textContent='Errore: '+data.error.message;return;}
+    out.className='ai-out';out.textContent=data.content[0].text;
+  }catch(err){out.className='ai-out';out.textContent='Errore di connessione. Verifica la API Key.';}
+}
+
+function updateApiStatus(){const k=document.getElementById('apiKeyInput').value.trim();const el=document.getElementById('apiStatus');el.className=k.startsWith('sk-ant-')&&k.length>20?'api-st set':'api-st unset';el.textContent=k.startsWith('sk-ant-')&&k.length>20?'Configurata':'Non configurata';}
+
+let asmEmpId=null,asmCatIdx=0,asmAnswers={};
+function startAssessment(empId){
+  asmEmpId=empId;asmCatIdx=0;asmAnswers={};
+  AC.forEach(cat=>{asmAnswers[cat.id]=[];});
+  const e=employees.find(x=>x.id===empId);
+  document.getElementById('asm-title').textContent='Assessment — '+e.name;
+  document.getElementById('asm-subtitle').textContent='Questionario strutturato · 6 dimensioni · 30 domande · Scala 1–5';
+  document.getElementById('asmModal').classList.add('open');
+  renderAsmStep();
+}
+
+function renderAsmStep(){
+  const cat=AC[asmCatIdx];
+  const totalQ=AC.reduce((a,c)=>a+c.qs.length,0);
+  const doneQ=AC.slice(0,asmCatIdx).reduce((a,c)=>a+c.qs.length,0);
+  document.getElementById('asmProg').style.width=Math.round(doneQ/totalQ*100)+'%';
+  document.getElementById('asmStepInd').textContent=`Sezione ${asmCatIdx+1} di ${AC.length} — ${cat.name}`;
+  document.getElementById('asmBack').style.display=asmCatIdx>0?'':'none';
+  document.getElementById('asmNext').textContent=asmCatIdx<AC.length-1?'Avanti →':'Completa Assessment';
+  document.getElementById('asmContent').innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><div style="width:10px;height:10px;border-radius:50%;background:${cat.color};flex-shrink:0"></div><div class="asm-cat-t">${cat.name}</div></div>
+    <div class="asm-cat-d">${cat.desc}</div>
+    ${cat.qs.map((q,qi)=>{
+      const sv=asmAnswers[cat.id][qi]||0;
+      return`<div class="asm-q">
+        <div class="asm-qtext">${qi+1}. ${q.q}</div>
+        <div class="asm-scale">
+          <div class="asm-slbl">${q.l}</div>
+          <div class="asm-opts">${[1,2,3,4,5].map(v=>`<button class="asm-opt${sv===v?' sel':''}" onclick="asmSel('${cat.id}',${qi},${v},this)" data-cat="${cat.id}" data-qi="${qi}" data-val="${v}">${v}</button>`).join('')}</div>
+          <div class="asm-slbl r">${q.h}</div>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function asmSel(catId,qi,val,btn){
+  asmAnswers[catId][qi]=val;
+  document.querySelectorAll(`[data-cat="${catId}"][data-qi="${qi}"]`).forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+function asmNext(){
+  const cat=AC[asmCatIdx];
+  if(cat.qs.some((_,i)=>!asmAnswers[cat.id][i])){showNotif('Rispondi a tutte le domande','error');return;}
+  if(asmCatIdx<AC.length-1){asmCatIdx++;renderAsmStep();document.querySelector('.asm-body').scrollTop=0;}
+  else{
+    const result={};
+    AC.forEach(cat=>{const sc=asmAnswers[cat.id];result[cat.id]=parseFloat((sc.reduce((a,b)=>a+b,0)/sc.length).toFixed(2));});
+    const emp=employees.find(e=>e.id===asmEmpId);
+    emp.assessment=result;
+    document.getElementById('asmModal').classList.remove('open');
+    showNotif('Assessment completato per '+emp.name,'success');
+    updateStats();renderTable();
+    if(currentEmp&&currentEmp.id===asmEmpId){currentEmp=emp;renderDPC();}
+  }
+}
+function asmPrev(){if(asmCatIdx>0){asmCatIdx--;renderAsmStep();}}
+
+function renderBenchmark(){
+  const roles=[...new Set(employees.map(e=>e.role))];
+  document.getElementById('benchContent').innerHTML=`
+    <div style="font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px">Confronto RAL per ruolo vs benchmark di mercato</div>
+    <div class="bench-grid">${roles.map(role=>{
+      const emps=employees.filter(e=>e.role===role);
+      const avgRal=Math.round(emps.reduce((a,e)=>a+e.ral,0)/emps.length);
+      const avgMkt=Math.round(emps.reduce((a,e)=>a+e.market,0)/emps.length);
+      const pct=Math.round(avgRal/avgMkt*100);
+      const fc=pct<85?'var(--red)':pct<93?'var(--amber)':'var(--green)';
+      const avgS=Math.round(emps.reduce((a,e)=>a+calcRisk(e),0)/emps.length);
+      const r=riskInfo(avgS);
+      return`<div class="bench-card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px"><div><div class="bench-role">${role}</div><div class="bench-ct">${emps.length} persona${emps.length>1?'e':''}</div></div><span class="pill ${r.cls}" style="font-size:9px">Risk ${avgS}</span></div>
+        <div class="bench-trio"><div class="bt-item"><div class="bt-val">${fmt(avgRal)}</div><div class="bt-lbl">RAL media</div></div><div class="bt-item"><div class="bt-val">${fmt(avgMkt)}</div><div class="bt-lbl">Benchmark</div></div><div class="bt-item"><div class="bt-val" style="color:${fc}">${pct}%</div><div class="bt-lbl">Copertura</div></div></div>
+        <div class="bench-bar-t"><div class="bench-bar-f" style="width:${Math.min(pct,100)}%;background:${fc}"></div></div>
+        <div class="bench-bar-leg"><span>${fmt(avgRal)}</span><span>100% = ${fmt(avgMkt)}</span></div>
+      </div>`;
+    }).join('')}</div>`;
+}
+
+function showView(v){
+  ['dashboard','team','benchmark'].forEach(n=>{
+    const el=document.getElementById('view-'+n);
+    if(el)el.style.display=n===v?'flex':'none';
+    document.getElementById('nav-'+n).classList.toggle('active',n===v);
+  });
+  if(v==='benchmark')renderBenchmark();
+  if(v==='team')renderTable2();
+}
+function filterByRisk(level){showView('team');document.getElementById('tableBody2').innerHTML=rowsHTML(employees.filter(e=>{const s=calcRisk(e);if(level==='alto')return s>=60;if(level==='medio')return s>=35&&s<60;return s<35;}));}
+
+function openAddModal(){document.getElementById('addModal').classList.add('open');}
+function closeAddModal(){document.getElementById('addModal').classList.remove('open');}
+function saveEmployee(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){showNotif('Inserisci il nome del collaboratore','error');return;}
+  employees.push({id:Date.now(),name,role:document.getElementById('f-role').value||'N/D',age:parseInt(document.getElementById('f-age').value)||35,seniority:parseFloat(document.getElementById('f-sen').value)||1,ral:parseInt(document.getElementById('f-ral').value)||35000,market:parseInt(document.getElementById('f-mkt').value)||40000,perf:parseInt(document.getElementById('f-perf').value)||3,sat:parseInt(document.getElementById('f-sat').value)||3,contract:document.getElementById('f-contract').value,critical:document.getElementById('f-critical').value,skills:document.getElementById('f-skills').value.split(',').map(s=>s.trim()).filter(Boolean),notes:document.getElementById('f-notes').value,assessment:null});
+  closeAddModal();renderTable();updateStats();showNotif(name+' aggiunto','success');
+  ['f-name','f-role','f-age','f-sen','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>document.getElementById(id).value='');
+}
+
+function importCSV(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const lines=e.target.result.split('\n').filter(l=>l.trim());let added=0;
+    lines.slice(1).forEach(line=>{const cols=line.split(',').map(c=>c.trim().replace(/"/g,''));if(cols.length>=8&&cols[0]){employees.push({id:Date.now()+Math.random(),name:cols[0],role:cols[1]||'N/D',age:parseInt(cols[2])||30,seniority:parseFloat(cols[3])||1,ral:parseInt(cols[4])||30000,market:parseInt(cols[5])||35000,perf:parseInt(cols[6])||3,sat:parseInt(cols[7])||3,contract:cols[8]||'indeterminato',critical:cols[9]||'no',skills:cols[10]?cols[10].split(';').map(s=>s.trim()):[],notes:cols[11]||'',assessment:null});added++;}});
+    renderTable();updateStats();showNotif(added+' collaboratori importati','success');
+  };
+  reader.readAsText(file);ev.target.value='';
+}
+
+function exportCSV(){
+  const headers=['Nome','Ruolo','Eta','Anzianita','RAL','Benchmark','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore'];
+  const rows=employees.map(e=>[e.name,e.role,e.age,e.seniority,e.ral,e.market,e.perf,e.sat,e.contract,e.critical,e.skills.join(';'),e.notes,calcRisk(e)].map(v=>`"${v}"`).join(','));
+  const csv=[headers.join(','),...rows].join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='talentRadar_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  showNotif('CSV esportato','success');
+}
+
+function showNotif(msg,type='success'){const n=document.getElementById('notif');n.textContent=msg;n.className='notif '+type+' show';setTimeout(()=>n.classList.remove('show'),3000);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();document.getElementById('addModal').classList.remove('open');document.getElementById('asmModal').classList.remove('open');}});
+
+renderTable();updateStats();
+</script>
+</body>
+</html>
