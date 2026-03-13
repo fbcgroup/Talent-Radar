@@ -196,6 +196,35 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .api-st{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
 .api-st.set{background:var(--green-bg);color:var(--green)}
 .api-st.unset{background:var(--amber-bg);color:var(--amber)}
+.lock-screen{position:fixed;inset:0;background:var(--cream);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.lock-card{background:var(--white);border:1px solid var(--border2);border-radius:16px;padding:44px 48px;width:380px;box-shadow:var(--shlg);text-align:center}
+.lock-logo{font-family:var(--serif);font-size:32px;font-weight:400;color:var(--ink);margin-bottom:4px}.lock-logo span{color:var(--gold)}
+.lock-sub{font-size:10px;color:var(--ink4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:32px}
+.lock-label{font-size:11px;color:var(--ink3);text-align:left;margin-bottom:6px;display:block}
+.lock-input{width:100%;border:1px solid var(--border2);border-radius:var(--r);padding:11px 14px;font-size:14px;font-family:var(--sans);background:var(--cream);color:var(--ink);outline:none;letter-spacing:.2em;transition:border .15s}
+.lock-input:focus{border-color:var(--gold);background:var(--white)}
+.lock-btn{width:100%;margin-top:16px;padding:12px;background:var(--gold);color:var(--white);border:none;border-radius:var(--r);font-size:12px;font-family:var(--sans);font-weight:500;cursor:pointer;letter-spacing:.06em;transition:opacity .15s}
+.lock-btn:hover{opacity:.88}
+.lock-err{font-size:11px;color:var(--red);margin-top:10px;min-height:16px;text-align:center}
+.lock-setup{font-size:10px;color:var(--ink4);margin-top:20px;line-height:1.6}
+.lock-hint{font-size:10px;color:var(--ink4);margin-top:14px;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.storage-bar{display:flex;align-items:center;gap:6px;padding:5px 12px;background:var(--green-bg);border-bottom:1px solid rgba(26,107,74,.12);font-size:10px;color:var(--green)}
+.storage-bar.unsaved{background:var(--amber-bg);border-bottom-color:rgba(181,102,10,.12);color:var(--amber)}
+.storage-bar.nopass{background:var(--red-bg);border-bottom-color:rgba(192,57,43,.12);color:var(--red)}
+.pw-modal-ov{position:fixed;inset:0;background:rgba(26,23,20,.45);backdrop-filter:blur(4px);z-index:8000;display:none;align-items:center;justify-content:center}
+.pw-modal-ov.open{display:flex}
+.pw-modal-box{background:var(--white);border-radius:12px;width:380px;box-shadow:var(--shlg);overflow:hidden}
+.pw-modal-hd{padding:18px 22px 14px;border-bottom:1px solid var(--border)}
+.pw-modal-t{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--ink)}
+.pw-modal-sub{font-size:11px;color:var(--ink4);margin-top:3px}
+.pw-modal-body{padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.pw-field{display:flex;flex-direction:column;gap:5px}
+.pw-field label{font-size:11px;color:var(--ink3)}
+.pw-field input{border:1px solid var(--border2);border-radius:var(--r);padding:9px 12px;font-size:13px;font-family:var(--sans);background:var(--cream);color:var(--ink);outline:none;letter-spacing:.15em}
+.pw-field input:focus{border-color:var(--gold);background:var(--white)}
+.pw-err{font-size:11px;color:var(--red);min-height:14px}
+.pw-modal-ft{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.save-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
 .notif{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--cream);border-radius:var(--r);padding:12px 18px;font-size:12px;z-index:400;transform:translateY(8px);opacity:0;transition:all .3s;max-width:280px;box-shadow:var(--shlg)}
 .notif.show{transform:translateY(0);opacity:1}
 .notif.success{border-left:3px solid var(--green)}
@@ -206,6 +235,52 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 </head>
 <body>
 <div class="app">
+<!-- LOCK SCREEN -->
+<div id="lockScreen" class="lock-screen">
+  <div class="lock-card">
+    <div class="lock-logo">Talent<span>Radar</span></div>
+    <div class="lock-sub">People Intelligence Platform</div>
+    <div id="lockSetupMsg" class="lock-setup" style="display:none">
+      <strong style="color:var(--gold)">Prima configurazione</strong><br>
+      Nessuna password impostata. Imposta una password per proteggere i dati.
+    </div>
+    <label class="lock-label" id="lockFieldLabel">Password di accesso</label>
+    <input class="lock-input" type="password" id="lockPwInput" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')lockSubmit()">
+    <button class="lock-btn" onclick="lockSubmit()" id="lockBtn">Accedi</button>
+    <div class="lock-err" id="lockErr"></div>
+    <div class="lock-hint" onclick="lockForgot()" id="lockForgotLink" style="display:none">Password dimenticata? Reimposta (cancella tutti i dati)</div>
+  </div>
+</div>
+
+<!-- PASSWORD SETTINGS MODAL -->
+<div class="pw-modal-ov" id="pwModal">
+  <div class="pw-modal-box" onclick="event.stopPropagation()">
+    <div class="pw-modal-hd">
+      <div class="pw-modal-t">Impostazioni sicurezza</div>
+      <div class="pw-modal-sub">Modifica password di accesso a TalentRadar</div>
+    </div>
+    <div class="pw-modal-body">
+      <div class="pw-field">
+        <label>Password attuale</label>
+        <input type="password" id="pw-current" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="pw-field">
+        <label>Nuova password</label>
+        <input type="password" id="pw-new" placeholder="min. 6 caratteri" autocomplete="new-password">
+      </div>
+      <div class="pw-field">
+        <label>Conferma nuova password</label>
+        <input type="password" id="pw-confirm" placeholder="••••••••" autocomplete="new-password">
+      </div>
+      <div class="pw-err" id="pw-err"></div>
+    </div>
+    <div class="pw-modal-ft">
+      <button class="btn" type="button" onclick="closePwModal()">Annulla</button>
+      <button class="btn btn-gold" type="button" onclick="savePwChange()">Salva password</button>
+    </div>
+  </div>
+</div>
+
 <nav class="sidebar">
   <div class="brand-wrap">
     <div class="brand-name">Talent<span>Radar</span></div>
@@ -247,12 +322,30 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
       Aggiungi Collaboratore
     </button>
     <label style="width:100%">
-      <div class="btn" style="width:100%;justify-content:center;cursor:pointer;font-size:10px">
+      <div class="btn" style="width:100%;justify-content:center;cursor:pointer;font-size:10px" title="Importa file CSV. Usa il template per il formato corretto.">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5M2 4l3 3 3-3M1 8h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Importa CSV
       </div>
-      <input type="file" accept=".csv" style="display:none" onchange="importCSV(event)">
+      <input type="file" accept=".csv,.txt" style="display:none" onchange="importCSV(event)">
     </label>
+    <button class="btn" onclick="downloadTemplate()" style="width:100%;justify-content:center;font-size:10px;color:var(--ink4)" title="Scarica il template CSV con il formato corretto">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 7.5h7M5 1.5v4.5M2.5 4.5L5 7l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Scarica Template CSV
+    </button>
+    <div style="border-top:1px solid var(--border);margin-top:2px;padding-top:6px;display:flex;flex-direction:column;gap:4px">
+      <button class="btn" onclick="saveData()" style="width:100%;justify-content:center;font-size:10px;color:var(--green);border-color:rgba(26,107,74,.2);background:var(--green-bg)" id="sbSaveBtn">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l3 3 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Salva dati
+      </button>
+      <button class="btn" onclick="openPwModal()" style="width:100%;justify-content:center;font-size:10px;color:var(--blue);border-color:rgba(26,74,122,.2);background:var(--blue-bg)">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3.5 4V3a1.5 1.5 0 013 0v1M2 4.5h6v4H2z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Sicurezza
+      </button>
+      <button class="btn" onclick="lockApp()" style="width:100%;justify-content:center;font-size:10px;color:var(--ink4)" id="sbLockBtn" title="Blocca e torna alla schermata di accesso">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 4V3a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="1.5" y="4" width="7" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+        Blocca schermo
+      </button>
+    </div>
   </div>
 </nav>
 <div class="main">
@@ -265,6 +358,13 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
     <button class="btn btn-og" style="margin-left:auto;font-size:9px;padding:4px 12px" onclick="exportCSV()">Esporta CSV</button>
   </div>
   <div id="view-dashboard" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+    <!-- Storage + Security status bar -->
+    <div class="storage-bar nopass" id="storageBar">
+      <div class="save-dot"></div>
+      <span id="storageMsg">Dati non salvati · Nessuna password impostata</span>
+      <button onclick="saveData()" style="margin-left:auto;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;font-size:9px;font-family:var(--sans);color:inherit;cursor:pointer;font-weight:500">Salva ora</button>
+      <button onclick="openPwModal()" style="background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;font-size:9px;font-family:var(--sans);color:inherit;cursor:pointer;font-weight:500">Imposta password</button>
+    </div>
     <div class="topbar">
       <div><div class="page-t">People Intelligence</div><div class="page-bc" id="topbar-date"></div></div>
     </div>
@@ -313,6 +413,9 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
       <div id="dp-avi" style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0"></div>
       <div class="dp-hero-inf"><div class="dp-nm" id="dp-name"></div><div class="dp-jt" id="dp-role"></div></div>
       <div style="display:flex;gap:6px;align-items:center">
+        <button class="xcls" title="Modifica collaboratore" onclick="openEditModal()" style="color:var(--gold);border-color:rgba(168,134,78,.3);background:var(--gold-light)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5l2 2L4 10H2v-2L8.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
         <button class="xcls" title="Elimina collaboratore" onclick="confirmDelete()" style="color:var(--red);border-color:rgba(192,57,43,.25);background:var(--red-bg)">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 3h8M5 3V2h2v1M4.5 3v6.5M7.5 3v6.5M3 3l.5 7h5l.5-7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -351,6 +454,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
         <div class="fg"><label class="fl">Performance (1–5)</label><input class="fi" id="f-perf" type="number" min="1" max="5" placeholder="3"></div>
         <div class="fg"><label class="fl">Soddisfazione (1–5)</label><input class="fi" id="f-sat" type="number" min="1" max="5" placeholder="3"></div>
         <div class="fg"><label class="fl">Contratto</label><select class="fs" id="f-contract"><option value="indeterminato">Tempo indeterminato</option><option value="determinato">Tempo determinato</option><option value="apprendistato">Apprendistato</option><option value="consulenza">Consulenza / P.IVA</option></select></div>
+        <div class="fg"><label class="fl">Ore/giorno contrattualizzate</label><select class="fs" id="f-hours"><option value="8">8h — Full-time standard</option><option value="7">7h — Orario ridotto</option><option value="6">6h — Part-time parziale</option><option value="5">5h — Part-time</option><option value="4">4h — Part-time 50%</option><option value="3">3h — Part-time ridotto</option></select></div>
         <div class="fg"><label class="fl">Ruolo critico?</label><select class="fs" id="f-critical"><option value="no">No</option><option value="si">Sì</option></select></div>
       </div>
       <div class="fg"><label class="fl">Competenze chiave (separate da virgola)</label><input class="fi" id="f-skills" type="text" placeholder="React, Leadership, Strategia..." autocomplete="off"></div>
@@ -378,6 +482,36 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
         <div class="asm-step" id="asmStepInd"></div>
         <button class="btn btn-gold" id="asmNext" onclick="asmNext()">Avanti →</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="editModal" onclick="closeEditModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="mhd" style="background:var(--gold-light)">
+      <div class="mhd-t" style="color:var(--gold)">Modifica Collaboratore</div>
+      <button class="xcls" type="button" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="mbody">
+      <div class="fg2">
+        <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="e-name" type="text" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="e-role" type="text" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Età</label><input class="fi" id="e-age" type="number" min="18" max="70"></div>
+        <div class="fg"><label class="fl">Anzianità (anni)</label><input class="fi" id="e-sen" type="number" step="0.5" min="0" max="50"></div>
+        <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="e-ral" type="number" min="0"></div>
+        <div class="fg"><label class="fl">RAL benchmark (€)</label><input class="fi" id="e-mkt" type="number" min="0"></div>
+        <div class="fg"><label class="fl">Performance (1–5)</label><input class="fi" id="e-perf" type="number" min="1" max="5"></div>
+        <div class="fg"><label class="fl">Soddisfazione (1–5)</label><input class="fi" id="e-sat" type="number" min="1" max="5"></div>
+        <div class="fg"><label class="fl">Contratto</label><select class="fs" id="e-contract"><option value="indeterminato">Tempo indeterminato</option><option value="determinato">Tempo determinato</option><option value="apprendistato">Apprendistato</option><option value="consulenza">Consulenza / P.IVA</option></select></div>
+        <div class="fg"><label class="fl">Ore/giorno contrattualizzate</label><select class="fs" id="e-hours"><option value="8">8h — Full-time standard</option><option value="7">7h — Orario ridotto</option><option value="6">6h — Part-time parziale</option><option value="5">5h — Part-time</option><option value="4">4h — Part-time 50%</option><option value="3">3h — Part-time ridotto</option></select></div>
+        <div class="fg"><label class="fl">Ruolo critico?</label><select class="fs" id="e-critical"><option value="no">No</option><option value="si">Sì</option></select></div>
+      </div>
+      <div class="fg"><label class="fl">Competenze chiave (separate da virgola)</label><input class="fi" id="e-skills" type="text" autocomplete="off"></div>
+      <div class="fg"><label class="fl">Note / Segnali</label><input class="fi" id="e-notes" type="text" autocomplete="off"></div>
+    </div>
+    <div class="mfoot">
+      <button class="btn" type="button" onclick="closeEditModal()">Annulla</button>
+      <button class="btn btn-gold" type="button" onclick="saveEdit()">Salva modifiche</button>
     </div>
   </div>
 </div>
@@ -425,27 +559,36 @@ const AC=[
 ];
 
 let employees=[
-  {id:1,name:"Giulia Ferretti",role:"Senior Developer",age:34,seniority:6,ral:52000,market:64000,perf:5,sat:2,contract:"indeterminato",critical:"si",skills:["React","Node.js","AWS","Leadership"],notes:"Ha partecipato a colloquio esterno a gennaio",assessment:null},
-  {id:2,name:"Marco Bianchi",role:"Sales Manager",age:41,seniority:8,ral:58000,market:67000,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["CRM","Negoziazione","Team Management"],notes:"",assessment:null},
-  {id:3,name:"Sofia Ricci",role:"UX Designer",age:28,seniority:1.5,ral:30000,market:40000,perf:4,sat:2,contract:"determinato",critical:"no",skills:["Figma","User Research","Prototipazione"],notes:"Contratto in scadenza tra 4 mesi",assessment:null},
-  {id:4,name:"Luca Moretti",role:"CFO",age:52,seniority:12,ral:95000,market:112000,perf:5,sat:4,contract:"indeterminato",critical:"si",skills:["Finance","M&A","Strategy"],notes:"",assessment:null},
-  {id:5,name:"Elena Conti",role:"Marketing Manager",age:31,seniority:3,ral:36000,market:40000,perf:3,sat:3,contract:"indeterminato",critical:"no",skills:["Digital Marketing","SEO","Brand"],notes:"",assessment:null},
-  {id:6,name:"Andrea Costa",role:"DevOps Engineer",age:37,seniority:4,ral:48000,market:58000,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["AWS","Docker","Kubernetes"],notes:"",assessment:null},
-  {id:7,name:"Martina Villa",role:"HR Specialist",age:29,seniority:2,ral:32000,market:35000,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["Recruiting","L&D","Compliance"],notes:"",assessment:null},
-  {id:8,name:"Roberto Galli",role:"Account Executive",age:45,seniority:7,ral:55000,market:59000,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["B2B Sales","Retail"],notes:"",assessment:null},
-  {id:9,name:"Chiara Russo",role:"Data Analyst",age:26,seniority:1,ral:28000,market:36000,perf:4,sat:3,contract:"apprendistato",critical:"no",skills:["SQL","Python","Power BI"],notes:"Fine apprendistato tra 6 mesi",assessment:null},
-  {id:10,name:"Davide Marini",role:"Product Manager",age:38,seniority:5,ral:60000,market:70000,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["Product Strategy","Agile","Stakeholder"],notes:"",assessment:null},
-  {id:11,name:"Francesca Bruno",role:"Customer Care Lead",age:33,seniority:4,ral:28000,market:30000,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["CX","Training"],notes:"",assessment:null},
-  {id:12,name:"Simone Ferrari",role:"CTO",age:44,seniority:9,ral:88000,market:108000,perf:5,sat:3,contract:"indeterminato",critical:"si",skills:["Tech Vision","Cloud","Leadership"],notes:"Riceve headhunter mensilmente",assessment:null},
+  {id:1,name:"Giulia Ferretti",role:"Senior Developer",age:34,seniority:6,ral:52000,market:64000,hours:8,perf:5,sat:2,contract:"indeterminato",critical:"si",skills:["React","Node.js","AWS","Leadership"],notes:"Ha partecipato a colloquio esterno a gennaio",assessment:null},
+  {id:2,name:"Marco Bianchi",role:"Sales Manager",age:41,seniority:8,ral:58000,market:67000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["CRM","Negoziazione","Team Management"],notes:"",assessment:null},
+  {id:3,name:"Sofia Ricci",role:"UX Designer",age:28,seniority:1.5,ral:30000,market:40000,hours:6,perf:4,sat:2,contract:"determinato",critical:"no",skills:["Figma","User Research","Prototipazione"],notes:"Contratto in scadenza tra 4 mesi — orario ridotto 6h",assessment:null},
+  {id:4,name:"Luca Moretti",role:"CFO",age:52,seniority:12,ral:95000,market:112000,hours:8,perf:5,sat:4,contract:"indeterminato",critical:"si",skills:["Finance","M&A","Strategy"],notes:"",assessment:null},
+  {id:5,name:"Elena Conti",role:"Marketing Manager",age:31,seniority:3,ral:36000,market:40000,hours:8,perf:3,sat:3,contract:"indeterminato",critical:"no",skills:["Digital Marketing","SEO","Brand"],notes:"",assessment:null},
+  {id:6,name:"Andrea Costa",role:"DevOps Engineer",age:37,seniority:4,ral:48000,market:58000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["AWS","Docker","Kubernetes"],notes:"",assessment:null},
+  {id:7,name:"Martina Villa",role:"HR Specialist",age:29,seniority:2,ral:32000,market:35000,hours:6,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["Recruiting","L&D","Compliance"],notes:"Part-time 6h concordato",assessment:null},
+  {id:8,name:"Roberto Galli",role:"Account Executive",age:45,seniority:7,ral:55000,market:59000,hours:8,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["B2B Sales","Retail"],notes:"",assessment:null},
+  {id:9,name:"Chiara Russo",role:"Data Analyst",age:26,seniority:1,ral:28000,market:36000,hours:8,perf:4,sat:3,contract:"apprendistato",critical:"no",skills:["SQL","Python","Power BI"],notes:"Fine apprendistato tra 6 mesi",assessment:null},
+  {id:10,name:"Davide Marini",role:"Product Manager",age:38,seniority:5,ral:60000,market:70000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["Product Strategy","Agile","Stakeholder"],notes:"",assessment:null},
+  {id:11,name:"Francesca Bruno",role:"Customer Care Lead",age:33,seniority:4,ral:28000,market:30000,hours:4,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["CX","Training"],notes:"Part-time 4h",assessment:null},
+  {id:12,name:"Simone Ferrari",role:"CTO",age:44,seniority:9,ral:88000,market:108000,hours:8,perf:5,sat:3,contract:"indeterminato",critical:"si",skills:["Tech Vision","Cloud","Leadership"],notes:"Riceve headhunter mensilmente",assessment:null},
 ];
 
 const aviColors=['#C9A96E','#A86FAA','#4A7FC1','#4AAA78','#C0643C','#6A7FC0','#B0955A','#4A9AA8'];
 function avi(e,sz=30,fs=10){const c=aviColors[e.id%aviColors.length],ini=e.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();return`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${c}22;color:${c};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:500;font-family:var(--serif);flex-shrink:0">${ini}</div>`;}
 function fmt(n){return'€'+(n/1000).toFixed(0)+'k';}
-function gap(e){return Math.round((e.market-e.ral)/e.market*100);}
+function fmt2(n){return'€'+Math.round(n).toLocaleString('it');}
+// RAL normalizzata su 8h/gg (Full-Time Equivalent)
+function ralFTE(e){const h=e.hours||8;return h===8?e.ral:Math.round(e.ral*(8/h));}
+// Gap calcolato su RAL FTE vs benchmark (benchmark sempre riferito a 8h)
+function gap(e){return Math.round((e.market-ralFTE(e))/e.market*100);}
+// Gap "nominale" (RAL dichiarata vs benchmark, senza normalizzazione)
+function gapNominal(e){return Math.round((e.market-e.ral)/e.market*100);}
 
 function calcRisk(e){
-  let s=0;const g=(e.market-e.ral)/e.market;
+  let s=0;
+  // Gap calcolato su RAL FTE (normalizzata a 8h) vs benchmark
+  const fte=ralFTE(e);
+  const g=(e.market-fte)/e.market;
   if(g>.25)s+=35;else if(g>.15)s+=25;else if(g>.08)s+=15;else if(g>.03)s+=8;
   if(e.sat<=1)s+=30;else if(e.sat===2)s+=22;else if(e.sat===3)s+=10;
   if(e.perf>=4&&e.sat<=3)s+=12;
@@ -470,7 +613,7 @@ function filteredEmp(search='',filter=currentFilter){
 function rowsHTML(data){
   if(!data.length)return`<div class="empty"><div class="empty-ico">◎</div><div style="font-size:13px">Nessun collaboratore trovato</div></div>`;
   return data.map(e=>{
-    const s=calcRisk(e),r=riskInfo(s),g=gap(e),gc=g>15?'var(--red)':g>7?'var(--amber)':'var(--ink3)';
+    const s=calcRisk(e),r=riskInfo(s),g=gap(e),gc=g>15?'var(--red)':g>7?'var(--amber)':'var(--ink3)',hrs=e.hours||8;
     const fc=s>=60?'var(--red)':s>=35?'var(--amber)':'var(--green)';
     const st=e.assessment?`<span class="pill pgold" style="font-size:9px">Assessment ✓</span>`:`<span style="font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em">— da fare</span>`;
     return`<div class="tbl-row" onclick="openDetail(${e.id})">
@@ -478,7 +621,7 @@ function rowsHTML(data){
       <div class="cell-mu">${e.age}</div>
       <div class="cell-mu">${e.seniority}a</div>
       <div class="cell-sm">${fmt(e.ral)}</div>
-      <div class="cell-sm" style="color:${gc};font-weight:${g>7?500:400}">+${g}%</div>
+      <div class="cell-sm"><span style="color:${gc};font-weight:${g>7?500:400}">+${g}%</span>${hrs!==8?'<span style="margin-left:4px;font-size:9px;color:var(--blue);background:var(--blue-bg);padding:1px 5px;border-radius:3px;font-weight:500">'+hrs+'h</span>':''}</div>
       <div><span class="pill ${r.cls}">${r.lbl}</span></div>
       <div><div class="score-track"><div class="score-fill" style="width:${s}%;background:${fc}"></div></div><div style="font-size:9px;color:var(--ink4);margin-top:1px">${s}/99</div></div>
       <div>${st}</div>
@@ -540,30 +683,77 @@ function renderDPC(){
 }
 
 function renderProfile(e,g,c){
-  c.innerHTML=`
-    <div class="dp-sec"><div class="dp-sec-t">Dati anagrafici e contrattuali</div>
-    <div class="kv2">
-      <div class="kv-i"><div class="kv-k">Età</div><div class="kv-v">${e.age} anni</div></div>
-      <div class="kv-i"><div class="kv-k">Anzianità</div><div class="kv-v">${e.seniority} anni</div></div>
-      <div class="kv-i"><div class="kv-k">RAL attuale</div><div class="kv-v">${fmt(e.ral)}</div><div class="kv-n">€${e.ral.toLocaleString('it')}</div></div>
-      <div class="kv-i"><div class="kv-k">Benchmark</div><div class="kv-v" style="color:${g>10?'var(--red)':'var(--ink)'}">${fmt(e.market)}</div></div>
-      <div class="kv-i"><div class="kv-k">Performance</div><div class="kv-v" style="font-size:14px">${'★'.repeat(e.perf)}${'☆'.repeat(5-e.perf)}</div></div>
-      <div class="kv-i"><div class="kv-k">Soddisfazione</div><div class="kv-v" style="font-size:14px">${'★'.repeat(e.sat)}${'☆'.repeat(5-e.sat)}</div></div>
-      <div class="kv-i"><div class="kv-k">Contratto</div><div class="kv-v" style="font-size:12px">${e.contract}</div></div>
-      <div class="kv-i"><div class="kv-k">Ruolo critico</div><div class="kv-v">${e.critical==='si'?'<span style="color:var(--gold)">Sì</span>':'No'}</div></div>
-    </div></div>
-    <div class="dp-sec"><div class="dp-sec-t">Competenze chiave</div>
-    <div style="display:flex;flex-wrap:wrap">${e.skills.map(sk=>`<span class="sk-tag">${sk}</span>`).join('')}</div></div>
-    <div class="dp-sec"><div class="dp-sec-t">Gap retributivo</div>
-    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:8px"><span>Attuale: <strong style="color:var(--ink)">${fmt(e.ral)}</strong></span><span style="color:${g>10?'var(--red)':'var(--ink3)'}">Gap: +${g}%</span><span>Mercato: <strong style="color:var(--ink)">${fmt(e.market)}</strong></span></div>
-    <div style="height:6px;background:var(--cream3);border-radius:3px;overflow:hidden"><div style="height:100%;width:${Math.round(e.ral/e.market*100)}%;background:var(--blue);border-radius:3px;transition:width .4s"></div></div>
-    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.06em"><span>${fmt(e.ral)}</span><span>100% = ${fmt(e.market)}</span></div>
-    </div>
-    ${e.notes?`<div class="dp-sec"><div class="dp-sec-t">Note e segnali</div><div style="background:var(--amber-bg);border:1px solid rgba(181,102,10,.15);border-radius:var(--r);padding:10px 13px;font-size:11px;color:var(--ink2);line-height:1.6;border-left:2.5px solid var(--amber)">${e.notes}</div></div>`:''}`;
+  var h=e.hours||8;
+  var fte=ralFTE(e);
+  var gn=gapNominal(e);
+  var skillsHtml=e.skills.map(function(sk){return'<span class="sk-tag">'+sk+'</span>';}).join('');
+
+  var ralNote=h!==8
+    ?'<span style="color:var(--blue);font-weight:500">'+h+'h/gg · FTE: '+fmt(fte)+'</span>'
+    :'Full-time 8h/gg';
+  var oreLabel=h===8?'Full-time standard':h>=6?'Part-time parziale':'Part-time ridotto';
+  var oreColor=h!==8?'var(--blue)':'var(--ink)';
+  var benchColor=g>10?'var(--red)':'var(--ink)';
+
+  var gapTitle='Gap retributivo'+(h!==8?' <span style="color:var(--blue);font-size:9px">&nbsp;&middot; Orario '+h+'h</span>':'');
+
+  var fteDualCards='';
+  if(h!==8){
+    fteDualCards='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
+      +'<div style="background:var(--blue-bg);border:1px solid rgba(26,74,122,.12);border-radius:var(--r);padding:10px 12px">'
+      +'<div style="font-size:9px;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">RAL dichiarata</div>'
+      +'<div style="font-family:var(--serif);font-size:18px;color:var(--ink)">'+fmt(e.ral)+'</div>'
+      +'<div style="font-size:9px;color:var(--ink4);margin-top:2px">'+h+'h/gg &middot; gap nominale +'+gn+'%</div>'
+      +'</div>'
+      +'<div style="background:var(--amber-bg);border:1px solid rgba(181,102,10,.15);border-radius:var(--r);padding:10px 12px">'
+      +'<div style="font-size:9px;color:var(--amber);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">RAL Full-Time Equiv.</div>'
+      +'<div style="font-family:var(--serif);font-size:18px;color:var(--ink)">'+fmt(fte)+'</div>'
+      +'<div style="font-size:9px;color:var(--ink4);margin-top:2px">normalizzata 8h &middot; gap FTE +'+g+'%</div>'
+      +'</div>'
+      +'</div>';
+  }
+
+  var gapLabel=h!==8?'RAL FTE: ':'Attuale: ';
+  var gapColor=g>10?'var(--red)':'var(--ink3)';
+  var barWidth=Math.round(fte/e.market*100);
+
+  var notesHtml=e.notes
+    ?'<div class="dp-sec"><div class="dp-sec-t">Note e segnali</div>'
+     +'<div style="background:var(--amber-bg);border:1px solid rgba(181,102,10,.15);border-radius:var(--r);padding:10px 13px;font-size:11px;color:var(--ink2);line-height:1.6;border-left:2.5px solid var(--amber)">'+e.notes+'</div></div>'
+    :'';
+
+  c.innerHTML=
+    '<div class="dp-sec"><div class="dp-sec-t">Dati anagrafici e contrattuali</div>'
+    +'<div class="kv2">'
+    +'<div class="kv-i"><div class="kv-k">Et\u00e0</div><div class="kv-v">'+e.age+' anni</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Anzianit\u00e0</div><div class="kv-v">'+e.seniority+' anni</div></div>'
+    +'<div class="kv-i"><div class="kv-k">RAL attuale</div><div class="kv-v">'+fmt(e.ral)+'</div><div class="kv-n">'+ralNote+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Ore/giorno</div><div class="kv-v" style="color:'+oreColor+'">'+h+'h</div><div class="kv-n">'+oreLabel+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Benchmark (8h FT)</div><div class="kv-v" style="color:'+benchColor+'">'+fmt(e.market)+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Performance</div><div class="kv-v" style="font-size:14px">'+'★'.repeat(e.perf)+'☆'.repeat(5-e.perf)+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Soddisfazione</div><div class="kv-v" style="font-size:14px">'+'★'.repeat(e.sat)+'☆'.repeat(5-e.sat)+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Contratto</div><div class="kv-v" style="font-size:12px">'+e.contract+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Ruolo critico</div><div class="kv-v">'+(e.critical==='si'?'<span style="color:var(--gold)">S\u00ec</span>':'No')+'</div></div>'
+    +'</div></div>'
+    +'<div class="dp-sec"><div class="dp-sec-t">Competenze chiave</div>'
+    +'<div style="display:flex;flex-wrap:wrap">'+skillsHtml+'</div></div>'
+    +'<div class="dp-sec"><div class="dp-sec-t">'+gapTitle+'</div>'
+    +fteDualCards
+    +'<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:8px">'
+    +'<span>'+gapLabel+'<strong style="color:var(--ink)">'+fmt(fte)+'</strong></span>'
+    +'<span style="color:'+gapColor+'">Gap FTE: +'+g+'%</span>'
+    +'<span>Mercato: <strong style="color:var(--ink)">'+fmt(e.market)+'</strong></span>'
+    +'</div>'
+    +'<div style="height:6px;background:var(--cream3);border-radius:3px;overflow:hidden">'
+    +'<div style="height:100%;width:'+barWidth+'%;background:var(--blue);border-radius:3px;transition:width .4s"></div></div>'
+    +'<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">'
+    +'<span>'+fmt(fte)+'</span><span>100% = '+fmt(e.market)+'</span></div>'
+    +'</div>'
+    +notesHtml;
 }
 
 function renderRisk(e,s,r,g,c){
-  const factors=[{l:'Gap retributivo',v:Math.min(Math.round(g*1.5),38),c:'var(--red)'},{l:'Soddisfazione bassa',v:Math.round((5-e.sat)/4*32),c:'var(--amber)'},{l:'Top performer insoddisfatto',v:e.perf>=4&&e.sat<=3?15:3,c:'#553B9A'},{l:'Anzianità breve',v:e.seniority<2?18:e.seniority<3?10:3,c:'var(--blue)'},{l:'Contratto non stabile',v:e.contract!=='indeterminato'?12:2,c:'var(--amber)'},{l:'Segnali attivi (note)',v:e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter'))?18:0,c:'var(--red)'}];
+  const gfte=gap(e);const factors=[{l:'Gap RAL (FTE normalizzata)',v:Math.min(Math.round(gfte*1.5),38),c:'var(--red)'},{l:'Soddisfazione bassa',v:Math.round((5-e.sat)/4*32),c:'var(--amber)'},{l:'Top performer insoddisfatto',v:e.perf>=4&&e.sat<=3?15:3,c:'#553B9A'},{l:'Anzianità breve',v:e.seniority<2?18:e.seniority<3?10:3,c:'var(--blue)'},{l:'Contratto non stabile',v:e.contract!=='indeterminato'?12:2,c:'var(--amber)'},{l:'Segnali attivi (note)',v:e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter'))?18:0,c:'var(--red)'}];
   c.innerHTML=`
     <div style="text-align:center;background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:20px;margin-bottom:18px">
     <div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Indice di rischio uscita</div>
@@ -571,7 +761,7 @@ function renderRisk(e,s,r,g,c){
     <div style="font-size:9px;color:var(--ink4);margin-bottom:10px">su 99 punti</div>
     <span class="pill ${r.cls}" style="font-size:11px;padding:4px 14px">${r.lbl} rischio</span></div>
     <div class="dp-sec"><div class="dp-sec-t">Breakdown fattori</div>
-    ${factors.filter(f=>f.v>0).map(f=>`<div class="frow"><div class="flbl">${f.l}</div><div class="ftrack"><div class="ffill" style="width:${f.v/40*100}%;background:${f.c}"></div></div><div class="fnum">${f.v}</div></div>`).join('')}</div>`;
+    ${factors.filter(f=>f.v>0).map(f=>'<div class="frow"><div class="flbl">'+f.l+'</div><div class="ftrack"><div class="ffill" style="width:'+(f.v/40*100)+'%;background:'+f.c+'"></div></div><div class="fnum">'+f.v+'</div></div>').join('')}</div>`;
 }
 
 function renderAssessment(e,c){
@@ -583,7 +773,7 @@ function renderAssessment(e,c){
     </div>
     <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:4px">
     <div class="dp-sec-t" style="font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px">Dimensioni valutate</div>
-    ${AC.map(cat=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><div style="width:8px;height:8px;border-radius:50%;background:${cat.color};flex-shrink:0"></div><div><div style="font-size:12px;font-weight:500;color:var(--ink)">${cat.name}</div><div style="font-size:10px;color:var(--ink4);margin-top:1px">${cat.desc}</div></div></div>`).join('')}
+    ${AC.map(cat=>'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)"><div style="width:8px;height:8px;border-radius:50%;background:'+cat.color+';flex-shrink:0"></div><div><div style="font-size:12px;font-weight:500;color:var(--ink)">'+cat.name+'</div><div style="font-size:10px;color:var(--ink4);margin-top:1px">'+cat.desc+'</div></div></div>').join('')}
     </div>`;
     return;
   }
@@ -596,7 +786,7 @@ function renderAssessment(e,c){
       <div style="flex:1"><div style="text-align:center;background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:14px"><div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Score medio</div><div style="font-family:var(--serif);font-size:38px;font-weight:300;color:var(--ink)">${avg}</div><div style="font-size:9px;color:var(--ink4)">su 5.0</div></div></div>
     </div>
     <div class="dp-sec"><div class="dp-sec-t">Profilo per dimensione</div>
-    ${dims.map(d=>`<div class="dim-row"><div class="dim-lbl"><div style="display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:${d.color};flex-shrink:0"></div>${d.name}</div></div><div class="dim-track"><div class="dim-fill" style="width:${Math.round(d.score/5*100)}%;background:${d.color}"></div></div><div class="dim-sc">${d.score.toFixed(1)}</div></div>`).join('')}
+    ${dims.map(d=>'<div class="dim-row"><div class="dim-lbl"><div style="display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:'+d.color+';flex-shrink:0"></div>'+d.name+'</div></div><div class="dim-track"><div class="dim-fill" style="width:'+Math.round(d.score/5*100)+'%;background:'+d.color+'"></div></div><div class="dim-sc">'+d.score.toFixed(1)+'</div></div>').join('')}
     </div>
     <button class="btn btn-og" onclick="startAssessment(${e.id})" style="font-size:10px;width:100%;justify-content:center">Rifai assessment</button>`;
 }
@@ -787,6 +977,7 @@ function openAddModal(){
     if(el) el.value='';
   });
   document.getElementById('f-contract').value='indeterminato';
+  document.getElementById('f-hours').value='8';
   document.getElementById('f-critical').value='no';
   document.getElementById('addModal').classList.add('open');
   setTimeout(()=>document.getElementById('f-name').focus(),100);
@@ -817,6 +1008,7 @@ function saveEmployee(){
     seniority:Math.max(0,getFloat('f-sen',1)),
     ral,
     market:mkt,
+    hours:Math.min(8,Math.max(1,getInt('f-hours',8))),
     perf,
     sat,
     contract:getVal('f-contract','indeterminato'),
@@ -831,26 +1023,140 @@ function saveEmployee(){
   renderTable();
   renderTable2();
   updateStats();
+  markUnsaved();
   showNotif('✓ '+name+' aggiunto con successo','success');
 }
 
+// Detect column separator (comma vs semicolon)
+function detectSep(headerLine){
+  const commas=(headerLine.match(/,/g)||[]).length;
+  const semis=(headerLine.match(/;/g)||[]).length;
+  return semis>commas?';':',';
+}
+
+// Parse a single CSV line respecting quoted fields
+function parseCSVLine(line,sep){
+  const result=[];let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){
+      if(inQ&&i+1<line.length&&line[i+1]==='"'){cur+='"';i++;}
+      else{inQ=!inQ;}
+    } else if(ch===sep&&!inQ){
+      result.push(cur.trim().replace(/^"|"$/g,''));
+      cur='';
+    } else { cur+=ch; }
+  }
+  result.push(cur.trim().replace(/^"|"$/g,''));
+  return result;
+}
+
 function importCSV(ev){
-  const file=ev.target.files[0];if(!file)return;
+  const file=ev.target.files[0];
+  if(!file){return;}
   const reader=new FileReader();
-  reader.onload=function(e){
-    const lines=e.target.result.split('\n').filter(l=>l.trim());let added=0;
-    lines.slice(1).forEach(line=>{const cols=line.split(',').map(c=>c.trim().replace(/"/g,''));if(cols.length>=8&&cols[0]){employees.push({id:Date.now()+Math.random(),name:cols[0],role:cols[1]||'N/D',age:parseInt(cols[2])||30,seniority:parseFloat(cols[3])||1,ral:parseInt(cols[4])||30000,market:parseInt(cols[5])||35000,perf:parseInt(cols[6])||3,sat:parseInt(cols[7])||3,contract:cols[8]||'indeterminato',critical:cols[9]||'no',skills:cols[10]?cols[10].split(';').map(s=>s.trim()):[],notes:cols[11]||'',assessment:null});added++;}});
-    renderTable();updateStats();showNotif(added+' collaboratori importati','success');
+  reader.onload=function(evt){
+    try{
+      // Strip BOM if present (Excel UTF-8 with BOM)
+      let raw=evt.target.result.replace(/^\uFEFF/,'');
+      const lines=raw.split(/\r?\n/);
+      const nonEmpty=lines.filter(l=>l.trim());
+      if(nonEmpty.length<2){showNotif('File CSV vuoto o intestazione mancante','error');return;}
+
+      const sep=detectSep(nonEmpty[0]);
+      const dataLines=nonEmpty.slice(1);
+      let added=0,skipped=0;
+
+      dataLines.forEach(function(line){
+        if(!line.trim()){return;}
+        const cols=parseCSVLine(line,sep);
+        if(!cols[0]||cols[0].trim()===''){skipped++;return;}
+
+        const g=function(i,def){
+          if(cols[i]===undefined||cols[i].trim()==='')return def;
+          return cols[i].trim();
+        };
+        const gi=function(i,def){
+          const v=parseInt(g(i,''));
+          return isNaN(v)?def:v;
+        };
+        const gf=function(i,def){
+          // Handle both dot and comma as decimal separator
+          const raw=g(i,'').replace(',','.');
+          const v=parseFloat(raw);
+          return isNaN(v)?def:v;
+        };
+
+        const name=g(0,'');
+        if(!name){skipped++;return;}
+
+        // Skills: always pipe-separated in the CSV to avoid conflicts with sep
+        const skillsRaw=g(10,'');
+        const skills=skillsRaw?skillsRaw.split('|').map(function(s){return s.trim();}).filter(Boolean):[];
+
+        // New col layout: 0=Nome,1=Ruolo,2=Eta,3=Anzianita,4=RAL,5=Benchmark,6=OrarioGiornaliero,7=Performance,8=Soddisfazione,9=Contratto,10=Critico,11=Skills,12=Note
+        const rawHours=gi(6,8);
+        employees.push({
+          id:Date.now()+Math.random(),
+          name:name,
+          role:g(1,'N/D')||'N/D',
+          age:Math.max(18,gi(2,30)),
+          seniority:Math.max(0,gf(3,1)),
+          ral:Math.max(0,gi(4,30000)),
+          market:Math.max(0,gi(5,35000)),
+          hours:Math.min(8,Math.max(1,isNaN(rawHours)?8:rawHours)),
+          perf:Math.min(5,Math.max(1,gi(7,3))),
+          sat:Math.min(5,Math.max(1,gi(8,3))),
+          contract:g(9,'indeterminato')||'indeterminato',
+          critical:(g(10,'no')||'no').toLowerCase()==='si'?'si':'no',
+          skills:skills,
+          notes:g(12,''),
+          assessment:null
+        });
+        added++;
+      });
+
+      renderTable();renderTable2();updateStats();
+      if(added>0){
+        markUnsaved();
+        showNotif(added+' collaborator'+(added===1?'e':'i')+' importat'+(added===1?'o':'i')+(skipped>0?', '+skipped+' righe saltate':''),'success');
+      } else {
+        showNotif('Nessun record valido trovato. Usa il template CSV come riferimento.','error');
+      }
+    } catch(err){
+      showNotif('Errore lettura file: '+err.message,'error');
+    }
   };
-  reader.readAsText(file);ev.target.value='';
+  reader.readAsText(file,'UTF-8');
+  // Reset input so same file can be re-imported
+  ev.target.value='';
+}
+
+// Export template CSV so users know the exact format
+function downloadTemplate(){
+  const sep=',';
+  const header='Nome'+sep+'Ruolo'+sep+'Eta'+sep+'Anzianita'+sep+'RAL'+sep+'Benchmark'+sep+'OrarioGiornaliero'+sep+'Performance'+sep+'Soddisfazione'+sep+'Contratto'+sep+'Critico'+sep+'Skills'+sep+'Note';
+  const example1='"Mario Rossi"'+sep+'"Senior Developer"'+sep+'34'+sep+'5'+sep+'48000'+sep+'58000'+sep+'8'+sep+'4'+sep+'3'+sep+'indeterminato'+sep+'si'+sep+'"React|Node.js|AWS"'+sep+'"Colloquio esterno a gennaio"';
+  const example2='"Anna Bianchi"'+sep+'"UX Designer"'+sep+'29'+sep+'2'+sep+'31000'+sep+'40000'+sep+'6'+sep+'4'+sep+'2'+sep+'determinato'+sep+'no'+sep+'"Figma|User Research"'+sep+'"Contratto in scadenza - orario ridotto"';
+  const csv=[header,example1,example2].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download='talentRadar_template.csv';
+  a.click();
+  showNotif('Template CSV scaricato','success');
 }
 
 function exportCSV(){
-  const headers=['Nome','Ruolo','Eta','Anzianita','RAL','Benchmark','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore'];
-  const rows=employees.map(e=>[e.name,e.role,e.age,e.seniority,e.ral,e.market,e.perf,e.sat,e.contract,e.critical,e.skills.join(';'),e.notes,calcRisk(e)].map(v=>`"${v}"`).join(','));
-  const csv=[headers.join(','),...rows].join('\n');
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='talentRadar_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
-  showNotif('CSV esportato','success');
+  // Skills separated by | to avoid conflicts with comma/semicolon separators
+  const headers=['Nome','Ruolo','Eta','Anzianita','RAL','Benchmark','OrarioGiornaliero','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore','RALFTE'];
+  const rows=employees.map(e=>[e.name,e.role,e.age,e.seniority,e.ral,e.market,e.hours||8,e.perf,e.sat,e.contract,e.critical,e.skills.join('|'),e.notes||'',calcRisk(e),ralFTE(e)].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+  // BOM (\uFEFF) makes Excel open UTF-8 correctly with accented chars
+  const csv='\uFEFF'+[headers.join(','),...rows].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='talentRadar_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  showNotif('CSV esportato (compatibile Excel)','success');
 }
 
 function confirmDelete(){
@@ -869,13 +1175,344 @@ function deleteEmployee(){
   renderTable();
   renderTable2();
   updateStats();
+  markUnsaved();
   showNotif('✓ ' + name + ' eliminato', 'success');
 }
 
-function showNotif(msg,type='success'){const n=document.getElementById('notif');n.textContent=msg;n.className='notif '+type+' show';setTimeout(()=>n.classList.remove('show'),3000);}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();document.getElementById('addModal').classList.remove('open');document.getElementById('asmModal').classList.remove('open');document.getElementById('confirmModal').classList.remove('open');}});
+function openEditModal(){
+  if(!currentEmp) return;
+  const e=currentEmp;
+  document.getElementById('e-name').value=e.name;
+  document.getElementById('e-role').value=e.role;
+  document.getElementById('e-age').value=e.age;
+  document.getElementById('e-sen').value=e.seniority;
+  document.getElementById('e-ral').value=e.ral;
+  document.getElementById('e-mkt').value=e.market;
+  document.getElementById('e-perf').value=e.perf;
+  document.getElementById('e-sat').value=e.sat;
+  document.getElementById('e-contract').value=e.contract;
+  document.getElementById('e-hours').value=String(e.hours||8);
+  document.getElementById('e-critical').value=e.critical;
+  document.getElementById('e-skills').value=e.skills.join(', ');
+  document.getElementById('e-notes').value=e.notes||'';
+  document.getElementById('editModal').classList.add('open');
+  setTimeout(()=>document.getElementById('e-name').focus(),100);
+}
 
+function closeEditModal(){
+  document.getElementById('editModal').classList.remove('open');
+}
+
+function saveEdit(){
+  if(!currentEmp) return;
+  const nameEl=document.getElementById('e-name');
+  const name=nameEl?nameEl.value.trim():'';
+  if(!name){showNotif('Il nome non può essere vuoto','error');nameEl&&nameEl.focus();return;}
+
+  const getVal=(id,def)=>{const el=document.getElementById(id);return el?el.value:def;};
+  const getInt=(id,def)=>{const v=parseInt(getVal(id,''));return isNaN(v)?def:v;};
+  const getFloat=(id,def)=>{const v=parseFloat(getVal(id,''));return isNaN(v)?def:v;};
+
+  const idx=employees.findIndex(e=>e.id===currentEmp.id);
+  if(idx===-1){showNotif('Collaboratore non trovato','error');return;}
+
+  employees[idx]={
+    ...employees[idx],
+    name,
+    role:getVal('e-role','N/D')||'N/D',
+    age:Math.max(18,getInt('e-age',35)),
+    seniority:Math.max(0,getFloat('e-sen',1)),
+    ral:Math.max(0,getInt('e-ral',35000)),
+    market:Math.max(0,getInt('e-mkt',40000)),
+    perf:Math.min(5,Math.max(1,getInt('e-perf',3))),
+    sat:Math.min(5,Math.max(1,getInt('e-sat',3))),
+    contract:getVal('e-contract','indeterminato'),
+    hours:Math.min(8,Math.max(1,getInt('e-hours',8))),
+    critical:getVal('e-critical','no'),
+    skills:getVal('e-skills','').split(',').map(s=>s.trim()).filter(Boolean),
+    notes:getVal('e-notes','')
+  };
+
+  currentEmp=employees[idx];
+  closeEditModal();
+
+  // Refresh detail panel header
+  const s=calcRisk(currentEmp),r=riskInfo(s);
+  document.getElementById('dp-name').textContent=currentEmp.name;
+  document.getElementById('dp-role').textContent=currentEmp.role+' · '+currentEmp.seniority+' anni';
+  document.getElementById('dp-risk-num').textContent=s;
+  document.getElementById('dp-risk-num').style.color=r.c;
+  document.getElementById('dp-risk-bar').style.cssText='width:'+s+'%;background:'+r.c;
+  document.getElementById('dp-risk-pills').innerHTML='<span class="pill '+r.cls+'">'+r.lbl+' rischio</span>'+(currentEmp.critical==='si'?'<span class="pill pgold" style="margin-left:4px">Critico</span>':'')+(currentEmp.assessment?'<span class="pill pb" style="margin-left:4px">Assessment ✓</span>':'');
+  renderDPC();
+  renderTable();
+  renderTable2();
+  updateStats();
+  markUnsaved();
+  showNotif('✓ '+name+' aggiornato','success');
+}
+
+function showNotif(msg,type='success'){const n=document.getElementById('notif');n.textContent=msg;n.className='notif '+type+' show';setTimeout(()=>n.classList.remove('show'),3000);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();document.getElementById('addModal').classList.remove('open');document.getElementById('asmModal').classList.remove('open');document.getElementById('confirmModal').classList.remove('open');closeEditModal();closePwModal();}});
+
+// ═══════════════════════════════════════════════════════════════
+//  SECURITY & PERSISTENCE ENGINE
+// ═══════════════════════════════════════════════════════════════
+
+const STORAGE_KEY = 'talentRadar_data';
+const PW_KEY      = 'talentRadar_pw';   // stores SHA-256 hex of password
+let _unlocked = false;
+let _hasUnsaved = false;
+
+// SHA-256 via WebCrypto (async)
+async function sha256(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// ── Init: decide whether to show lock screen ─────────────────
+async function initApp(){
+  const storedHash = localStorage.getItem(PW_KEY);
+  const lockEl = document.getElementById('lockScreen');
+
+  if(!storedHash){
+    // No password set yet → show setup screen
+    document.getElementById('lockSetupMsg').style.display = 'block';
+    document.getElementById('lockFieldLabel').textContent = 'Crea una password di accesso';
+    document.getElementById('lockBtn').textContent = 'Imposta password e accedi';
+    document.getElementById('lockForgotLink').style.display = 'none';
+    lockEl.style.display = 'flex';
+    setTimeout(()=>document.getElementById('lockPwInput').focus(), 200);
+  } else {
+    // Password exists → show login
+    document.getElementById('lockSetupMsg').style.display = 'none';
+    document.getElementById('lockFieldLabel').textContent = 'Password di accesso';
+    document.getElementById('lockBtn').textContent = 'Accedi';
+    document.getElementById('lockForgotLink').style.display = 'block';
+    lockEl.style.display = 'flex';
+    setTimeout(()=>document.getElementById('lockPwInput').focus(), 200);
+  }
+  updateStorageBar();
+}
+
+async function lockSubmit(){
+  const pw = document.getElementById('lockPwInput').value;
+  const errEl = document.getElementById('lockErr');
+  errEl.textContent = '';
+
+  if(!pw || pw.length < 1){
+    errEl.textContent = 'Inserisci una password.';
+    return;
+  }
+
+  const storedHash = localStorage.getItem(PW_KEY);
+
+  if(!storedHash){
+    // First setup
+    if(pw.length < 6){
+      errEl.textContent = 'La password deve essere di almeno 6 caratteri.';
+      return;
+    }
+    const h = await sha256(pw);
+    localStorage.setItem(PW_KEY, h);
+    _unlocked = true;
+    unlockApp();
+  } else {
+    // Login check
+    const h = await sha256(pw);
+    if(h === storedHash){
+      _unlocked = true;
+      unlockApp();
+    } else {
+      errEl.textContent = 'Password errata. Riprova.';
+      document.getElementById('lockPwInput').value = '';
+      document.getElementById('lockPwInput').focus();
+    }
+  }
+}
+
+function unlockApp(){
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('lockPwInput').value = '';
+  // Load persisted data
+  loadData();
+  renderTable();
+  renderTable2();
+  updateStats();
+  updateStorageBar();
+}
+
+function lockApp(){
+  if(_hasUnsaved){
+    if(!confirm('Ci sono modifiche non salvate. Vuoi bloccare lo schermo lo stesso?')) return;
+  }
+  _unlocked = false;
+  closeDetail();
+  const storedHash = localStorage.getItem(PW_KEY);
+  const lockEl = document.getElementById('lockScreen');
+  if(storedHash){
+    document.getElementById('lockSetupMsg').style.display = 'none';
+    document.getElementById('lockFieldLabel').textContent = 'Password di accesso';
+    document.getElementById('lockBtn').textContent = 'Accedi';
+    document.getElementById('lockForgotLink').style.display = 'block';
+  }
+  lockEl.style.display = 'flex';
+  setTimeout(()=>document.getElementById('lockPwInput').focus(), 100);
+}
+
+function lockForgot(){
+  if(!confirm('ATTENZIONE: questa operazione elimina TUTTI i dati salvati e la password.\n\nProcedere con il reset?')) return;
+  localStorage.removeItem(PW_KEY);
+  localStorage.removeItem(STORAGE_KEY);
+  // Reset to sample data
+  employees = getSampleEmployees();
+  document.getElementById('lockSetupMsg').style.display = 'block';
+  document.getElementById('lockFieldLabel').textContent = 'Crea una nuova password';
+  document.getElementById('lockBtn').textContent = 'Imposta password e accedi';
+  document.getElementById('lockForgotLink').style.display = 'none';
+  document.getElementById('lockPwInput').value = '';
+  document.getElementById('lockErr').textContent = 'Dati eliminati. Imposta una nuova password.';
+}
+
+// ── Save / Load ───────────────────────────────────────────────
+function saveData(){
+  try{
+    const payload = JSON.stringify({
+      employees: employees,
+      savedAt: new Date().toISOString(),
+      version: 2
+    });
+    localStorage.setItem(STORAGE_KEY, payload);
+    _hasUnsaved = false;
+    updateStorageBar();
+    showNotif('✓ Dati salvati nel browser','success');
+  } catch(err){
+    showNotif('Errore salvataggio: '+err.message,'error');
+  }
+}
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return; // no saved data, keep sample employees
+    const parsed = JSON.parse(raw);
+    if(parsed && parsed.employees && Array.isArray(parsed.employees) && parsed.employees.length > 0){
+      // Ensure all employees have required fields (forward compatibility)
+      employees = parsed.employees.map(e=>({
+        id: e.id || Date.now()+Math.random(),
+        name: e.name || 'N/D',
+        role: e.role || 'N/D',
+        age: e.age || 30,
+        seniority: e.seniority || 1,
+        ral: e.ral || 30000,
+        market: e.market || 35000,
+        hours: e.hours || 8,
+        perf: e.perf || 3,
+        sat: e.sat || 3,
+        contract: e.contract || 'indeterminato',
+        critical: e.critical || 'no',
+        skills: e.skills || [],
+        notes: e.notes || '',
+        assessment: e.assessment || null
+      }));
+    }
+  } catch(err){
+    console.warn('TalentRadar: errore caricamento dati', err);
+  }
+}
+
+// Mark dirty on any modification
+function markUnsaved(){
+  _hasUnsaved = true;
+  if(_unlocked) updateStorageBar();
+}
+
+// ── Storage bar UI ─────────────────────────────────────────────
+function updateStorageBar(){
+  const bar = document.getElementById('storageBar');
+  const msg = document.getElementById('storageMsg');
+  const hasPassword = !!localStorage.getItem(PW_KEY);
+  const raw = localStorage.getItem(STORAGE_KEY);
+  let savedAt = null;
+  try{ if(raw) savedAt = JSON.parse(raw).savedAt; }catch(e){}
+
+  if(!hasPassword){
+    bar.className = 'storage-bar nopass';
+    msg.textContent = 'Nessuna password impostata · I dati non sono protetti';
+  } else if(_hasUnsaved){
+    bar.className = 'storage-bar unsaved';
+    msg.textContent = 'Modifiche non salvate';
+  } else if(savedAt){
+    bar.className = 'storage-bar';
+    const d = new Date(savedAt);
+    msg.textContent = 'Salvato ' + d.toLocaleDateString('it-IT') + ' alle ' + d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  } else {
+    bar.className = 'storage-bar unsaved';
+    msg.textContent = 'Dati di esempio · non ancora salvati';
+  }
+}
+
+// ── Password change modal ──────────────────────────────────────
+function openPwModal(){
+  document.getElementById('pw-current').value='';
+  document.getElementById('pw-new').value='';
+  document.getElementById('pw-confirm').value='';
+  document.getElementById('pw-err').textContent='';
+  // If no password yet, hide current field
+  const hasPassword = !!localStorage.getItem(PW_KEY);
+  document.getElementById('pw-current').closest('.pw-field').style.display = hasPassword ? '' : 'none';
+  document.getElementById('pwModal').classList.add('open');
+  setTimeout(()=>(hasPassword?document.getElementById('pw-current'):document.getElementById('pw-new')).focus(),100);
+}
+
+function closePwModal(){
+  document.getElementById('pwModal').classList.remove('open');
+}
+
+async function savePwChange(){
+  const errEl = document.getElementById('pw-err');
+  errEl.textContent = '';
+  const hasPassword = !!localStorage.getItem(PW_KEY);
+  const currentEl = document.getElementById('pw-current');
+  const newPw = document.getElementById('pw-new').value;
+  const confirmPw = document.getElementById('pw-confirm').value;
+
+  if(hasPassword){
+    const curPw = currentEl.value;
+    if(!curPw){ errEl.textContent='Inserisci la password attuale.'; return; }
+    const curHash = await sha256(curPw);
+    if(curHash !== localStorage.getItem(PW_KEY)){ errEl.textContent='Password attuale errata.'; return; }
+  }
+  if(!newPw || newPw.length < 6){ errEl.textContent='La nuova password deve avere almeno 6 caratteri.'; return; }
+  if(newPw !== confirmPw){ errEl.textContent='Le password non coincidono.'; return; }
+
+  const newHash = await sha256(newPw);
+  localStorage.setItem(PW_KEY, newHash);
+  closePwModal();
+  updateStorageBar();
+  showNotif('✓ Password aggiornata','success');
+}
+
+// markUnsaved() is called directly from saveEmployee, saveEdit, deleteEmployee, importCSV
+
+// ── Sample data factory (for reset) ──────────────────────────
+// Snapshot taken at script load time, before any loadData() overrides it
+const _sampleEmployees = JSON.parse(JSON.stringify(employees));
+function getSampleEmployees(){
+  return JSON.parse(JSON.stringify(_sampleEmployees));
+}
+
+// ── Keyboard shortcut: Ctrl+S / Cmd+S ────────────────────────
+document.addEventListener('keydown', ev=>{
+  if((ev.ctrlKey||ev.metaKey) && ev.key==='s'){
+    ev.preventDefault();
+    if(_unlocked) saveData();
+  }
+});
+
+// ── Boot ──────────────────────────────────────────────────────
 renderTable();updateStats();
+initApp();
 </script>
 </body>
 </html>
