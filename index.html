@@ -312,7 +312,12 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
     <div class="dp-hero-top">
       <div id="dp-avi" style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0"></div>
       <div class="dp-hero-inf"><div class="dp-nm" id="dp-name"></div><div class="dp-jt" id="dp-role"></div></div>
-      <button class="xcls" onclick="closeDetail()">✕</button>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="xcls" title="Elimina collaboratore" onclick="confirmDelete()" style="color:var(--red);border-color:rgba(192,57,43,.25);background:var(--red-bg)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 3h8M5 3V2h2v1M4.5 3v6.5M7.5 3v6.5M3 3l.5 7h5l.5-7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="xcls" onclick="closeDetail()">✕</button>
+      </div>
     </div>
     <div class="dp-risk-row">
       <div><div class="risk-dial" id="dp-risk-num"></div><div class="risk-dial-sub">Indice rischio</div></div>
@@ -332,31 +337,34 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
   <div class="dp-body" id="dpBody"></div>
 </div>
 
-<div class="modal-ov" id="addModal">
-  <div class="modal-box">
-    <div class="mhd"><div class="mhd-t">Nuovo Collaboratore</div><button class="xcls" onclick="closeAddModal()">✕</button></div>
+<div class="modal-ov" id="addModal" onclick="closeAddModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="mhd"><div class="mhd-t">Nuovo Collaboratore</div><button class="xcls" type="button" onclick="closeAddModal()">✕</button></div>
     <div class="mbody">
       <div class="fg2">
-        <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="f-name" placeholder="Mario Rossi"></div>
-        <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="f-role" placeholder="Senior Developer"></div>
-        <div class="fg"><label class="fl">Età</label><input class="fi" id="f-age" type="number" placeholder="35"></div>
-        <div class="fg"><label class="fl">Anzianità (anni)</label><input class="fi" id="f-sen" type="number" placeholder="3" step="0.5"></div>
-        <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="f-ral" type="number" placeholder="40000"></div>
-        <div class="fg"><label class="fl">RAL benchmark (€)</label><input class="fi" id="f-mkt" type="number" placeholder="46000"></div>
+        <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="f-name" type="text" placeholder="Mario Rossi" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="f-role" type="text" placeholder="Senior Developer" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Età</label><input class="fi" id="f-age" type="number" placeholder="35" min="18" max="70"></div>
+        <div class="fg"><label class="fl">Anzianità (anni)</label><input class="fi" id="f-sen" type="number" placeholder="3" step="0.5" min="0" max="50"></div>
+        <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="f-ral" type="number" placeholder="40000" min="0"></div>
+        <div class="fg"><label class="fl">RAL benchmark (€)</label><input class="fi" id="f-mkt" type="number" placeholder="46000" min="0"></div>
         <div class="fg"><label class="fl">Performance (1–5)</label><input class="fi" id="f-perf" type="number" min="1" max="5" placeholder="3"></div>
         <div class="fg"><label class="fl">Soddisfazione (1–5)</label><input class="fi" id="f-sat" type="number" min="1" max="5" placeholder="3"></div>
         <div class="fg"><label class="fl">Contratto</label><select class="fs" id="f-contract"><option value="indeterminato">Tempo indeterminato</option><option value="determinato">Tempo determinato</option><option value="apprendistato">Apprendistato</option><option value="consulenza">Consulenza / P.IVA</option></select></div>
         <div class="fg"><label class="fl">Ruolo critico?</label><select class="fs" id="f-critical"><option value="no">No</option><option value="si">Sì</option></select></div>
       </div>
-      <div class="fg"><label class="fl">Competenze chiave (virgola)</label><input class="fi" id="f-skills" placeholder="React, Leadership..."></div>
-      <div class="fg"><label class="fl">Note / Segnali</label><input class="fi" id="f-notes" placeholder="es. colloquio esterno..."></div>
+      <div class="fg"><label class="fl">Competenze chiave (separate da virgola)</label><input class="fi" id="f-skills" type="text" placeholder="React, Leadership, Strategia..." autocomplete="off"></div>
+      <div class="fg"><label class="fl">Note / Segnali</label><input class="fi" id="f-notes" type="text" placeholder="es. colloquio esterno, headhunter..." autocomplete="off"></div>
     </div>
-    <div class="mfoot"><button class="btn" onclick="closeAddModal()">Annulla</button><button class="btn btn-gold" onclick="saveEmployee()">Salva</button></div>
+    <div class="mfoot">
+      <button class="btn" type="button" onclick="closeAddModal()">Annulla</button>
+      <button class="btn btn-gold" type="button" onclick="saveEmployee()">Salva Collaboratore</button>
+    </div>
   </div>
 </div>
 
-<div class="modal-ov" id="asmModal">
-  <div class="modal-box asm-box">
+<div class="modal-ov" id="asmModal" onclick="document.getElementById('asmModal').classList.remove('open')">
+  <div class="modal-box asm-box" onclick="event.stopPropagation()">
     <div class="asm-hero">
       <div class="asm-pre">Valutazione Psicometrica</div>
       <div class="asm-t" id="asm-title">Assessment comportamentale</div>
@@ -370,6 +378,30 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
         <div class="asm-step" id="asmStepInd"></div>
         <button class="btn btn-gold" id="asmNext" onclick="asmNext()">Avanti →</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-ov" id="confirmModal" onclick="document.getElementById('confirmModal').classList.remove('open')">
+  <div class="modal-box" style="width:420px" onclick="event.stopPropagation()">
+    <div class="mhd" style="background:var(--red-bg)">
+      <div class="mhd-t" style="color:var(--red)">Elimina collaboratore</div>
+      <button class="xcls" type="button" onclick="document.getElementById('confirmModal').classList.remove('open')">✕</button>
+    </div>
+    <div class="mbody" style="padding:22px 24px">
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--red-bg);border:1px solid rgba(192,57,43,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4.5h12M7.5 4.5V3h3v1.5M6.75 4.5v9.75M11.25 4.5v9.75M4.5 4.5l.75 10.5h7.5l.75-10.5" stroke="#C0392B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div style="font-family:var(--serif);font-size:16px;font-weight:400;color:var(--ink);margin-bottom:6px">Sei sicuro di voler eliminare <strong id="confirm-name" style="font-weight:600"></strong>?</div>
+          <div style="font-size:12px;color:var(--ink3);line-height:1.6">Questa azione è irreversibile. Tutti i dati del collaboratore — incluso l'assessment psicometrico — verranno rimossi definitivamente.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn" type="button" onclick="document.getElementById('confirmModal').classList.remove('open')">Annulla</button>
+      <button class="btn" type="button" id="confirmDeleteBtn" style="background:var(--red);color:var(--white);border-color:var(--red)" onclick="deleteEmployee()">Elimina definitivamente</button>
     </div>
   </div>
 </div>
@@ -748,14 +780,58 @@ function showView(v){
 }
 function filterByRisk(level){showView('team');document.getElementById('tableBody2').innerHTML=rowsHTML(employees.filter(e=>{const s=calcRisk(e);if(level==='alto')return s>=60;if(level==='medio')return s>=35&&s<60;return s<35;}));}
 
-function openAddModal(){document.getElementById('addModal').classList.add('open');}
+function openAddModal(){
+  // Reset all fields before opening
+  ['f-name','f-role','f-age','f-sen','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  document.getElementById('f-contract').value='indeterminato';
+  document.getElementById('f-critical').value='no';
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>document.getElementById('f-name').focus(),100);
+}
 function closeAddModal(){document.getElementById('addModal').classList.remove('open');}
 function saveEmployee(){
-  const name=document.getElementById('f-name').value.trim();
-  if(!name){showNotif('Inserisci il nome del collaboratore','error');return;}
-  employees.push({id:Date.now(),name,role:document.getElementById('f-role').value||'N/D',age:parseInt(document.getElementById('f-age').value)||35,seniority:parseFloat(document.getElementById('f-sen').value)||1,ral:parseInt(document.getElementById('f-ral').value)||35000,market:parseInt(document.getElementById('f-mkt').value)||40000,perf:parseInt(document.getElementById('f-perf').value)||3,sat:parseInt(document.getElementById('f-sat').value)||3,contract:document.getElementById('f-contract').value,critical:document.getElementById('f-critical').value,skills:document.getElementById('f-skills').value.split(',').map(s=>s.trim()).filter(Boolean),notes:document.getElementById('f-notes').value,assessment:null});
-  closeAddModal();renderTable();updateStats();showNotif(name+' aggiunto','success');
-  ['f-name','f-role','f-age','f-sen','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>document.getElementById(id).value='');
+  const nameEl=document.getElementById('f-name');
+  const name=nameEl?nameEl.value.trim():'';
+  if(!name){showNotif('Inserisci il nome del collaboratore','error');nameEl&&nameEl.focus();return;}
+
+  const getVal=(id,def)=>{const el=document.getElementById(id);return el?el.value:def;};
+  const getInt=(id,def)=>{const v=parseInt(getVal(id,''));return isNaN(v)?def:v;};
+  const getFloat=(id,def)=>{const v=parseFloat(getVal(id,''));return isNaN(v)?def:v;};
+
+  const perf=Math.min(5,Math.max(1,getInt('f-perf',3)));
+  const sat=Math.min(5,Math.max(1,getInt('f-sat',3)));
+  const ral=getInt('f-ral',35000);
+  const mkt=getInt('f-mkt',40000);
+
+  if(ral<=0){showNotif('Inserisci la RAL attuale','error');return;}
+  if(mkt<=0){showNotif('Inserisci il benchmark di mercato','error');return;}
+
+  const newEmp={
+    id:Date.now(),
+    name,
+    role:getVal('f-role','N/D')||'N/D',
+    age:Math.max(18,getInt('f-age',35)),
+    seniority:Math.max(0,getFloat('f-sen',1)),
+    ral,
+    market:mkt,
+    perf,
+    sat,
+    contract:getVal('f-contract','indeterminato'),
+    critical:getVal('f-critical','no'),
+    skills:getVal('f-skills','').split(',').map(s=>s.trim()).filter(Boolean),
+    notes:getVal('f-notes',''),
+    assessment:null
+  };
+
+  employees.push(newEmp);
+  closeAddModal();
+  renderTable();
+  renderTable2();
+  updateStats();
+  showNotif('✓ '+name+' aggiunto con successo','success');
 }
 
 function importCSV(ev){
@@ -777,8 +853,27 @@ function exportCSV(){
   showNotif('CSV esportato','success');
 }
 
+function confirmDelete(){
+  if(!currentEmp) return;
+  document.getElementById('confirm-name').textContent = currentEmp.name;
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+function deleteEmployee(){
+  if(!currentEmp) return;
+  const name = currentEmp.name;
+  const id = currentEmp.id;
+  employees = employees.filter(e => e.id !== id);
+  document.getElementById('confirmModal').classList.remove('open');
+  closeDetail();
+  renderTable();
+  renderTable2();
+  updateStats();
+  showNotif('✓ ' + name + ' eliminato', 'success');
+}
+
 function showNotif(msg,type='success'){const n=document.getElementById('notif');n.textContent=msg;n.className='notif '+type+' show';setTimeout(()=>n.classList.remove('show'),3000);}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();document.getElementById('addModal').classList.remove('open');document.getElementById('asmModal').classList.remove('open');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();document.getElementById('addModal').classList.remove('open');document.getElementById('asmModal').classList.remove('open');document.getElementById('confirmModal').classList.remove('open');}});
 
 renderTable();updateStats();
 </script>
