@@ -7,13 +7,34 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#FAF8F4;--cream2:#F4F1EB;--cream3:#EDE9E0;--white:#FFFFFF;--ink:#1A1714;--ink2:#3D3A35;--ink3:#7A7570;--ink4:#B0ABA4;--gold:#A8864E;--gold-light:#F0E8D6;--gold-mid:#C9A96E;--border:rgba(26,23,20,.08);--border2:rgba(26,23,20,.14);--border3:rgba(26,23,20,.22);--red:#C0392B;--red-bg:#FDF0EE;--amber:#B5660A;--amber-bg:#FDF6EE;--green:#1A6B4A;--green-bg:#EEF7F2;--blue:#1A4A7A;--blue-bg:#EEF3FA;--r:6px;--rlg:10px;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Jost',sans-serif;--sh:0 1px 3px rgba(26,23,20,.06),0 4px 16px rgba(26,23,20,.04);--shlg:0 2px 8px rgba(26,23,20,.08),0 16px 48px rgba(26,23,20,.08)}
+:root{
+  /* Base surfaces */
+  --cream:#F5F8FC;--cream2:#EBF1F8;--cream3:#D8E5F0;
+  --white:#FFFFFF;
+  /* Text */
+  --ink:#0F1E2E;--ink2:#2C3E50;--ink3:#5A7088;--ink4:#9BB2C4;
+  /* Primary accent: blu */
+  --gold:#1A5FA8;--gold-light:#E8F0FA;--gold-mid:#2B7BD4;
+  /* Borders */
+  --border:rgba(15,30,46,.08);--border2:rgba(15,30,46,.14);--border3:rgba(15,30,46,.22);
+  /* Semantic */
+  --red:#C0392B;--red-bg:#FDF0EE;
+  --amber:#D67C0A;--amber-bg:#FEF6E8;
+  --green:#1A7A4A;--green-bg:#E8F7EF;
+  --blue:#1A5FA8;--blue-bg:#E8F0FA;
+  /* Radii & fonts */
+  --r:6px;--rlg:10px;
+  --serif:'Inter','Jost',sans-serif;--sans:'Jost','Inter',sans-serif;
+  /* Shadows */
+  --sh:0 1px 3px rgba(15,30,46,.06),0 4px 16px rgba(15,30,46,.04);
+  --shlg:0 2px 8px rgba(15,30,46,.08),0 16px 48px rgba(15,30,46,.08)
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:13px;line-height:1.55;-webkit-font-smoothing:antialiased}
+html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);font-size:13px;line-height:1.55;-webkit-font-smoothing:antialiased}
 ::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:2px}
 .app{display:flex;height:100vh;overflow:hidden}
 .sidebar{width:222px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream)}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream2)}
 .content-area{flex:1;overflow-y:auto;padding:28px 32px}
 .brand-wrap{padding:24px 20px 20px;border-bottom:1px solid var(--border)}
 .brand-name{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.2px;line-height:1}
@@ -21,13 +42,13 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .brand-sub{font-size:10px;color:var(--ink4);margin-top:4px;letter-spacing:.12em;text-transform:uppercase}
 .nav-lbl{padding:18px 20px 5px;font-size:9px;color:var(--ink4);letter-spacing:.14em;text-transform:uppercase;font-weight:500}
 .nav-i{display:flex;align-items:center;gap:9px;padding:8px 14px;margin:1px 6px;border-radius:var(--r);cursor:pointer;font-size:12px;color:var(--ink3);transition:all .15s;font-weight:400}
-.nav-i:hover{background:var(--cream);color:var(--ink2)}
-.nav-i.active{background:var(--gold-light);color:var(--gold)}
+.nav-i:hover{background:var(--cream2);color:var(--ink2)}
+.nav-i.active{background:var(--gold-light);color:var(--gold);font-weight:500}
 .risk-pip{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .nav-ct{margin-left:auto;font-size:10px;font-weight:500;padding:1px 7px;border-radius:10px;min-width:20px;text-align:center}
 .sb-footer{margin-top:auto;padding:14px 12px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px}
 .sb-kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px}
-.sb-kpi{background:var(--cream);border-radius:var(--r);padding:8px 10px}
+.sb-kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px}
 .sb-kpi-val{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);line-height:1}
 .sb-kpi-lbl{font-size:9px;color:var(--ink4);margin-top:2px;letter-spacing:.06em;text-transform:uppercase}
 .topbar{padding:14px 32px;border-bottom:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -42,7 +63,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
 .kpi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);padding:20px 22px;box-shadow:var(--sh);position:relative;overflow:hidden}
 .kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.kpi-card.gold::after{background:linear-gradient(90deg,var(--gold),var(--gold-mid))}
+.kpi-card.gold::after{background:linear-gradient(90deg,var(--blue),var(--gold-mid))}
 .kpi-card.danger::after{background:var(--red)}
 .kpi-card.warning::after{background:var(--amber)}
 .kpi-card.success::after{background:var(--green)}
@@ -50,18 +71,18 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .kpi-val{font-family:var(--serif);font-size:34px;font-weight:300;color:var(--ink);line-height:1}
 .kpi-sub{font-size:10px;color:var(--ink4);margin-top:6px}
 .tbl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;box-shadow:var(--sh)}
-.tbl-toolbar{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--cream2)}
+.tbl-toolbar{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--white)}
 .search-box{flex:1;display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:6px 12px}
 .search-box svg{color:var(--ink4);flex-shrink:0}
 .search-box input{border:none;outline:none;background:transparent;font-family:var(--sans);font-size:12px;color:var(--ink);width:100%}
 .search-box input::placeholder{color:var(--ink4)}
 .fpill{padding:5px 12px;border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink3);font-family:var(--sans);transition:all .15s;letter-spacing:.02em}
-.fpill:hover{border-color:var(--gold);color:var(--gold)}
-.fpill.active{background:var(--gold-light);color:var(--gold);border-color:var(--gold-mid)}
+.fpill:hover{border-color:var(--blue);color:var(--blue)}
+.fpill.active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
 .tbl-head{display:grid;grid-template-columns:210px 60px 80px 80px 90px 100px 110px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
 .tbl-row{display:grid;grid-template-columns:210px 60px 80px 80px 90px 100px 110px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
 .tbl-row:last-child{border-bottom:none}
-.tbl-row:hover{background:var(--cream)}
+.tbl-row:hover{background:var(--cream2)}
 .emp-wrap{display:flex;align-items:center;gap:10px}
 .emp-nm{font-weight:500;font-size:12px;color:var(--ink)}
 .emp-jt{font-size:10px;color:var(--ink4);margin-top:1px}
@@ -72,18 +93,18 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .pa{background:var(--amber-bg);color:var(--amber)}
 .pg{background:var(--green-bg);color:var(--green)}
 .pb{background:var(--blue-bg);color:var(--blue)}
-.pgold{background:var(--gold-light);color:var(--gold)}
+.pgold{background:var(--blue-bg);color:var(--blue)}
 .score-track{height:3px;background:var(--cream3);border-radius:2px;width:70px;overflow:hidden;margin-bottom:2px}
 .score-fill{height:100%;border-radius:2px;transition:width .4s}
 .overlay{position:fixed;inset:0;background:rgba(26,23,20,.25);z-index:90;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(2px)}
 .overlay.open{opacity:1;pointer-events:all}
 .dp{position:fixed;right:0;top:0;bottom:0;width:480px;background:var(--white);border-left:1px solid var(--border);overflow-y:auto;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:91;display:flex;flex-direction:column;box-shadow:var(--shlg)}
 .dp.open{transform:translateX(0)}
-.dp-hero{padding:24px 24px 20px;background:var(--cream);border-bottom:1px solid var(--border)}
+.dp-hero{padding:24px 24px 20px;background:linear-gradient(135deg,var(--blue) 0%,var(--gold-mid) 100%);border-bottom:none}
 .dp-hero-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
 .dp-hero-inf{flex:1;margin-left:14px}
-.dp-nm{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);line-height:1.1}
-.dp-jt{font-size:11px;color:var(--ink3);margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+.dp-nm{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--white);line-height:1.1}
+.dp-jt{font-size:11px;color:rgba(255,255,255,.75);margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
 .xcls{width:28px;height:28px;border-radius:var(--r);background:var(--white);border:1px solid var(--border);color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .15s}
 .xcls:hover{background:var(--cream3);color:var(--ink)}
 .dp-risk-row{display:flex;align-items:center;gap:14px}
@@ -146,16 +167,18 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .fi,.fs{width:100%;padding:8px 12px;background:var(--cream);border:1px solid var(--border2);border-radius:var(--r);color:var(--ink);font-family:var(--sans);font-size:12px;outline:none;transition:border-color .15s}
 .fi:focus,.fs:focus{border-color:var(--gold);background:var(--white)}
 .fi::placeholder{color:var(--ink4)}
+.fi[type="date"]{color:var(--ink);letter-spacing:.02em}
+.date-calc{font-size:10px;color:var(--green);margin-top:4px;min-height:14px;font-weight:500}
 .fs option{background:var(--white)}
 .fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .asm-box{width:680px;max-height:92vh}
-.asm-hero{background:linear-gradient(135deg,#1A1714 0%,#3D3A35 100%);color:var(--cream);padding:28px 28px 22px;border-radius:var(--rlg) var(--rlg) 0 0}
+.asm-hero{background:linear-gradient(135deg,#0F2A4A 0%,#1A5FA8 100%);color:var(--cream);padding:28px 28px 22px;border-radius:var(--rlg) var(--rlg) 0 0}
 .asm-pre{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-mid);margin-bottom:6px;font-weight:500}
 .asm-t{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--cream);line-height:1.15}
 .asm-sub{font-size:11px;color:rgba(250,248,244,.55);margin-top:6px;line-height:1.5}
 .asm-body{padding:24px 28px}
 .asm-prog{height:2px;background:var(--cream3);border-radius:1px;margin-bottom:22px;overflow:hidden}
-.asm-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-mid));border-radius:1px;transition:width .4s ease}
+.asm-prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--gold-mid));border-radius:1px;transition:width .4s ease}
 .asm-cat-t{font-family:var(--serif);font-size:17px;font-weight:400;color:var(--ink);margin-bottom:2px}
 .asm-cat-d{font-size:11px;color:var(--ink4);margin-bottom:18px}
 .asm-q{background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:16px 18px;margin-bottom:10px}
@@ -165,8 +188,8 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .asm-slbl.r{text-align:right}
 .asm-opts{display:flex;gap:6px;flex:1;justify-content:space-between}
 .asm-opt{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--cream3);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink3);font-weight:500;transition:all .15s;font-family:var(--sans)}
-.asm-opt:hover{border-color:var(--gold-mid);color:var(--gold);background:var(--gold-light)}
-.asm-opt.sel{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.asm-opt:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.asm-opt.sel{background:var(--blue);border-color:var(--blue);color:var(--white)}
 .asm-nav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
 .asm-step{font-size:10px;color:var(--ink4);letter-spacing:.08em;text-transform:uppercase}
 .dim-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -174,8 +197,8 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .dim-track{flex:1;height:4px;background:var(--cream3);border-radius:2px;overflow:hidden}
 .dim-fill{height:100%;border-radius:2px;transition:width .6s ease}
 .dim-sc{width:28px;text-align:right;font-family:var(--serif);font-size:14px;color:var(--ink3)}
-.prof-badge{display:inline-flex;flex-direction:column;align-items:center;gap:4px;background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:var(--rlg);padding:14px 20px;margin-bottom:14px}
-.prof-badge-lbl{font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;font-weight:500}
+.prof-badge{display:inline-flex;flex-direction:column;align-items:center;gap:4px;background:var(--blue-bg);border:1px solid var(--blue);border-radius:var(--rlg);padding:14px 20px;margin-bottom:14px}
+.prof-badge-lbl{font-size:9px;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;font-weight:500}
 .prof-badge-nm{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink)}
 .prof-badge-d{font-size:11px;color:var(--ink3);text-align:center;line-height:1.5}
 .bench-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -189,14 +212,25 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 .bench-bar-t{height:5px;background:var(--cream3);border-radius:3px;overflow:hidden}
 .bench-bar-f{height:100%;border-radius:3px;transition:width .5s}
 .bench-bar-leg{display:flex;justify-content:space-between;font-size:9px;color:var(--ink4);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
-.api-bar{padding:8px 32px;background:var(--cream2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.bench-editor{background:var(--white);border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;margin-bottom:22px;box-shadow:var(--sh)}
+.bench-editor-hd{background:var(--cream);border-bottom:1px solid var(--border);padding:13px 18px;display:flex;align-items:center;gap:10px}
+.bench-editor-t{font-family:var(--serif);font-size:15px;font-weight:400;color:var(--ink);flex:1}
+.bench-editor-sub{font-size:10px;color:var(--ink4)}
+.bench-row{display:grid;grid-template-columns:1fr 140px 100px 80px;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--border)}
+.bench-row:last-child{border-bottom:none}
+.bench-row-role{font-size:12px;color:var(--ink2);font-weight:500}
+.bench-row-sub{font-size:10px;color:var(--ink4);margin-top:1px}
+.bench-inp{border:1px solid var(--border2);border-radius:var(--r);padding:6px 10px;font-size:12px;font-family:var(--sans);background:var(--cream);color:var(--ink);outline:none;width:100%;text-align:right}
+.bench-inp:focus{border-color:var(--blue);background:var(--white)}
+.bench-add-row{padding:12px 18px;display:flex;gap:8px;align-items:center;background:var(--white);border-top:1px solid var(--border)}
+.api-bar{padding:8px 32px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .api-lbl{font-size:9px;color:var(--ink4);white-space:nowrap;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
 .api-inp{flex:1;max-width:300px;padding:4px 10px;background:var(--white);border:1px solid var(--border2);border-radius:var(--r);color:var(--ink2);font-family:monospace;font-size:11px;outline:none}
 .api-inp:focus{border-color:var(--gold)}
 .api-st{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
 .api-st.set{background:var(--green-bg);color:var(--green)}
 .api-st.unset{background:var(--amber-bg);color:var(--amber)}
-.lock-screen{position:fixed;inset:0;background:var(--cream);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.lock-screen{position:fixed;inset:0;background:var(--cream2);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
 .lock-card{background:var(--white);border:1px solid var(--border2);border-radius:16px;padding:44px 48px;width:380px;box-shadow:var(--shlg);text-align:center}
 .lock-logo{font-family:var(--serif);font-size:32px;font-weight:400;color:var(--ink);margin-bottom:4px}.lock-logo span{color:var(--gold)}
 .lock-sub{font-size:10px;color:var(--ink4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:32px}
@@ -413,7 +447,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
       <div id="dp-avi" style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0"></div>
       <div class="dp-hero-inf"><div class="dp-nm" id="dp-name"></div><div class="dp-jt" id="dp-role"></div></div>
       <div style="display:flex;gap:6px;align-items:center">
-        <button class="xcls" title="Modifica collaboratore" onclick="openEditModal()" style="color:var(--gold);border-color:rgba(168,134,78,.3);background:var(--gold-light)">
+        <button class="xcls" title="Modifica collaboratore" onclick="openEditModal()" style="color:var(--blue);border-color:rgba(26,95,168,.25);background:var(--blue-bg)">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5l2 2L4 10H2v-2L8.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="xcls" title="Elimina collaboratore" onclick="confirmDelete()" style="color:var(--red);border-color:rgba(192,57,43,.25);background:var(--red-bg)">
@@ -442,15 +476,30 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 
 <div class="modal-ov" id="addModal" onclick="closeAddModal()">
   <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="mhd"><div class="mhd-t">Nuovo Collaboratore</div><button class="xcls" type="button" onclick="closeAddModal()">✕</button></div>
+    <div class="mhd" style="background:var(--blue-bg)"><div class="mhd-t" style="color:var(--blue)">Nuovo Collaboratore</div><button class="xcls" type="button" onclick="closeAddModal()">✕</button></div>
     <div class="mbody">
       <div class="fg2">
         <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="f-name" type="text" placeholder="Mario Rossi" autocomplete="off"></div>
-        <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="f-role" type="text" placeholder="Senior Developer" autocomplete="off"></div>
-        <div class="fg"><label class="fl">Età</label><input class="fi" id="f-age" type="number" placeholder="35" min="18" max="70"></div>
-        <div class="fg"><label class="fl">Anzianità (anni)</label><input class="fi" id="f-sen" type="number" placeholder="3" step="0.5" min="0" max="50"></div>
+        <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="f-role" type="text" placeholder="Senior Developer" autocomplete="off" oninput="autofillBenchmark(this.value)"></div>
+        <div class="fg">
+          <label class="fl">Data di nascita</label>
+          <input class="fi" id="f-birthdate" type="date" onchange="updateAddDateCalc()">
+          <div class="date-calc" id="f-age-calc"></div>
+        </div>
+        <div class="fg">
+          <label class="fl">Data di assunzione</label>
+          <input class="fi" id="f-hiredate" type="date" onchange="updateAddDateCalc()">
+          <div class="date-calc" id="f-sen-calc"></div>
+        </div>
         <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="f-ral" type="number" placeholder="40000" min="0"></div>
-        <div class="fg"><label class="fl">RAL benchmark (€)</label><input class="fi" id="f-mkt" type="number" placeholder="46000" min="0"></div>
+        <div class="fg">
+          <label class="fl" style="display:flex;align-items:center;justify-content:space-between">
+            <span>RAL benchmark (€)</span>
+            <span id="f-mkt-src" style="font-size:9px;color:var(--ink4)"></span>
+          </label>
+          <input class="fi" id="f-mkt" type="number" placeholder="es. 46000" min="0">
+          <div id="f-mkt-hint" style="font-size:10px;color:var(--ink4);margin-top:4px"></div>
+        </div>
         <div class="fg"><label class="fl">Performance (1–5)</label><input class="fi" id="f-perf" type="number" min="1" max="5" placeholder="3"></div>
         <div class="fg"><label class="fl">Soddisfazione (1–5)</label><input class="fi" id="f-sat" type="number" min="1" max="5" placeholder="3"></div>
         <div class="fg"><label class="fl">Contratto</label><select class="fs" id="f-contract"><option value="indeterminato">Tempo indeterminato</option><option value="determinato">Tempo determinato</option><option value="apprendistato">Apprendistato</option><option value="consulenza">Consulenza / P.IVA</option></select></div>
@@ -496,10 +545,27 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
       <div class="fg2">
         <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="e-name" type="text" autocomplete="off"></div>
         <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="e-role" type="text" autocomplete="off"></div>
-        <div class="fg"><label class="fl">Età</label><input class="fi" id="e-age" type="number" min="18" max="70"></div>
-        <div class="fg"><label class="fl">Anzianità (anni)</label><input class="fi" id="e-sen" type="number" step="0.5" min="0" max="50"></div>
+        <div class="fg">
+          <label class="fl">Data di nascita</label>
+          <input class="fi" id="e-birthdate" type="date" onchange="updateEditDateCalc()">
+          <div class="date-calc" id="e-age-calc"></div>
+        </div>
+        <div class="fg">
+          <label class="fl">Data di assunzione</label>
+          <input class="fi" id="e-hiredate" type="date" onchange="updateEditDateCalc()">
+          <div class="date-calc" id="e-sen-calc"></div>
+        </div>
         <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="e-ral" type="number" min="0"></div>
-        <div class="fg"><label class="fl">RAL benchmark (€)</label><input class="fi" id="e-mkt" type="number" min="0"></div>
+        <div class="fg">
+          <label class="fl" style="display:flex;align-items:center;justify-content:space-between">
+            <span>RAL benchmark (€)</span>
+            <span id="e-mkt-badge" style="display:none;font-size:9px;padding:1px 7px;border-radius:10px;background:var(--blue-bg);color:var(--blue);font-weight:500;letter-spacing:.04em">Override attivo</span>
+          </label>
+          <div style="position:relative">
+            <input class="fi" id="e-mkt" type="number" min="0" oninput="onEditMktInput()">
+            <div id="e-mkt-hint" style="font-size:10px;color:var(--ink4);margin-top:4px"></div>
+          </div>
+        </div>
         <div class="fg"><label class="fl">Performance (1–5)</label><input class="fi" id="e-perf" type="number" min="1" max="5"></div>
         <div class="fg"><label class="fl">Soddisfazione (1–5)</label><input class="fi" id="e-sat" type="number" min="1" max="5"></div>
         <div class="fg"><label class="fl">Contratto</label><select class="fs" id="e-contract"><option value="indeterminato">Tempo indeterminato</option><option value="determinato">Tempo determinato</option><option value="apprendistato">Apprendistato</option><option value="consulenza">Consulenza / P.IVA</option></select></div>
@@ -559,24 +625,78 @@ const AC=[
 ];
 
 let employees=[
-  {id:1,name:"Giulia Ferretti",role:"Senior Developer",age:34,seniority:6,ral:52000,market:64000,hours:8,perf:5,sat:2,contract:"indeterminato",critical:"si",skills:["React","Node.js","AWS","Leadership"],notes:"Ha partecipato a colloquio esterno a gennaio",assessment:null},
-  {id:2,name:"Marco Bianchi",role:"Sales Manager",age:41,seniority:8,ral:58000,market:67000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["CRM","Negoziazione","Team Management"],notes:"",assessment:null},
-  {id:3,name:"Sofia Ricci",role:"UX Designer",age:28,seniority:1.5,ral:30000,market:40000,hours:6,perf:4,sat:2,contract:"determinato",critical:"no",skills:["Figma","User Research","Prototipazione"],notes:"Contratto in scadenza tra 4 mesi — orario ridotto 6h",assessment:null},
-  {id:4,name:"Luca Moretti",role:"CFO",age:52,seniority:12,ral:95000,market:112000,hours:8,perf:5,sat:4,contract:"indeterminato",critical:"si",skills:["Finance","M&A","Strategy"],notes:"",assessment:null},
-  {id:5,name:"Elena Conti",role:"Marketing Manager",age:31,seniority:3,ral:36000,market:40000,hours:8,perf:3,sat:3,contract:"indeterminato",critical:"no",skills:["Digital Marketing","SEO","Brand"],notes:"",assessment:null},
-  {id:6,name:"Andrea Costa",role:"DevOps Engineer",age:37,seniority:4,ral:48000,market:58000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["AWS","Docker","Kubernetes"],notes:"",assessment:null},
-  {id:7,name:"Martina Villa",role:"HR Specialist",age:29,seniority:2,ral:32000,market:35000,hours:6,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["Recruiting","L&D","Compliance"],notes:"Part-time 6h concordato",assessment:null},
-  {id:8,name:"Roberto Galli",role:"Account Executive",age:45,seniority:7,ral:55000,market:59000,hours:8,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["B2B Sales","Retail"],notes:"",assessment:null},
-  {id:9,name:"Chiara Russo",role:"Data Analyst",age:26,seniority:1,ral:28000,market:36000,hours:8,perf:4,sat:3,contract:"apprendistato",critical:"no",skills:["SQL","Python","Power BI"],notes:"Fine apprendistato tra 6 mesi",assessment:null},
-  {id:10,name:"Davide Marini",role:"Product Manager",age:38,seniority:5,ral:60000,market:70000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["Product Strategy","Agile","Stakeholder"],notes:"",assessment:null},
-  {id:11,name:"Francesca Bruno",role:"Customer Care Lead",age:33,seniority:4,ral:28000,market:30000,hours:4,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["CX","Training"],notes:"Part-time 4h",assessment:null},
-  {id:12,name:"Simone Ferrari",role:"CTO",age:44,seniority:9,ral:88000,market:108000,hours:8,perf:5,sat:3,contract:"indeterminato",critical:"si",skills:["Tech Vision","Cloud","Leadership"],notes:"Riceve headhunter mensilmente",assessment:null},
+  {id:1,name:"Giulia Ferretti",role:"Senior Developer",birthdate:"1991-06-15",hiredate:"2019-02-01",age:34,seniority:6,ral:52000,market:64000,hours:8,perf:5,sat:2,contract:"indeterminato",critical:"si",skills:["React","Node.js","AWS","Leadership"],notes:"Ha partecipato a colloquio esterno a gennaio",assessment:null},
+  {id:2,name:"Marco Bianchi",role:"Sales Manager",birthdate:"1984-11-20",hiredate:"2017-10-01",age:41,seniority:8,ral:58000,market:67000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["CRM","Negoziazione","Team Management"],notes:"",assessment:null},
+  {id:3,name:"Sofia Ricci",role:"UX Designer",birthdate:"1997-03-08",hiredate:"2024-08-01",age:28,seniority:1.5,ral:30000,market:40000,hours:6,perf:4,sat:2,contract:"determinato",critical:"no",skills:["Figma","User Research","Prototipazione"],notes:"Contratto in scadenza tra 4 mesi — orario ridotto 6h",assessment:null},
+  {id:4,name:"Luca Moretti",role:"CFO",birthdate:"1973-09-25",hiredate:"2013-05-01",age:52,seniority:12,ral:95000,market:112000,hours:8,perf:5,sat:4,contract:"indeterminato",critical:"si",skills:["Finance","M&A","Strategy"],notes:"",assessment:null},
+  {id:5,name:"Elena Conti",role:"Marketing Manager",birthdate:"1994-07-14",hiredate:"2022-11-01",age:31,seniority:3,ral:36000,market:40000,hours:8,perf:3,sat:3,contract:"indeterminato",critical:"no",skills:["Digital Marketing","SEO","Brand"],notes:"",assessment:null},
+  {id:6,name:"Andrea Costa",role:"DevOps Engineer",birthdate:"1988-12-03",hiredate:"2021-06-01",age:37,seniority:4,ral:48000,market:58000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["AWS","Docker","Kubernetes"],notes:"",assessment:null},
+  {id:7,name:"Martina Villa",role:"HR Specialist",birthdate:"1996-04-22",hiredate:"2023-10-01",age:29,seniority:2,ral:32000,market:35000,hours:6,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["Recruiting","L&D","Compliance"],notes:"Part-time 6h concordato",assessment:null},
+  {id:8,name:"Roberto Galli",role:"Account Executive",birthdate:"1980-02-17",hiredate:"2018-07-01",age:45,seniority:7,ral:55000,market:59000,hours:8,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["B2B Sales","Retail"],notes:"",assessment:null},
+  {id:9,name:"Chiara Russo",role:"Data Analyst",birthdate:"1999-08-30",hiredate:"2025-01-15",age:26,seniority:1,ral:28000,market:36000,hours:8,perf:4,sat:3,contract:"apprendistato",critical:"no",skills:["SQL","Python","Power BI"],notes:"Fine apprendistato tra 6 mesi",assessment:null},
+  {id:10,name:"Davide Marini",role:"Product Manager",birthdate:"1987-05-11",hiredate:"2020-09-01",age:38,seniority:5,ral:60000,market:70000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["Product Strategy","Agile","Stakeholder"],notes:"",assessment:null},
+  {id:11,name:"Francesca Bruno",role:"Customer Care Lead",birthdate:"1992-10-05",hiredate:"2021-04-01",age:33,seniority:4,ral:28000,market:30000,hours:4,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["CX","Training"],notes:"Part-time 4h",assessment:null},
+  {id:12,name:"Simone Ferrari",role:"CTO",birthdate:"1981-01-28",hiredate:"2016-03-01",age:44,seniority:9,ral:88000,market:108000,hours:8,perf:5,sat:3,contract:"indeterminato",critical:"si",skills:["Tech Vision","Cloud","Leadership"],notes:"Riceve headhunter mensilmente",assessment:null},
 ];
 
 const aviColors=['#C9A96E','#A86FAA','#4A7FC1','#4AAA78','#C0643C','#6A7FC0','#B0955A','#4A9AA8'];
+
+// Global benchmark table: role → market RAL (8h FT reference)
+// Auto-populated from employee data on first load, editable by user
+let benchmarkTable = {};
+
+function initBenchmarkTable(){
+  // Seed from employee market values (average per role) if not already set
+  employees.forEach(e=>{
+    if(!benchmarkTable[e.role]){
+      const same = employees.filter(x=>x.role===e.role);
+      benchmarkTable[e.role] = Math.round(same.reduce((a,x)=>a+x.market,0)/same.length);
+    }
+  });
+}
+
+// Get benchmark for a role (falls back to employee's own market value)
+function getBenchmarkForRole(role, fallback){
+  return benchmarkTable[role] || fallback || 40000;
+}
 function avi(e,sz=30,fs=10){const c=aviColors[e.id%aviColors.length],ini=e.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();return`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${c}22;color:${c};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:500;font-family:var(--serif);flex-shrink:0">${ini}</div>`;}
 function fmt(n){return'€'+(n/1000).toFixed(0)+'k';}
 function fmt2(n){return'€'+Math.round(n).toLocaleString('it');}
+// Calculate age in completed years from birthdate string (YYYY-MM-DD)
+function calcAge(birthdate){
+  if(!birthdate) return null;
+  var bd = new Date(birthdate);
+  if(isNaN(bd)) return null;
+  var today = new Date();
+  var age = today.getFullYear() - bd.getFullYear();
+  var m = today.getMonth() - bd.getMonth();
+  if(m < 0 || (m === 0 && today.getDate() < bd.getDate())) age--;
+  return age;
+}
+
+// Calculate seniority in decimal years from hiredate string (YYYY-MM-DD)
+function calcSeniority(hiredate){
+  if(!hiredate) return null;
+  var hd = new Date(hiredate);
+  if(isNaN(hd)) return null;
+  var today = new Date();
+  var ms = today - hd;
+  if(ms < 0) return 0;
+  return Math.round(ms / (1000 * 60 * 60 * 24 * 365.25) * 10) / 10;
+}
+
+// Format date YYYY-MM-DD → DD/MM/YYYY for display
+function fmtDate(d){
+  if(!d) return '—';
+  var p = d.split('-');
+  return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : d;
+}
+
+// Get effective age: compute from birthdate if available, else use stored age
+function getAge(e){ return (e.birthdate ? calcAge(e.birthdate) : null) || e.age || 30; }
+// Get effective seniority: compute from hiredate if available, else use stored seniority
+function getSeniority(e){ return (e.hiredate ? calcSeniority(e.hiredate) : null) ?? e.seniority ?? 1; }
+
 // RAL normalizzata su 8h/gg (Full-Time Equivalent)
 function ralFTE(e){const h=e.hours||8;return h===8?e.ral:Math.round(e.ral*(8/h));}
 // Gap calcolato su RAL FTE vs benchmark (benchmark sempre riferito a 8h)
@@ -586,14 +706,16 @@ function gapNominal(e){return Math.round((e.market-e.ral)/e.market*100);}
 
 function calcRisk(e){
   let s=0;
-  // Gap calcolato su RAL FTE (normalizzata a 8h) vs benchmark
+  // Use employee's own market (override) or global benchmark for the role
+  const effectiveMkt = (e.marketOverride || !benchmarkTable[e.role]) ? e.market : benchmarkTable[e.role];
   const fte=ralFTE(e);
-  const g=(e.market-fte)/e.market;
+  const g=(effectiveMkt-fte)/effectiveMkt;
   if(g>.25)s+=35;else if(g>.15)s+=25;else if(g>.08)s+=15;else if(g>.03)s+=8;
+  var _age=getAge(e), _sen=getSeniority(e);
   if(e.sat<=1)s+=30;else if(e.sat===2)s+=22;else if(e.sat===3)s+=10;
   if(e.perf>=4&&e.sat<=3)s+=12;
-  if(e.seniority<1.5)s+=18;else if(e.seniority<3)s+=10;else if(e.seniority>8)s+=5;
-  if(e.age<30)s+=8;else if(e.age>45&&e.age<55)s+=5;
+  if(_sen<1.5)s+=18;else if(_sen<3)s+=10;else if(_sen>8)s+=5;
+  if(_age<30)s+=8;else if(_age>45&&_age<55)s+=5;
   if(e.contract==='determinato')s+=10;else if(e.contract==='apprendistato')s+=8;
   if(e.critical==='si')s=Math.round(s*1.15);
   if(e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter')))s+=15;
@@ -619,7 +741,7 @@ function rowsHTML(data){
     return`<div class="tbl-row" onclick="openDetail(${e.id})">
       <div class="emp-wrap">${avi(e,30,10)}<div><div class="emp-nm">${e.name}</div><div class="emp-jt">${e.role}</div></div></div>
       <div class="cell-mu">${e.age}</div>
-      <div class="cell-mu">${e.seniority}a</div>
+      <div class="cell-mu">${getSeniority(e)}a</div>
       <div class="cell-sm">${fmt(e.ral)}</div>
       <div class="cell-sm"><span style="color:${gc};font-weight:${g>7?500:400}">+${g}%</span>${hrs!==8?'<span style="margin-left:4px;font-size:9px;color:var(--blue);background:var(--blue-bg);padding:1px 5px;border-radius:3px;font-weight:500">'+hrs+'h</span>':''}</div>
       <div><span class="pill ${r.cls}">${r.lbl}</span></div>
@@ -660,7 +782,7 @@ function openDetail(id){
   dpAvi.style.cssText=`width:52px;height:52px;border-radius:50%;background:${ac}22;color:${ac};display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0`;
   dpAvi.textContent=ini;
   document.getElementById('dp-name').textContent=currentEmp.name;
-  document.getElementById('dp-role').textContent=currentEmp.role+' · '+currentEmp.seniority+' anni';
+  document.getElementById('dp-role').textContent=currentEmp.role+' · '+getSeniority(currentEmp)+' anni';
   document.getElementById('dp-risk-num').textContent=s;
   document.getElementById('dp-risk-num').style.color=r.c;
   document.getElementById('dp-risk-bar').style.cssText=`width:${s}%;background:${r.c}`;
@@ -694,6 +816,12 @@ function renderProfile(e,g,c){
   var oreLabel=h===8?'Full-time standard':h>=6?'Part-time parziale':'Part-time ridotto';
   var oreColor=h!==8?'var(--blue)':'var(--ink)';
   var benchColor=g>10?'var(--red)':'var(--ink)';
+  var effMkt=effectiveBenchmark(e);
+  var globalBv = benchmarkTable[e.role] || null;
+  var isOverride = e.marketOverride && globalBv && e.market !== globalBv;
+  var benchLabel = 'Benchmark (8h FT)'+(isOverride
+    ? '<span style="margin-left:5px;font-size:9px;padding:1px 6px;border-radius:8px;background:var(--gold-light);color:var(--gold);font-weight:500">Override</span>'
+    : globalBv ? '' : '');
 
   var gapTitle='Gap retributivo'+(h!==8?' <span style="color:var(--blue);font-size:9px">&nbsp;&middot; Orario '+h+'h</span>':'');
 
@@ -715,7 +843,7 @@ function renderProfile(e,g,c){
 
   var gapLabel=h!==8?'RAL FTE: ':'Attuale: ';
   var gapColor=g>10?'var(--red)':'var(--ink3)';
-  var barWidth=Math.round(fte/e.market*100);
+  var barWidth=Math.round(fte/effectiveBenchmark(e)*100);
 
   var notesHtml=e.notes
     ?'<div class="dp-sec"><div class="dp-sec-t">Note e segnali</div>'
@@ -725,11 +853,11 @@ function renderProfile(e,g,c){
   c.innerHTML=
     '<div class="dp-sec"><div class="dp-sec-t">Dati anagrafici e contrattuali</div>'
     +'<div class="kv2">'
-    +'<div class="kv-i"><div class="kv-k">Et\u00e0</div><div class="kv-v">'+e.age+' anni</div></div>'
-    +'<div class="kv-i"><div class="kv-k">Anzianit\u00e0</div><div class="kv-v">'+e.seniority+' anni</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Et\u00e0</div><div class="kv-v">'+getAge(e)+' anni</div>'+(e.birthdate?'<div class="kv-n">Nato il '+fmtDate(e.birthdate)+'</div>':'')+'</div>'
+    +'<div class="kv-i"><div class="kv-k">Anzianit\u00e0</div><div class="kv-v">'+getSeniority(e)+' anni</div>'+(e.hiredate?'<div class="kv-n">In azienda dal '+fmtDate(e.hiredate)+'</div>':'')+'</div>'
     +'<div class="kv-i"><div class="kv-k">RAL attuale</div><div class="kv-v">'+fmt(e.ral)+'</div><div class="kv-n">'+ralNote+'</div></div>'
     +'<div class="kv-i"><div class="kv-k">Ore/giorno</div><div class="kv-v" style="color:'+oreColor+'">'+h+'h</div><div class="kv-n">'+oreLabel+'</div></div>'
-    +'<div class="kv-i"><div class="kv-k">Benchmark (8h FT)</div><div class="kv-v" style="color:'+benchColor+'">'+fmt(e.market)+'</div></div>'
+    +'<div class="kv-i"><div class="kv-k">Benchmark (8h FT)</div><div class="kv-v" style="color:'+benchColor+'">'+fmt(effMkt)+'</div></div>'
     +'<div class="kv-i"><div class="kv-k">Performance</div><div class="kv-v" style="font-size:14px">'+'★'.repeat(e.perf)+'☆'.repeat(5-e.perf)+'</div></div>'
     +'<div class="kv-i"><div class="kv-k">Soddisfazione</div><div class="kv-v" style="font-size:14px">'+'★'.repeat(e.sat)+'☆'.repeat(5-e.sat)+'</div></div>'
     +'<div class="kv-i"><div class="kv-k">Contratto</div><div class="kv-v" style="font-size:12px">'+e.contract+'</div></div>'
@@ -742,18 +870,18 @@ function renderProfile(e,g,c){
     +'<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:8px">'
     +'<span>'+gapLabel+'<strong style="color:var(--ink)">'+fmt(fte)+'</strong></span>'
     +'<span style="color:'+gapColor+'">Gap FTE: +'+g+'%</span>'
-    +'<span>Mercato: <strong style="color:var(--ink)">'+fmt(e.market)+'</strong></span>'
+    +'<span>Mercato: <strong style="color:var(--ink)">'+fmt(effectiveBenchmark(e))+'</strong></span>'
     +'</div>'
     +'<div style="height:6px;background:var(--cream3);border-radius:3px;overflow:hidden">'
     +'<div style="height:100%;width:'+barWidth+'%;background:var(--blue);border-radius:3px;transition:width .4s"></div></div>'
     +'<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">'
-    +'<span>'+fmt(fte)+'</span><span>100% = '+fmt(e.market)+'</span></div>'
+    +'<span>'+fmt(fte)+'</span><span>100% = '+fmt(effectiveBenchmark(e))+(isOverride?' (override)':globalBv?' (globale)':'')+'</span></div>'
     +'</div>'
     +notesHtml;
 }
 
 function renderRisk(e,s,r,g,c){
-  const gfte=gap(e);const factors=[{l:'Gap RAL (FTE normalizzata)',v:Math.min(Math.round(gfte*1.5),38),c:'var(--red)'},{l:'Soddisfazione bassa',v:Math.round((5-e.sat)/4*32),c:'var(--amber)'},{l:'Top performer insoddisfatto',v:e.perf>=4&&e.sat<=3?15:3,c:'#553B9A'},{l:'Anzianità breve',v:e.seniority<2?18:e.seniority<3?10:3,c:'var(--blue)'},{l:'Contratto non stabile',v:e.contract!=='indeterminato'?12:2,c:'var(--amber)'},{l:'Segnali attivi (note)',v:e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter'))?18:0,c:'var(--red)'}];
+  const gfte=gap(e);const mktLbl='Benchmark '+(e.marketOverride?'(override)':'(globale)');const factors=[{l:'Gap RAL — '+mktLbl,v:Math.min(Math.round(gfte*1.5),38),c:'var(--red)'},{l:'Soddisfazione bassa',v:Math.round((5-e.sat)/4*32),c:'var(--amber)'},{l:'Top performer insoddisfatto',v:e.perf>=4&&e.sat<=3?15:3,c:'#553B9A'},{l:'Anzianità breve',v:e.seniority<2?18:e.seniority<3?10:3,c:'var(--blue)'},{l:'Contratto non stabile',v:e.contract!=='indeterminato'?12:2,c:'var(--amber)'},{l:'Segnali attivi (note)',v:e.notes&&(e.notes.toLowerCase().includes('colloquio')||e.notes.toLowerCase().includes('headhunter'))?18:0,c:'var(--red)'}];
   c.innerHTML=`
     <div style="text-align:center;background:var(--cream);border:1px solid var(--border);border-radius:var(--rlg);padding:20px;margin-bottom:18px">
     <div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Indice di rischio uscita</div>
@@ -938,25 +1066,112 @@ function asmNext(){
 }
 function asmPrev(){if(asmCatIdx>0){asmCatIdx--;renderAsmStep();}}
 
+var _benchAllRoles = [];  // populated by renderBenchmark, used by updateBenchmarkByIdx
+
 function renderBenchmark(){
-  const roles=[...new Set(employees.map(e=>e.role))];
-  document.getElementById('benchContent').innerHTML=`
-    <div style="font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px">Confronto RAL per ruolo vs benchmark di mercato</div>
-    <div class="bench-grid">${roles.map(role=>{
-      const emps=employees.filter(e=>e.role===role);
-      const avgRal=Math.round(emps.reduce((a,e)=>a+e.ral,0)/emps.length);
-      const avgMkt=Math.round(emps.reduce((a,e)=>a+e.market,0)/emps.length);
-      const pct=Math.round(avgRal/avgMkt*100);
-      const fc=pct<85?'var(--red)':pct<93?'var(--amber)':'var(--green)';
-      const avgS=Math.round(emps.reduce((a,e)=>a+calcRisk(e),0)/emps.length);
-      const r=riskInfo(avgS);
-      return`<div class="bench-card">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px"><div><div class="bench-role">${role}</div><div class="bench-ct">${emps.length} persona${emps.length>1?'e':''}</div></div><span class="pill ${r.cls}" style="font-size:9px">Risk ${avgS}</span></div>
-        <div class="bench-trio"><div class="bt-item"><div class="bt-val">${fmt(avgRal)}</div><div class="bt-lbl">RAL media</div></div><div class="bt-item"><div class="bt-val">${fmt(avgMkt)}</div><div class="bt-lbl">Benchmark</div></div><div class="bt-item"><div class="bt-val" style="color:${fc}">${pct}%</div><div class="bt-lbl">Copertura</div></div></div>
-        <div class="bench-bar-t"><div class="bench-bar-f" style="width:${Math.min(pct,100)}%;background:${fc}"></div></div>
-        <div class="bench-bar-leg"><span>${fmt(avgRal)}</span><span>100% = ${fmt(avgMkt)}</span></div>
-      </div>`;
-    }).join('')}</div>`;
+  // Merge: all roles from employees + any custom roles in benchmarkTable
+  const empRoles = [...new Set(employees.map(e=>e.role))];
+  const allRoles = [...new Set([...empRoles, ...Object.keys(benchmarkTable)])].sort();
+  _benchAllRoles = allRoles;
+
+  // Build editor rows
+  var editorRows = allRoles.map(function(role, idx){
+    const bv = benchmarkTable[role] || '';
+    const emps = employees.filter(e=>e.role===role);
+    const sub = emps.length > 0
+      ? emps.length + ' collaborator' + (emps.length>1?'i':'e')
+      : 'Nessun collaboratore';
+    const avgRal = emps.length > 0 ? Math.round(emps.reduce((a,e)=>a+ralFTE(e),0)/emps.length) : null;
+    const gap = (bv && avgRal) ? Math.round((bv-avgRal)/bv*100) : null;
+    const gapColor = gap===null?'var(--ink4)':gap>15?'var(--red)':gap>7?'var(--amber)':'var(--green)';
+    const gapTxt = gap===null ? '—' : (gap>0?'+':'')+gap+'%';
+    const inputId = 'bench-inp-'+idx;
+    return '<div class="bench-row">'
+      +'<div><div class="bench-row-role">'+role+'</div><div class="bench-row-sub">'+sub+(avgRal?' &middot; RAL FTE media: '+fmt(avgRal):'')+'</div></div>'
+      +'<input class="bench-inp" id="'+inputId+'" type="number" min="0" step="500" value="'+(bv||'')+'" placeholder="es. 48000"'
+      +' data-role="'+idx+'" onchange="updateBenchmarkByIdx('+idx+',this.value)" oninput="updateBenchmarkByIdx('+idx+',this.value)">'
+      +'<div style="font-size:11px;color:var(--ink4);text-align:center">'+(bv?fmt(bv):'—')+'</div>'
+      +'<div style="font-size:11px;color:'+gapColor+';text-align:center;font-weight:500">'+gapTxt+'</div>'
+      +'</div>';
+  }).join('');
+
+  // Build summary cards (only roles with employees)
+  var cards = empRoles.map(function(role){
+    const emps = employees.filter(e=>e.role===role);
+    const avgFTE = Math.round(emps.reduce((a,e)=>a+ralFTE(e),0)/emps.length);
+    const mkt = benchmarkTable[role] || Math.round(emps.reduce((a,e)=>a+e.market,0)/emps.length);
+    const pct = Math.round(avgFTE/mkt*100);
+    const fc = pct<85?'var(--red)':pct<93?'var(--amber)':'var(--green)';
+    const avgS = Math.round(emps.reduce((a,e)=>a+calcRisk(e),0)/emps.length);
+    const r = riskInfo(avgS);
+    const hasCust = !!benchmarkTable[role];
+    return '<div class="bench-card">'
+      +'<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">'
+      +'<div><div class="bench-role">'+role+'</div>'
+      +'<div class="bench-ct">'+emps.length+' persona'+(emps.length>1?'e:':'e')+' · '+(hasCust?'<span style="color:var(--gold)">benchmark personalizzato</span>':'benchmark medio')+'</div></div>'
+      +'<span class="pill '+r.cls+'" style="font-size:9px">Risk '+avgS+'</span></div>'
+      +'<div class="bench-trio">'
+      +'<div class="bt-item"><div class="bt-val">'+fmt(avgFTE)+'</div><div class="bt-lbl">RAL FTE media</div></div>'
+      +'<div class="bt-item"><div class="bt-val">'+fmt(mkt)+'</div><div class="bt-lbl">Benchmark</div></div>'
+      +'<div class="bt-item"><div class="bt-val" style="color:'+fc+'">'+pct+'%</div><div class="bt-lbl">Copertura</div></div>'
+      +'</div>'
+      +'<div class="bench-bar-t"><div class="bench-bar-f" style="width:'+Math.min(pct,100)+'%;background:'+fc+'"></div></div>'
+      +'<div class="bench-bar-leg"><span>'+fmt(avgFTE)+'</span><span>100% = '+fmt(mkt)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.getElementById('benchContent').innerHTML =
+    '<div class="bench-editor">'
+    +'<div class="bench-editor-hd">'
+    +'<div><div class="bench-editor-t">Tabella Benchmark per Ruolo</div>'
+    +'<div class="bench-editor-sub">Imposta la RAL di riferimento di mercato (8h FT) per ogni ruolo. Usata come default nei nuovi inserimenti.</div></div>'
+    +'<button class="btn btn-gold" onclick="addBenchmarkRole()" style="font-size:10px;white-space:nowrap">'
+    +'<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
+    +' Aggiungi ruolo</button>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 140px 100px 80px;padding:7px 18px;background:var(--cream);border-bottom:1px solid var(--border)">'
+    +'<div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;font-weight:500">Ruolo</div>'
+    +'<div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;font-weight:500;text-align:right">Benchmark RAL (€)</div>'
+    +'<div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;font-weight:500;text-align:center">Valore</div>'
+    +'<div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;font-weight:500;text-align:center">Gap FTE</div>'
+    +'</div>'
+    + editorRows
+    +'</div>'
+    +'<div style="font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px">Analisi per ruolo</div>'
+    +'<div class="bench-grid">'+cards+'</div>';
+}
+
+function updateBenchmark(role, rawVal){
+  const v = parseInt(rawVal);
+  if(!isNaN(v) && v > 0){
+    benchmarkTable[role] = v;
+    markUnsaved();
+  } else if(rawVal === '' || rawVal === '0'){
+    delete benchmarkTable[role];
+    markUnsaved();
+  }
+  updateStats();
+  renderTable();
+  renderTable2();
+}
+
+function updateBenchmarkByIdx(idx, rawVal){
+  const role = _benchAllRoles[idx];
+  if(!role) return;
+  updateBenchmark(role, rawVal);
+}
+
+function addBenchmarkRole(){
+  const role = prompt('Nome del ruolo da aggiungere al benchmark:');
+  if(!role || !role.trim()) return;
+  const r = role.trim();
+  if(benchmarkTable[r] !== undefined){ showNotif('Ruolo già presente','error'); return; }
+  const val = parseInt(prompt('RAL benchmark per "'+r+'" (€):'));
+  if(isNaN(val) || val <= 0){ showNotif('Valore non valido','error'); return; }
+  benchmarkTable[r] = val;
+  markUnsaved();
+  renderBenchmark();
+  showNotif('✓ Ruolo "'+r+'" aggiunto al benchmark','success');
 }
 
 function showView(v){
@@ -970,13 +1185,68 @@ function showView(v){
 }
 function filterByRisk(level){showView('team');document.getElementById('tableBody2').innerHTML=rowsHTML(employees.filter(e=>{const s=calcRisk(e);if(level==='alto')return s>=60;if(level==='medio')return s>=35&&s<60;return s<35;}));}
 
+function autofillBenchmark(role){
+  if(!role || !role.trim()) return;
+  const bv = getBenchmarkForRole(role.trim(), null);
+  const srcEl = document.getElementById('f-mkt-src');
+  const hintEl = document.getElementById('f-mkt-hint');
+  const inp = document.getElementById('f-mkt');
+  if(bv){
+    if(inp && (!inp.value || inp.value === '0')){
+      inp.value = bv;
+      inp.style.borderColor = 'var(--blue)';
+      setTimeout(()=>{inp.style.borderColor='';}, 1800);
+    }
+    if(srcEl) srcEl.textContent = 'da benchmark globale';
+    if(hintEl) hintEl.innerHTML = 'Benchmark globale per "'+role.trim()+'": <strong>'+fmt(bv)+'</strong> · Modifica il valore per impostare un override.';
+  } else {
+    if(srcEl) srcEl.textContent = '';
+    if(hintEl) hintEl.textContent = '';
+  }
+}
+
+function onEditMktInput(){
+  if(!currentEmp) return;
+  var inp = document.getElementById('e-mkt');
+  var badge = document.getElementById('e-mkt-badge');
+  var hint = document.getElementById('e-mkt-hint');
+  var globalBv = benchmarkTable[currentEmp.role] || null;
+  var val = parseInt(inp.value);
+  var isOverride = globalBv && !isNaN(val) && val !== globalBv;
+  if(badge) badge.style.display = isOverride ? 'inline' : 'none';
+  if(hint && globalBv){
+    hint.innerHTML = 'Benchmark globale: <strong>'+fmt(globalBv)+'</strong>'
+      +(isOverride ? ' &mdash; <span style="color:var(--blue)">override: '+fmt(val)+'</span>' : ' &mdash; allineato');
+  }
+}
+
+function updateAddDateCalc(){
+  var bd = document.getElementById('f-birthdate').value;
+  var hd = document.getElementById('f-hiredate').value;
+  var ageEl = document.getElementById('f-age-calc');
+  var senEl = document.getElementById('f-sen-calc');
+  if(ageEl) ageEl.textContent = bd ? calcAge(bd)+' anni' : '';
+  if(senEl) senEl.textContent = hd ? calcSeniority(hd)+' anni di anzianità' : '';
+}
+
+function updateEditDateCalc(){
+  var bd = document.getElementById('e-birthdate').value;
+  var hd = document.getElementById('e-hiredate').value;
+  var ageEl = document.getElementById('e-age-calc');
+  var senEl = document.getElementById('e-sen-calc');
+  if(ageEl) ageEl.textContent = bd ? calcAge(bd)+' anni' : '';
+  if(senEl) senEl.textContent = hd ? calcSeniority(hd)+' anni di anzianità' : '';
+}
+
 function openAddModal(){
   // Reset all fields before opening
-  ['f-name','f-role','f-age','f-sen','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>{
+  ['f-name','f-role','f-birthdate','f-hiredate','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.value='';
   });
   document.getElementById('f-contract').value='indeterminato';
+  var ac=document.getElementById('f-age-calc'); if(ac) ac.textContent='';
+  var sc=document.getElementById('f-sen-calc'); if(sc) sc.textContent='';
   document.getElementById('f-hours').value='8';
   document.getElementById('f-critical').value='no';
   document.getElementById('addModal').classList.add('open');
@@ -1000,14 +1270,19 @@ function saveEmployee(){
   if(ral<=0){showNotif('Inserisci la RAL attuale','error');return;}
   if(mkt<=0){showNotif('Inserisci il benchmark di mercato','error');return;}
 
+  const bdate=getVal('f-birthdate','');
+  const hdate=getVal('f-hiredate','');
   const newEmp={
     id:Date.now(),
     name,
     role:getVal('f-role','N/D')||'N/D',
-    age:Math.max(18,getInt('f-age',35)),
-    seniority:Math.max(0,getFloat('f-sen',1)),
+    birthdate:bdate||null,
+    hiredate:hdate||null,
+    age:bdate?calcAge(bdate):Math.max(18,getInt('f-age',35)),
+    seniority:hdate?calcSeniority(hdate):Math.max(0,getFloat('f-sen',1)),
     ral,
     market:mkt,
+    marketOverride:benchmarkTable[getVal('f-role','')] ? mkt !== benchmarkTable[getVal('f-role','')] : true,
     hours:Math.min(8,Math.max(1,getInt('f-hours',8))),
     perf,
     sat,
@@ -1094,14 +1369,17 @@ function importCSV(ev){
         const skillsRaw=g(10,'');
         const skills=skillsRaw?skillsRaw.split('|').map(function(s){return s.trim();}).filter(Boolean):[];
 
-        // New col layout: 0=Nome,1=Ruolo,2=Eta,3=Anzianita,4=RAL,5=Benchmark,6=OrarioGiornaliero,7=Performance,8=Soddisfazione,9=Contratto,10=Critico,11=Skills,12=Note
+        // Col layout: 0=Nome,1=Ruolo,2=DataNascita,3=DataAssunzione,4=RAL,5=Benchmark,6=OrarioGiornaliero,7=Performance,8=Soddisfazione,9=Contratto,10=Critico,11=Skills,12=Note
         const rawHours=gi(6,8);
+        const bd=g(2,''); const hd=g(3,'');
         employees.push({
           id:Date.now()+Math.random(),
           name:name,
           role:g(1,'N/D')||'N/D',
-          age:Math.max(18,gi(2,30)),
-          seniority:Math.max(0,gf(3,1)),
+          birthdate:bd&&bd.match(/^\d{4}-\d{2}-\d{2}$/)?bd:null,
+          hiredate:hd&&hd.match(/^\d{4}-\d{2}-\d{2}$/)?hd:null,
+          age:bd?calcAge(bd):30,
+          seniority:hd?calcSeniority(hd):1,
           ral:Math.max(0,gi(4,30000)),
           market:Math.max(0,gi(5,35000)),
           hours:Math.min(8,Math.max(1,isNaN(rawHours)?8:rawHours)),
@@ -1135,9 +1413,9 @@ function importCSV(ev){
 // Export template CSV so users know the exact format
 function downloadTemplate(){
   const sep=',';
-  const header='Nome'+sep+'Ruolo'+sep+'Eta'+sep+'Anzianita'+sep+'RAL'+sep+'Benchmark'+sep+'OrarioGiornaliero'+sep+'Performance'+sep+'Soddisfazione'+sep+'Contratto'+sep+'Critico'+sep+'Skills'+sep+'Note';
-  const example1='"Mario Rossi"'+sep+'"Senior Developer"'+sep+'34'+sep+'5'+sep+'48000'+sep+'58000'+sep+'8'+sep+'4'+sep+'3'+sep+'indeterminato'+sep+'si'+sep+'"React|Node.js|AWS"'+sep+'"Colloquio esterno a gennaio"';
-  const example2='"Anna Bianchi"'+sep+'"UX Designer"'+sep+'29'+sep+'2'+sep+'31000'+sep+'40000'+sep+'6'+sep+'4'+sep+'2'+sep+'determinato'+sep+'no'+sep+'"Figma|User Research"'+sep+'"Contratto in scadenza - orario ridotto"';
+  const header='Nome'+sep+'Ruolo'+sep+'DataNascita'+sep+'DataAssunzione'+sep+'RAL'+sep+'Benchmark'+sep+'OrarioGiornaliero'+sep+'Performance'+sep+'Soddisfazione'+sep+'Contratto'+sep+'Critico'+sep+'Skills'+sep+'Note';
+  const example1='"Mario Rossi"'+sep+'"Senior Developer"'+sep+'1991-05-20'+sep+'2019-03-01'+sep+'48000'+sep+'58000'+sep+'8'+sep+'4'+sep+'3'+sep+'indeterminato'+sep+'si'+sep+'"React|Node.js|AWS"'+sep+'"Colloquio esterno"';
+  const example2='"Anna Bianchi"'+sep+'"UX Designer"'+sep+'1997-08-15'+sep+'2024-09-01'+sep+'31000'+sep+'40000'+sep+'6'+sep+'4'+sep+'2'+sep+'determinato'+sep+'no'+sep+'"Figma|User Research"'+sep+'"Contratto in scadenza - orario ridotto"';
   const csv=[header,example1,example2].join('\n');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
@@ -1148,8 +1426,8 @@ function downloadTemplate(){
 
 function exportCSV(){
   // Skills separated by | to avoid conflicts with comma/semicolon separators
-  const headers=['Nome','Ruolo','Eta','Anzianita','RAL','Benchmark','OrarioGiornaliero','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore','RALFTE'];
-  const rows=employees.map(e=>[e.name,e.role,e.age,e.seniority,e.ral,e.market,e.hours||8,e.perf,e.sat,e.contract,e.critical,e.skills.join('|'),e.notes||'',calcRisk(e),ralFTE(e)].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+  const headers=['Nome','Ruolo','DataNascita','DataAssunzione','RAL','Benchmark','OrarioGiornaliero','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore','RALFTE','Eta','Anzianita'];
+  const rows=employees.map(e=>[e.name,e.role,e.birthdate||'',e.hiredate||'',e.ral,effectiveBenchmark(e),e.hours||8,e.perf,e.sat,e.contract,e.critical,e.skills.join('|'),e.notes||'',calcRisk(e),ralFTE(e),getAge(e),getSeniority(e)].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
   // BOM (\uFEFF) makes Excel open UTF-8 correctly with accented chars
   const csv='\uFEFF'+[headers.join(','),...rows].join('\n');
   const a=document.createElement('a');
@@ -1184,10 +1462,27 @@ function openEditModal(){
   const e=currentEmp;
   document.getElementById('e-name').value=e.name;
   document.getElementById('e-role').value=e.role;
-  document.getElementById('e-age').value=e.age;
-  document.getElementById('e-sen').value=e.seniority;
+  document.getElementById('e-birthdate').value=e.birthdate||'';
+  document.getElementById('e-hiredate').value=e.hiredate||'';
+  updateEditDateCalc();
+  // age and seniority computed from dates
   document.getElementById('e-ral').value=e.ral;
   document.getElementById('e-mkt').value=e.market;
+  // Show override badge and hint
+  var globalBv = benchmarkTable[e.role] || null;
+  var badge = document.getElementById('e-mkt-badge');
+  var hint = document.getElementById('e-mkt-hint');
+  if(badge) badge.style.display = (e.marketOverride && globalBv && e.market !== globalBv) ? 'inline' : 'none';
+  if(hint){
+    if(globalBv){
+      hint.innerHTML = 'Benchmark globale per questo ruolo: <strong>'+fmt(globalBv)+'</strong>'
+        + (e.marketOverride && e.market !== globalBv
+          ? ' &mdash; <span style="color:var(--blue)">override attivo ('+fmt(e.market)+')</span>'
+          : ' &mdash; valore allineato al benchmark globale');
+    } else {
+      hint.innerHTML = '<span style="color:var(--ink4)">Nessun benchmark globale per questo ruolo.</span>';
+    }
+  }
   document.getElementById('e-perf').value=e.perf;
   document.getElementById('e-sat').value=e.sat;
   document.getElementById('e-contract').value=e.contract;
@@ -1220,10 +1515,17 @@ function saveEdit(){
     ...employees[idx],
     name,
     role:getVal('e-role','N/D')||'N/D',
-    age:Math.max(18,getInt('e-age',35)),
-    seniority:Math.max(0,getFloat('e-sen',1)),
+    birthdate:getVal('e-birthdate','')||null,
+    hiredate:getVal('e-hiredate','')||null,
+    age:getVal('e-birthdate','')?calcAge(getVal('e-birthdate','')):Math.max(18,getInt('e-age',35)),
+    seniority:getVal('e-hiredate','')?calcSeniority(getVal('e-hiredate','')):Math.max(0,getFloat('e-sen',1)),
     ral:Math.max(0,getInt('e-ral',35000)),
     market:Math.max(0,getInt('e-mkt',40000)),
+    marketOverride:(function(){
+      var v=Math.max(0,getInt('e-mkt',40000));
+      var gb=benchmarkTable[getVal('e-role','')];
+      return gb ? v!==gb : true;
+    })(),
     perf:Math.min(5,Math.max(1,getInt('e-perf',3))),
     sat:Math.min(5,Math.max(1,getInt('e-sat',3))),
     contract:getVal('e-contract','indeterminato'),
@@ -1239,7 +1541,7 @@ function saveEdit(){
   // Refresh detail panel header
   const s=calcRisk(currentEmp),r=riskInfo(s);
   document.getElementById('dp-name').textContent=currentEmp.name;
-  document.getElementById('dp-role').textContent=currentEmp.role+' · '+currentEmp.seniority+' anni';
+  document.getElementById('dp-role').textContent=currentEmp.role+' · '+getSeniority(currentEmp)+' anni';
   document.getElementById('dp-risk-num').textContent=s;
   document.getElementById('dp-risk-num').style.color=r.c;
   document.getElementById('dp-risk-bar').style.cssText='width:'+s+'%;background:'+r.c;
@@ -1336,6 +1638,7 @@ function unlockApp(){
   document.getElementById('lockPwInput').value = '';
   // Load persisted data
   loadData();
+  initBenchmarkTable();
   renderTable();
   renderTable2();
   updateStats();
@@ -1366,6 +1669,8 @@ function lockForgot(){
   localStorage.removeItem(STORAGE_KEY);
   // Reset to sample data
   employees = getSampleEmployees();
+  benchmarkTable = {};
+  initBenchmarkTable();
   document.getElementById('lockSetupMsg').style.display = 'block';
   document.getElementById('lockFieldLabel').textContent = 'Crea una nuova password';
   document.getElementById('lockBtn').textContent = 'Imposta password e accedi';
@@ -1379,8 +1684,9 @@ function saveData(){
   try{
     const payload = JSON.stringify({
       employees: employees,
+      benchmarkTable: benchmarkTable,
       savedAt: new Date().toISOString(),
-      version: 2
+      version: 3
     });
     localStorage.setItem(STORAGE_KEY, payload);
     _hasUnsaved = false;
@@ -1396,16 +1702,22 @@ function loadData(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return; // no saved data, keep sample employees
     const parsed = JSON.parse(raw);
+    if(parsed && parsed.benchmarkTable && typeof parsed.benchmarkTable === 'object'){
+      benchmarkTable = parsed.benchmarkTable;
+    }
     if(parsed && parsed.employees && Array.isArray(parsed.employees) && parsed.employees.length > 0){
       // Ensure all employees have required fields (forward compatibility)
       employees = parsed.employees.map(e=>({
         id: e.id || Date.now()+Math.random(),
         name: e.name || 'N/D',
         role: e.role || 'N/D',
-        age: e.age || 30,
-        seniority: e.seniority || 1,
+        birthdate: e.birthdate || null,
+        hiredate: e.hiredate || null,
+        age: e.birthdate ? calcAge(e.birthdate) : (e.age || 30),
+        seniority: e.hiredate ? calcSeniority(e.hiredate) : (e.seniority || 1),
         ral: e.ral || 30000,
         market: e.market || 35000,
+        marketOverride: e.marketOverride !== undefined ? e.marketOverride : true,
         hours: e.hours || 8,
         perf: e.perf || 3,
         sat: e.sat || 3,
