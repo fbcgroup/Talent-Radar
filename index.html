@@ -86,8 +86,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
 .fpill{padding:5px 12px;border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink3);font-family:var(--sans);transition:all .15s;letter-spacing:.02em}
 .fpill:hover{border-color:var(--blue);color:var(--blue)}
 .fpill.active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
-.tbl-head{display:grid;grid-template-columns:100px 140px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
-.tbl-row{display:grid;grid-template-columns:100px 140px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
+.tbl-head{display:grid;grid-template-columns:100px 120px 130px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
+.tbl-row{display:grid;grid-template-columns:100px 120px 130px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--cream2)}
 .emp-wrap{display:flex;align-items:center;gap:10px}
@@ -435,7 +435,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
           <button class="fpill" id="fb-medio" onclick="setFilter('medio')">Medio</button>
           <button class="fpill" id="fb-basso" onclick="setFilter('basso')">Basso</button>
         </div>
-        <div class="tbl-head"><div>Cognome</div><div>Nome / Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div class="tbl-head"><div>Cognome</div><div>Nome</div><div>Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
         <div id="tableBody"></div>
       </div>
     </div>
@@ -445,7 +445,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
     <div class="content-area">
       <div class="tbl-card">
         <div class="tbl-toolbar"><div class="search-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><input type="text" placeholder="Cerca..." oninput="renderTable2(this.value)"></div></div>
-        <div class="tbl-head"><div>Cognome</div><div>Nome / Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div class="tbl-head"><div>Cognome</div><div>Nome</div><div>Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
         <div id="tableBody2"></div>
       </div>
     </div>
@@ -770,7 +770,8 @@ function rowsHTML(data){
     const st=e.assessment?`<span class="pill pgold" style="font-size:9px">Assessment ✓</span>`:`<span style="font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em">— da fare</span>`;
     return`<div class="tbl-row" onclick="openDetail(${e.id})">
       <div class="cell-sm" style="font-weight:500">${e.surname||'—'}</div>
-      <div class="emp-wrap">${avi(e,28,10)}<div><div class="emp-nm">${e.name}</div><div class="emp-jt">${e.role}</div></div></div>
+      <div class="emp-wrap">${avi(e,28,10)}<div class="emp-nm">${e.name}</div></div>
+      <div class="emp-jt" style="align-self:center">${e.role}</div>
       <div class="cell-mu">${getAge(e)}</div>
       <div class="cell-mu">${getSeniority(e)}a</div>
       <div class="cell-mu" style="font-size:10px">${e.level||'—'}</div>
