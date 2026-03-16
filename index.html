@@ -36,7 +36,14 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
 .sidebar{width:222px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--cream2)}
 .content-area{flex:1;overflow-y:auto;padding:28px 32px}
-.brand-wrap{padding:24px 20px 20px;border-bottom:1px solid var(--border)}
+.brand-wrap{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.brand-logo-wrap{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.brand-logo-img{max-width:160px;max-height:52px;object-fit:contain;display:block;border-radius:4px}
+.brand-logo-placeholder{width:100%;height:40px;border:1.5px dashed var(--border2);border-radius:var(--r);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .15s;margin-bottom:10px;color:var(--ink4);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.brand-logo-placeholder:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+.brand-logo-loaded{position:relative;margin-bottom:10px}
+.brand-logo-remove{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--red);color:var(--white);border:none;cursor:pointer;font-size:9px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;line-height:1}
+.brand-logo-loaded:hover .brand-logo-remove{opacity:1}
 .brand-name{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.2px;line-height:1}
 .brand-name span{color:var(--gold)}
 .brand-sub{font-size:10px;color:var(--ink4);margin-top:4px;letter-spacing:.12em;text-transform:uppercase}
@@ -317,6 +324,16 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
 
 <nav class="sidebar">
   <div class="brand-wrap">
+    <!-- Logo area -->
+    <div id="logoLoaded" class="brand-logo-loaded" style="display:none">
+      <img id="logoImg" class="brand-logo-img" src="" alt="Logo">
+      <button class="brand-logo-remove" onclick="removeLogo()" title="Rimuovi logo">✕</button>
+    </div>
+    <label id="logoPlaceholder" class="brand-logo-placeholder" title="Carica logo aziendale">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2.5" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M1 8l2.5-2.5 2 2L8 5l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Carica logo
+      <input type="file" accept="image/*" style="display:none" onchange="loadLogo(event)">
+    </label>
     <div class="brand-name">Talent<span>Radar</span></div>
     <div class="brand-sub">People Intelligence Platform</div>
   </div>
@@ -1220,6 +1237,42 @@ function onEditMktInput(){
   }
 }
 
+function loadLogo(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const dataUrl = e.target.result;
+    document.getElementById('logoImg').src = dataUrl;
+    document.getElementById('logoLoaded').style.display = 'block';
+    document.getElementById('logoPlaceholder').style.display = 'none';
+    // Persist in localStorage alongside data
+    try{ localStorage.setItem('talentRadar_logo', dataUrl); } catch(ex){}
+    showNotif('✓ Logo caricato','success');
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function removeLogo(){
+  document.getElementById('logoImg').src = '';
+  document.getElementById('logoLoaded').style.display = 'none';
+  document.getElementById('logoPlaceholder').style.display = 'flex';
+  try{ localStorage.removeItem('talentRadar_logo'); } catch(ex){}
+  showNotif('Logo rimosso','success');
+}
+
+function restoreLogo(){
+  try{
+    const saved = localStorage.getItem('talentRadar_logo');
+    if(saved){
+      document.getElementById('logoImg').src = saved;
+      document.getElementById('logoLoaded').style.display = 'block';
+      document.getElementById('logoPlaceholder').style.display = 'none';
+    }
+  } catch(ex){}
+}
+
 function updateAddDateCalc(){
   var bd = document.getElementById('f-birthdate').value;
   var hd = document.getElementById('f-hiredate').value;
@@ -1639,6 +1692,7 @@ function unlockApp(){
   // Load persisted data
   loadData();
   initBenchmarkTable();
+  restoreLogo();
   renderTable();
   renderTable2();
   updateStats();
