@@ -1436,38 +1436,57 @@ function importCSV(ev){
           return isNaN(v)?def:v;
         };
 
-        const name=g(0,'');
-        if(!name){skipped++;return;}
+        // ── Layout detection ──────────────────────────────────────────
+        // New layout: Cognome, Nome, Ruolo, DataNascita, DataAssunzione, Livello, CCNL, RAL…
+        // Old layout: Nome, Ruolo, DataNascita, DataAssunzione, RAL…
+        // Detect by reading the header row col0: if it's "cognome" → new; if it's "nome" → old.
+        // At data rows: new layout has col1 as name and col0 as surname.
+        // We detect once per file using the header (nonEmpty[0]).
+        const headerCols = parseCSVLine(nonEmpty[0], sep).map(function(h){ return h.trim().toLowerCase(); });
+        const isNewLayout = headerCols[0] === 'cognome';
 
-        // Skills: always pipe-separated in the CSV to avoid conflicts with sep
-        const skillsCol = isNewLayout ? 14 : 11;
-        const skillsRaw=g(skillsCol,'');
-        const skills=skillsRaw?skillsRaw.split('|').map(function(s){return s.trim();}).filter(Boolean):[];
+        // Skip header row if accidentally included in dataLines
+        if(cols[0].trim().toLowerCase()==='cognome'||cols[0].trim().toLowerCase()==='nome'){return;}
 
-        // Col layout: 0=Cognome,1=Nome,2=Ruolo,3=DataNascita,4=DataAssunzione,5=Livello,6=CCNL,7=RAL,8=Benchmark,9=OrarioGiornaliero,10=Perf,11=Soddisfazione,12=Contratto,13=Critico,14=Skills,15=Note
-        const rawHours=isNewLayout?gi(9,8):gi(6,8);
-        const bdCol=isNewLayout?3:2, hdCol=isNewLayout?4:3;
-        const bd=normDate(g(bdCol,'')); const hd=normDate(g(hdCol,''));
+        const surname = isNewLayout ? g(0,'') : '';
+        const name    = isNewLayout ? g(1,'') : g(0,'');
+        const roleCol = isNewLayout ? 2 : 1;
+
+        if(!name && !surname){skipped++;return;}
+
+        // ── Column indices per layout ─────────────────────────────────
+        // New: 0=Cog,1=Nome,2=Ruolo,3=DNasc,4=DAss,5=Livello,6=CCNL,7=RAL,8=Bench,9=Ore,10=Perf,11=Sodd,12=Contr,13=Crit,14=Skills,15=Note
+        // Old: 0=Nome,1=Ruolo,2=DNasc,3=DAss,4=RAL,5=Bench,6=Ore,7=Perf,8=Sodd,9=Contr,10=Crit,11=Skills,12=Note
+        var c = isNewLayout
+          ? {bd:3,hd:4,lev:5,ccnl:6,ral:7,mkt:8,hrs:9,perf:10,sat:11,con:12,crit:13,skills:14,notes:15}
+          : {bd:2,hd:3,lev:-1,ccnl:-1,ral:4,mkt:5,hrs:6,perf:7,sat:8,con:9,crit:10,skills:11,notes:12};
+
+        const bd = normDate(g(c.bd,''));
+        const hd = normDate(g(c.hd,''));
+        const rawHours = gi(c.hrs, 8);
+        const skillsRaw = c.skills>=0 ? g(c.skills,'') : '';
+        const skills = skillsRaw ? skillsRaw.split('|').map(function(s){return s.trim();}).filter(Boolean) : [];
+
         employees.push({
           id:Date.now()+Math.random(),
           name:name,
           surname:surname,
           role:g(roleCol,'N/D')||'N/D',
-          level:isNewLayout?g(5,''):'',
-          ccnl:isNewLayout?g(6,''):'',  
+          level:c.lev>=0?g(c.lev,''):'',
+          ccnl:c.ccnl>=0?g(c.ccnl,''):'',
           birthdate:bd||null,
           hiredate:hd||null,
           age:bd?calcAge(bd):30,
           seniority:hd?calcSeniority(hd):1,
-          ral:Math.max(0,isNewLayout?gi(7,30000):gi(4,30000)),
-          market:Math.max(0,isNewLayout?gi(8,35000):gi(5,35000)),
+          ral:Math.max(0,gi(c.ral,30000)),
+          market:Math.max(0,gi(c.mkt,35000)),
           hours:Math.min(8,Math.max(1,isNaN(rawHours)?8:rawHours)),
-          perf:Math.min(5,Math.max(1,isNewLayout?gi(10,3):gi(7,3))),
-          sat:Math.min(5,Math.max(1,isNewLayout?gi(11,3):gi(8,3))),
-          contract:isNewLayout?(g(12,'indeterminato')||'indeterminato'):(g(9,'indeterminato')||'indeterminato'),
-          critical:((isNewLayout?g(13,'no'):g(10,'no'))||'no').toLowerCase()==='si'?'si':'no',
+          perf:Math.min(5,Math.max(1,gi(c.perf,3))),
+          sat:Math.min(5,Math.max(1,gi(c.sat,3))),
+          contract:g(c.con,'indeterminato')||'indeterminato',
+          critical:(g(c.crit,'no')||'no').toLowerCase()==='si'?'si':'no',
           skills:skills,
-          notes:isNewLayout?g(15,''):g(12,''),
+          notes:c.notes>=0?g(c.notes,''):'',
           assessment:null
         });
         added++;
