@@ -86,8 +86,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
 .fpill{padding:5px 12px;border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink3);font-family:var(--sans);transition:all .15s;letter-spacing:.02em}
 .fpill:hover{border-color:var(--blue);color:var(--blue)}
 .fpill.active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
-.tbl-head{display:grid;grid-template-columns:210px 60px 80px 80px 90px 100px 110px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
-.tbl-row{display:grid;grid-template-columns:210px 60px 80px 80px 90px 100px 110px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
+.tbl-head{display:grid;grid-template-columns:100px 140px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
+.tbl-row{display:grid;grid-template-columns:100px 140px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--cream2)}
 .emp-wrap{display:flex;align-items:center;gap:10px}
@@ -435,7 +435,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
           <button class="fpill" id="fb-medio" onclick="setFilter('medio')">Medio</button>
           <button class="fpill" id="fb-basso" onclick="setFilter('basso')">Basso</button>
         </div>
-        <div class="tbl-head"><div>Collaboratore</div><div>Età</div><div>Anzianità</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div class="tbl-head"><div>Cognome</div><div>Nome / Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
         <div id="tableBody"></div>
       </div>
     </div>
@@ -445,7 +445,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
     <div class="content-area">
       <div class="tbl-card">
         <div class="tbl-toolbar"><div class="search-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><input type="text" placeholder="Cerca..." oninput="renderTable2(this.value)"></div></div>
-        <div class="tbl-head"><div>Collaboratore</div><div>Età</div><div>Anzianità</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div class="tbl-head"><div>Cognome</div><div>Nome / Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
         <div id="tableBody2"></div>
       </div>
     </div>
@@ -496,7 +496,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
     <div class="mhd" style="background:var(--blue-bg)"><div class="mhd-t" style="color:var(--blue)">Nuovo Collaboratore</div><button class="xcls" type="button" onclick="closeAddModal()">✕</button></div>
     <div class="mbody">
       <div class="fg2">
-        <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="f-name" type="text" placeholder="Mario Rossi" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Cognome</label><input class="fi" id="f-surname" type="text" placeholder="Rossi" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Nome</label><input class="fi" id="f-name" type="text" placeholder="Mario" autocomplete="off"></div>
         <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="f-role" type="text" placeholder="Senior Developer" autocomplete="off" oninput="autofillBenchmark(this.value)"></div>
         <div class="fg">
           <label class="fl">Data di nascita</label>
@@ -508,6 +509,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
           <input class="fi" id="f-hiredate" type="date" onchange="updateAddDateCalc()">
           <div class="date-calc" id="f-sen-calc"></div>
         </div>
+        <div class="fg"><label class="fl">Livello contrattuale</label><input class="fi" id="f-level" type="text" placeholder="es. 3° livello, Quadro..." autocomplete="off"></div>
+        <div class="fg"><label class="fl">CCNL applicato</label><input class="fi" id="f-ccnl" type="text" placeholder="es. CCNL Commercio" autocomplete="off"></div>
         <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="f-ral" type="number" placeholder="40000" min="0"></div>
         <div class="fg">
           <label class="fl" style="display:flex;align-items:center;justify-content:space-between">
@@ -560,7 +563,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
     </div>
     <div class="mbody">
       <div class="fg2">
-        <div class="fg"><label class="fl">Nome completo</label><input class="fi" id="e-name" type="text" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Cognome</label><input class="fi" id="e-surname" type="text" autocomplete="off"></div>
+        <div class="fg"><label class="fl">Nome</label><input class="fi" id="e-name" type="text" autocomplete="off"></div>
         <div class="fg"><label class="fl">Ruolo</label><input class="fi" id="e-role" type="text" autocomplete="off"></div>
         <div class="fg">
           <label class="fl">Data di nascita</label>
@@ -572,6 +576,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
           <input class="fi" id="e-hiredate" type="date" onchange="updateEditDateCalc()">
           <div class="date-calc" id="e-sen-calc"></div>
         </div>
+        <div class="fg"><label class="fl">Livello contrattuale</label><input class="fi" id="e-level" type="text" autocomplete="off"></div>
+        <div class="fg"><label class="fl">CCNL applicato</label><input class="fi" id="e-ccnl" type="text" autocomplete="off"></div>
         <div class="fg"><label class="fl">RAL attuale (€)</label><input class="fi" id="e-ral" type="number" min="0"></div>
         <div class="fg">
           <label class="fl" style="display:flex;align-items:center;justify-content:space-between">
@@ -641,20 +647,7 @@ const AC=[
    qs:[{q:"Partecipo attivamente alla vita sociale del team (eventi, pause, momenti informali).",l:"Preferisco il mio spazio",h:"Partecipo sempre"},{q:"Condivido spontaneamente conoscenze e best practice con i colleghi.",l:"Solo se richiesto",h:"È il mio default"},{q:"Mi sento parte della cultura aziendale e la promuovo nelle mie azioni.",l:"Non mi identifico",h:"Sono un ambassador"},{q:"In un team con personalità diverse, riesco a lavorare efficacemente con tutti.",l:"Con alcune persone fatico",h:"Con chiunque"},{q:"Supporto proattivamente i colleghi in difficoltà, anche oltre le mie responsabilità.",l:"Resto nel mio ruolo",h:"Sempre disponibile"}]}
 ];
 
-let employees=[
-  {id:1,name:"Giulia Ferretti",role:"Senior Developer",birthdate:"1991-06-15",hiredate:"2019-02-01",age:34,seniority:6,ral:52000,market:64000,hours:8,perf:5,sat:2,contract:"indeterminato",critical:"si",skills:["React","Node.js","AWS","Leadership"],notes:"Ha partecipato a colloquio esterno a gennaio",assessment:null},
-  {id:2,name:"Marco Bianchi",role:"Sales Manager",birthdate:"1984-11-20",hiredate:"2017-10-01",age:41,seniority:8,ral:58000,market:67000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["CRM","Negoziazione","Team Management"],notes:"",assessment:null},
-  {id:3,name:"Sofia Ricci",role:"UX Designer",birthdate:"1997-03-08",hiredate:"2024-08-01",age:28,seniority:1.5,ral:30000,market:40000,hours:6,perf:4,sat:2,contract:"determinato",critical:"no",skills:["Figma","User Research","Prototipazione"],notes:"Contratto in scadenza tra 4 mesi — orario ridotto 6h",assessment:null},
-  {id:4,name:"Luca Moretti",role:"CFO",birthdate:"1973-09-25",hiredate:"2013-05-01",age:52,seniority:12,ral:95000,market:112000,hours:8,perf:5,sat:4,contract:"indeterminato",critical:"si",skills:["Finance","M&A","Strategy"],notes:"",assessment:null},
-  {id:5,name:"Elena Conti",role:"Marketing Manager",birthdate:"1994-07-14",hiredate:"2022-11-01",age:31,seniority:3,ral:36000,market:40000,hours:8,perf:3,sat:3,contract:"indeterminato",critical:"no",skills:["Digital Marketing","SEO","Brand"],notes:"",assessment:null},
-  {id:6,name:"Andrea Costa",role:"DevOps Engineer",birthdate:"1988-12-03",hiredate:"2021-06-01",age:37,seniority:4,ral:48000,market:58000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["AWS","Docker","Kubernetes"],notes:"",assessment:null},
-  {id:7,name:"Martina Villa",role:"HR Specialist",birthdate:"1996-04-22",hiredate:"2023-10-01",age:29,seniority:2,ral:32000,market:35000,hours:6,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["Recruiting","L&D","Compliance"],notes:"Part-time 6h concordato",assessment:null},
-  {id:8,name:"Roberto Galli",role:"Account Executive",birthdate:"1980-02-17",hiredate:"2018-07-01",age:45,seniority:7,ral:55000,market:59000,hours:8,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["B2B Sales","Retail"],notes:"",assessment:null},
-  {id:9,name:"Chiara Russo",role:"Data Analyst",birthdate:"1999-08-30",hiredate:"2025-01-15",age:26,seniority:1,ral:28000,market:36000,hours:8,perf:4,sat:3,contract:"apprendistato",critical:"no",skills:["SQL","Python","Power BI"],notes:"Fine apprendistato tra 6 mesi",assessment:null},
-  {id:10,name:"Davide Marini",role:"Product Manager",birthdate:"1987-05-11",hiredate:"2020-09-01",age:38,seniority:5,ral:60000,market:70000,hours:8,perf:4,sat:3,contract:"indeterminato",critical:"si",skills:["Product Strategy","Agile","Stakeholder"],notes:"",assessment:null},
-  {id:11,name:"Francesca Bruno",role:"Customer Care Lead",birthdate:"1992-10-05",hiredate:"2021-04-01",age:33,seniority:4,ral:28000,market:30000,hours:4,perf:3,sat:4,contract:"indeterminato",critical:"no",skills:["CX","Training"],notes:"Part-time 4h",assessment:null},
-  {id:12,name:"Simone Ferrari",role:"CTO",birthdate:"1981-01-28",hiredate:"2016-03-01",age:44,seniority:9,ral:88000,market:108000,hours:8,perf:5,sat:3,contract:"indeterminato",critical:"si",skills:["Tech Vision","Cloud","Leadership"],notes:"Riceve headhunter mensilmente",assessment:null},
-];
+let employees=[];
 
 const aviColors=['#C9A96E','#A86FAA','#4A7FC1','#4AAA78','#C0643C','#6A7FC0','#B0955A','#4A9AA8'];
 
@@ -679,39 +672,59 @@ function getBenchmarkForRole(role, fallback){
 function avi(e,sz=30,fs=10){const c=aviColors[e.id%aviColors.length],ini=e.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();return`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${c}22;color:${c};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:500;font-family:var(--serif);flex-shrink:0">${ini}</div>`;}
 function fmt(n){return'€'+(n/1000).toFixed(0)+'k';}
 function fmt2(n){return'€'+Math.round(n).toLocaleString('it');}
-// Calculate age in completed years from birthdate string (YYYY-MM-DD)
-function calcAge(birthdate){
-  if(!birthdate) return null;
-  var bd = new Date(birthdate);
-  if(isNaN(bd)) return null;
-  var today = new Date();
-  var age = today.getFullYear() - bd.getFullYear();
-  var m = today.getMonth() - bd.getMonth();
-  if(m < 0 || (m === 0 && today.getDate() < bd.getDate())) age--;
+// Parse date string: accepts both DD/MM/YYYY and YYYY-MM-DD
+// Returns a Date object (local midnight) or null if invalid
+function parseDate(str){
+  if(!str || typeof str !== 'string') return null;
+  str = str.trim();
+  var iso = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(iso) return new Date(+iso[1], +iso[2]-1, +iso[3]);
+  var ita = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(ita) return new Date(+ita[3], +ita[2]-1, +ita[1]);
+  return null;
+}
+
+// Normalise any accepted date format to YYYY-MM-DD for storage
+function normDate(str){
+  var d = parseDate(str);
+  if(!d) return null;
+  var mm = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  return d.getFullYear()+'-'+mm+'-'+dd;
+}
+
+// Calculate age in completed years (exact: counts birthday)
+function calcAge(dateStr){
+  var bd = parseDate(dateStr);
+  if(!bd) return null;
+  var t = new Date();
+  var age = t.getFullYear() - bd.getFullYear();
+  if(t.getMonth() < bd.getMonth() || (t.getMonth() === bd.getMonth() && t.getDate() < bd.getDate())) age--;
   return age;
 }
 
-// Calculate seniority in decimal years from hiredate string (YYYY-MM-DD)
-function calcSeniority(hiredate){
-  if(!hiredate) return null;
-  var hd = new Date(hiredate);
-  if(isNaN(hd)) return null;
-  var today = new Date();
-  var ms = today - hd;
-  if(ms < 0) return 0;
-  return Math.round(ms / (1000 * 60 * 60 * 24 * 365.25) * 10) / 10;
+// Calculate seniority in decimal years via whole-month counting (no float drift)
+function calcSeniority(dateStr){
+  var hd = parseDate(dateStr);
+  if(!hd) return null;
+  var t = new Date();
+  if(t < hd) return 0;
+  var months = (t.getFullYear() - hd.getFullYear()) * 12 + (t.getMonth() - hd.getMonth());
+  if(t.getDate() < hd.getDate()) months--;
+  if(months < 0) months = 0;
+  return Math.round(months / 12 * 10) / 10;
 }
 
-// Format date YYYY-MM-DD → DD/MM/YYYY for display
+// Format stored YYYY-MM-DD → DD/MM/YYYY for display
 function fmtDate(d){
   if(!d) return '—';
   var p = d.split('-');
   return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : d;
 }
 
-// Get effective age: compute from birthdate if available, else use stored age
+// Get effective age: always computed live from birthdate
 function getAge(e){ return (e.birthdate ? calcAge(e.birthdate) : null) || e.age || 30; }
-// Get effective seniority: compute from hiredate if available, else use stored seniority
+// Get effective seniority: always computed live from hiredate
 function getSeniority(e){ return (e.hiredate ? calcSeniority(e.hiredate) : null) ?? e.seniority ?? 1; }
 
 // RAL normalizzata su 8h/gg (Full-Time Equivalent)
@@ -756,9 +769,12 @@ function rowsHTML(data){
     const fc=s>=60?'var(--red)':s>=35?'var(--amber)':'var(--green)';
     const st=e.assessment?`<span class="pill pgold" style="font-size:9px">Assessment ✓</span>`:`<span style="font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em">— da fare</span>`;
     return`<div class="tbl-row" onclick="openDetail(${e.id})">
-      <div class="emp-wrap">${avi(e,30,10)}<div><div class="emp-nm">${e.name}</div><div class="emp-jt">${e.role}</div></div></div>
-      <div class="cell-mu">${e.age}</div>
+      <div class="cell-sm" style="font-weight:500">${e.surname||'—'}</div>
+      <div class="emp-wrap">${avi(e,28,10)}<div><div class="emp-nm">${e.name}</div><div class="emp-jt">${e.role}</div></div></div>
+      <div class="cell-mu">${getAge(e)}</div>
       <div class="cell-mu">${getSeniority(e)}a</div>
+      <div class="cell-mu" style="font-size:10px">${e.level||'—'}</div>
+      <div class="cell-mu" style="font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${e.ccnl||''}">${e.ccnl||'—'}</div>
       <div class="cell-sm">${fmt(e.ral)}</div>
       <div class="cell-sm"><span style="color:${gc};font-weight:${g>7?500:400}">+${g}%</span>${hrs!==8?'<span style="margin-left:4px;font-size:9px;color:var(--blue);background:var(--blue-bg);padding:1px 5px;border-radius:3px;font-weight:500">'+hrs+'h</span>':''}</div>
       <div><span class="pill ${r.cls}">${r.lbl}</span></div>
@@ -798,8 +814,8 @@ function openDetail(id){
   const dpAvi=document.getElementById('dp-avi');
   dpAvi.style.cssText=`width:52px;height:52px;border-radius:50%;background:${ac}22;color:${ac};display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0`;
   dpAvi.textContent=ini;
-  document.getElementById('dp-name').textContent=currentEmp.name;
-  document.getElementById('dp-role').textContent=currentEmp.role+' · '+getSeniority(currentEmp)+' anni';
+  document.getElementById('dp-name').textContent=(currentEmp.surname?currentEmp.surname+' ':'')+currentEmp.name;
+  document.getElementById('dp-role').textContent=currentEmp.role+(currentEmp.level?' · '+currentEmp.level:'')+(currentEmp.ccnl?' · '+currentEmp.ccnl:'');
   document.getElementById('dp-risk-num').textContent=s;
   document.getElementById('dp-risk-num').style.color=r.c;
   document.getElementById('dp-risk-bar').style.cssText=`width:${s}%;background:${r.c}`;
@@ -1293,7 +1309,7 @@ function updateEditDateCalc(){
 
 function openAddModal(){
   // Reset all fields before opening
-  ['f-name','f-role','f-birthdate','f-hiredate','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>{
+  ['f-surname','f-name','f-role','f-birthdate','f-hiredate','f-level','f-ccnl','f-ral','f-mkt','f-perf','f-sat','f-skills','f-notes'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.value='';
   });
@@ -1309,6 +1325,8 @@ function closeAddModal(){document.getElementById('addModal').classList.remove('o
 function saveEmployee(){
   const nameEl=document.getElementById('f-name');
   const name=nameEl?nameEl.value.trim():'';
+  const surnameEl=document.getElementById('f-surname');
+  const surname=surnameEl?surnameEl.value.trim():'';
   if(!name){showNotif('Inserisci il nome del collaboratore','error');nameEl&&nameEl.focus();return;}
 
   const getVal=(id,def)=>{const el=document.getElementById(id);return el?el.value:def;};
@@ -1323,12 +1341,15 @@ function saveEmployee(){
   if(ral<=0){showNotif('Inserisci la RAL attuale','error');return;}
   if(mkt<=0){showNotif('Inserisci il benchmark di mercato','error');return;}
 
-  const bdate=getVal('f-birthdate','');
-  const hdate=getVal('f-hiredate','');
+  const bdate=normDate(getVal('f-birthdate',''));
+  const hdate=normDate(getVal('f-hiredate',''));
   const newEmp={
     id:Date.now(),
     name,
+    surname,
     role:getVal('f-role','N/D')||'N/D',
+    level:getVal('f-level',''),
+    ccnl:getVal('f-ccnl',''),
     birthdate:bdate||null,
     hiredate:hdate||null,
     age:bdate?calcAge(bdate):Math.max(18,getInt('f-age',35)),
@@ -1419,29 +1440,34 @@ function importCSV(ev){
         if(!name){skipped++;return;}
 
         // Skills: always pipe-separated in the CSV to avoid conflicts with sep
-        const skillsRaw=g(10,'');
+        const skillsCol = isNewLayout ? 14 : 11;
+        const skillsRaw=g(skillsCol,'');
         const skills=skillsRaw?skillsRaw.split('|').map(function(s){return s.trim();}).filter(Boolean):[];
 
-        // Col layout: 0=Nome,1=Ruolo,2=DataNascita,3=DataAssunzione,4=RAL,5=Benchmark,6=OrarioGiornaliero,7=Performance,8=Soddisfazione,9=Contratto,10=Critico,11=Skills,12=Note
-        const rawHours=gi(6,8);
-        const bd=g(2,''); const hd=g(3,'');
+        // Col layout: 0=Cognome,1=Nome,2=Ruolo,3=DataNascita,4=DataAssunzione,5=Livello,6=CCNL,7=RAL,8=Benchmark,9=OrarioGiornaliero,10=Perf,11=Soddisfazione,12=Contratto,13=Critico,14=Skills,15=Note
+        const rawHours=isNewLayout?gi(9,8):gi(6,8);
+        const bdCol=isNewLayout?3:2, hdCol=isNewLayout?4:3;
+        const bd=normDate(g(bdCol,'')); const hd=normDate(g(hdCol,''));
         employees.push({
           id:Date.now()+Math.random(),
           name:name,
-          role:g(1,'N/D')||'N/D',
-          birthdate:bd&&bd.match(/^\d{4}-\d{2}-\d{2}$/)?bd:null,
-          hiredate:hd&&hd.match(/^\d{4}-\d{2}-\d{2}$/)?hd:null,
+          surname:surname,
+          role:g(roleCol,'N/D')||'N/D',
+          level:isNewLayout?g(5,''):'',
+          ccnl:isNewLayout?g(6,''):'',  
+          birthdate:bd||null,
+          hiredate:hd||null,
           age:bd?calcAge(bd):30,
           seniority:hd?calcSeniority(hd):1,
-          ral:Math.max(0,gi(4,30000)),
-          market:Math.max(0,gi(5,35000)),
+          ral:Math.max(0,isNewLayout?gi(7,30000):gi(4,30000)),
+          market:Math.max(0,isNewLayout?gi(8,35000):gi(5,35000)),
           hours:Math.min(8,Math.max(1,isNaN(rawHours)?8:rawHours)),
-          perf:Math.min(5,Math.max(1,gi(7,3))),
-          sat:Math.min(5,Math.max(1,gi(8,3))),
-          contract:g(9,'indeterminato')||'indeterminato',
-          critical:(g(10,'no')||'no').toLowerCase()==='si'?'si':'no',
+          perf:Math.min(5,Math.max(1,isNewLayout?gi(10,3):gi(7,3))),
+          sat:Math.min(5,Math.max(1,isNewLayout?gi(11,3):gi(8,3))),
+          contract:isNewLayout?(g(12,'indeterminato')||'indeterminato'):(g(9,'indeterminato')||'indeterminato'),
+          critical:((isNewLayout?g(13,'no'):g(10,'no'))||'no').toLowerCase()==='si'?'si':'no',
           skills:skills,
-          notes:g(12,''),
+          notes:isNewLayout?g(15,''):g(12,''),
           assessment:null
         });
         added++;
@@ -1466,9 +1492,9 @@ function importCSV(ev){
 // Export template CSV so users know the exact format
 function downloadTemplate(){
   const sep=',';
-  const header='Nome'+sep+'Ruolo'+sep+'DataNascita'+sep+'DataAssunzione'+sep+'RAL'+sep+'Benchmark'+sep+'OrarioGiornaliero'+sep+'Performance'+sep+'Soddisfazione'+sep+'Contratto'+sep+'Critico'+sep+'Skills'+sep+'Note';
-  const example1='"Mario Rossi"'+sep+'"Senior Developer"'+sep+'1991-05-20'+sep+'2019-03-01'+sep+'48000'+sep+'58000'+sep+'8'+sep+'4'+sep+'3'+sep+'indeterminato'+sep+'si'+sep+'"React|Node.js|AWS"'+sep+'"Colloquio esterno"';
-  const example2='"Anna Bianchi"'+sep+'"UX Designer"'+sep+'1997-08-15'+sep+'2024-09-01'+sep+'31000'+sep+'40000'+sep+'6'+sep+'4'+sep+'2'+sep+'determinato'+sep+'no'+sep+'"Figma|User Research"'+sep+'"Contratto in scadenza - orario ridotto"';
+  const header='Cognome'+sep+'Nome'+sep+'Ruolo'+sep+'DataNascita'+sep+'DataAssunzione'+sep+'Livello'+sep+'CCNL'+sep+'RAL'+sep+'Benchmark'+sep+'OrarioGiornaliero'+sep+'Performance'+sep+'Soddisfazione'+sep+'Contratto'+sep+'Critico'+sep+'Skills'+sep+'Note';
+  const example1='Rossi'+sep+'Mario'+sep+'"Senior Developer"'+sep+'1991-05-20'+sep+'2019-03-01'+sep+'"3° Livello"'+sep+'"CCNL Commercio"'+sep+'48000'+sep+'58000'+sep+'8'+sep+'4'+sep+'3'+sep+'indeterminato'+sep+'si'+sep+'"React|Node.js|AWS"'+sep+'"Colloquio esterno"';
+  const example2='Bianchi'+sep+'Anna'+sep+'"UX Designer"'+sep+'1997-08-15'+sep+'2024-09-01'+sep+'"2° Livello"'+sep+'"CCNL Terziario"'+sep+'31000'+sep+'40000'+sep+'6'+sep+'4'+sep+'2'+sep+'determinato'+sep+'no'+sep+'"Figma|User Research"'+sep+'"Contratto in scadenza - orario ridotto"';
   const csv=[header,example1,example2].join('\n');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
@@ -1479,8 +1505,8 @@ function downloadTemplate(){
 
 function exportCSV(){
   // Skills separated by | to avoid conflicts with comma/semicolon separators
-  const headers=['Nome','Ruolo','DataNascita','DataAssunzione','RAL','Benchmark','OrarioGiornaliero','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore','RALFTE','Eta','Anzianita'];
-  const rows=employees.map(e=>[e.name,e.role,e.birthdate||'',e.hiredate||'',e.ral,effectiveBenchmark(e),e.hours||8,e.perf,e.sat,e.contract,e.critical,e.skills.join('|'),e.notes||'',calcRisk(e),ralFTE(e),getAge(e),getSeniority(e)].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+  const headers=['Cognome','Nome','Ruolo','DataNascita','DataAssunzione','Livello','CCNL','RAL','Benchmark','OrarioGiornaliero','Performance','Soddisfazione','Contratto','Critico','Skills','Note','RiskScore','RALFTE','Eta','Anzianita'];
+  const rows=employees.map(e=>[e.surname||'',e.name,e.role,e.birthdate||'',e.hiredate||'',e.level||'',e.ccnl||'',e.ral,effectiveBenchmark(e),e.hours||8,e.perf,e.sat,e.contract,e.critical,e.skills.join('|'),e.notes||'',calcRisk(e),ralFTE(e),getAge(e),getSeniority(e)].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
   // BOM (\uFEFF) makes Excel open UTF-8 correctly with accented chars
   const csv='\uFEFF'+[headers.join(','),...rows].join('\n');
   const a=document.createElement('a');
@@ -1513,8 +1539,11 @@ function deleteEmployee(){
 function openEditModal(){
   if(!currentEmp) return;
   const e=currentEmp;
+  document.getElementById('e-surname').value=e.surname||'';
   document.getElementById('e-name').value=e.name;
   document.getElementById('e-role').value=e.role;
+  document.getElementById('e-level').value=e.level||'';
+  document.getElementById('e-ccnl').value=e.ccnl||'';
   document.getElementById('e-birthdate').value=e.birthdate||'';
   document.getElementById('e-hiredate').value=e.hiredate||'';
   updateEditDateCalc();
@@ -1567,9 +1596,12 @@ function saveEdit(){
   employees[idx]={
     ...employees[idx],
     name,
+    surname:getVal('e-surname',''),
     role:getVal('e-role','N/D')||'N/D',
-    birthdate:getVal('e-birthdate','')||null,
-    hiredate:getVal('e-hiredate','')||null,
+    level:getVal('e-level',''),
+    ccnl:getVal('e-ccnl',''),
+    birthdate:normDate(getVal('e-birthdate',''))||null,
+    hiredate:normDate(getVal('e-hiredate',''))||null,
     age:getVal('e-birthdate','')?calcAge(getVal('e-birthdate','')):Math.max(18,getInt('e-age',35)),
     seniority:getVal('e-hiredate','')?calcSeniority(getVal('e-hiredate','')):Math.max(0,getFloat('e-sen',1)),
     ral:Math.max(0,getInt('e-ral',35000)),
@@ -1593,8 +1625,8 @@ function saveEdit(){
 
   // Refresh detail panel header
   const s=calcRisk(currentEmp),r=riskInfo(s);
-  document.getElementById('dp-name').textContent=currentEmp.name;
-  document.getElementById('dp-role').textContent=currentEmp.role+' · '+getSeniority(currentEmp)+' anni';
+  document.getElementById('dp-name').textContent=(currentEmp.surname?currentEmp.surname+' ':'')+currentEmp.name;
+  document.getElementById('dp-role').textContent=currentEmp.role+(currentEmp.level?' · '+currentEmp.level:'')+(currentEmp.ccnl?' · '+currentEmp.ccnl:'');
   document.getElementById('dp-risk-num').textContent=s;
   document.getElementById('dp-risk-num').style.color=r.c;
   document.getElementById('dp-risk-bar').style.cssText='width:'+s+'%;background:'+r.c;
@@ -1765,8 +1797,11 @@ function loadData(){
         id: e.id || Date.now()+Math.random(),
         name: e.name || 'N/D',
         role: e.role || 'N/D',
-        birthdate: e.birthdate || null,
-        hiredate: e.hiredate || null,
+        surname: e.surname || '',
+        birthdate: normDate(e.birthdate) || null,
+        level: e.level || '',
+        ccnl: e.ccnl || '',
+        hiredate: normDate(e.hiredate) || null,
         age: e.birthdate ? calcAge(e.birthdate) : (e.age || 30),
         seniority: e.hiredate ? calcSeniority(e.hiredate) : (e.seniority || 1),
         ral: e.ral || 30000,
