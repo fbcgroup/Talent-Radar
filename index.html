@@ -86,8 +86,8 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
 .fpill{padding:5px 12px;border:1px solid var(--border);border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;background:var(--white);color:var(--ink3);font-family:var(--sans);transition:all .15s;letter-spacing:.02em}
 .fpill:hover{border-color:var(--blue);color:var(--blue)}
 .fpill.active{background:var(--blue-bg);color:var(--blue);border-color:var(--blue)}
-.tbl-head{display:grid;grid-template-columns:100px 120px 130px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
-.tbl-row{display:grid;grid-template-columns:100px 120px 130px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
+.tbl-head{display:grid;grid-template-columns:36px 100px 120px 130px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:10px 20px;font-size:9px;color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);background:var(--cream2)}
+.tbl-row{display:grid;grid-template-columns:36px 100px 120px 130px 50px 75px 95px 115px 80px 80px 90px 90px 1fr;padding:13px 20px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .1s}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--cream2)}
 .emp-wrap{display:flex;align-items:center;gap:10px}
@@ -435,7 +435,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
           <button class="fpill" id="fb-medio" onclick="setFilter('medio')">Medio</button>
           <button class="fpill" id="fb-basso" onclick="setFilter('basso')">Basso</button>
         </div>
-        <div class="tbl-head"><div>Cognome</div><div>Nome</div><div>Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div class="tbl-head"><div></div><div>Cognome</div><div>Nome</div><div>Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
         <div id="tableBody"></div>
       </div>
     </div>
@@ -445,7 +445,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
     <div class="content-area">
       <div class="tbl-card">
         <div class="tbl-toolbar"><div class="search-box"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.2"/><path d="M8.5 8.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><input type="text" placeholder="Cerca..." oninput="renderTable2(this.value)"></div></div>
-        <div class="tbl-head"><div>Cognome</div><div>Nome</div><div>Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
+        <div class="tbl-head"><div></div><div>Cognome</div><div>Nome</div><div>Ruolo</div><div>Età</div><div>Anzianità</div><div>Liv. Contr.</div><div>CCNL</div><div>RAL</div><div>Gap mkt</div><div>Rischio</div><div>Score</div><div>Stato</div></div>
         <div id="tableBody2"></div>
       </div>
     </div>
@@ -541,7 +541,7 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
     <div class="asm-hero">
       <div class="asm-pre">Valutazione Psicometrica</div>
       <div class="asm-t" id="asm-title">Assessment comportamentale</div>
-      <div class="asm-sub" id="asm-subtitle">Questionario strutturato — 30 domande, 6 dimensioni</div>
+      <div class="asm-sub" id="asm-subtitle">Valutazione del responsabile — 30 domande, 6 dimensioni</div>
     </div>
     <div class="asm-body">
       <div class="asm-prog"><div class="asm-prog-fill" id="asmProg" style="width:0%"></div></div>
@@ -634,17 +634,17 @@ html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(
 <script>
 const AC=[
   {id:"stress",name:"Resistenza allo Stress",desc:"Capacità di mantenere performance elevate sotto pressione, scadenze e imprevisti",color:"#C0392B",
-   qs:[{q:"Di fronte a scadenze ravvicinate e imprevisti simultanei, riesco a mantenere lucidità e qualità del lavoro.",l:"Mai",h:"Sempre"},{q:"Dopo periodi prolungati di alta pressione, recupero rapidamente senza strascichi emotivi o fisici.",l:"Con difficoltà",h:"Facilmente"},{q:"Le critiche dirette o i feedback negativi in pubblico non compromettono la mia concentrazione.",l:"Mi destabilizzano",h:"Mi motivano"},{q:"Riesco a gestire situazioni di ambiguità dove le istruzioni non sono chiare.",l:"Mi blocca",h:"Mi stimola"},{q:"Quando i piani cambiano all'ultimo momento, mantengo la calma e riorganizzo rapidamente le priorità.",l:"È difficile",h:"È naturale"}]},
+   qs:[{q:"Di fronte a scadenze ravvicinate e imprevisti simultanei, mantiene lucidità e qualità del lavoro.",l:"Mai",h:"Sempre"},{q:"Dopo periodi prolungati di alta pressione, recupera rapidamente senza strascichi emotivi o cali di rendimento.",l:"Con difficoltà",h:"Facilmente"},{q:"Le critiche dirette o i feedback negativi non compromettono la sua concentrazione e continuità lavorativa.",l:"Lo destabilizzano",h:"Lo motivano"},{q:"Riesce a operare efficacemente in situazioni di ambiguità, quando le istruzioni non sono complete o cambiano.",l:"Lo blocca",h:"Lo stimola"},{q:"Quando i piani cambiano all'ultimo momento, mantiene la calma e riorganizza rapidamente le priorità.",l:"Fatica",h:"È naturale per lui/lei"}]},
   {id:"change",name:"Propensione al Cambiamento",desc:"Apertura all'innovazione, adattabilità a nuovi contesti e disposizione verso la trasformazione",color:"#1A4A7A",
-   qs:[{q:"Accolgo con entusiasmo nuovi strumenti e metodologie, anche quando richiedono sforzo iniziale.",l:"Li evito",h:"Li cerco"},{q:"Sono proattivo nel suggerire miglioramenti ai processi esistenti, anche se funzionano.",l:"Raramente",h:"Continuamente"},{q:"In presenza di cambiamenti organizzativi importanti, mi adatto velocemente senza perdere efficacia.",l:"Fatico",h:"Mi adatto"},{q:"Mi trovo a mio agio in ambienti di lavoro che cambiano frequentemente obiettivi e priorità.",l:"Preferisco stabilità",h:"Preferisco dinamismo"},{q:"Cerco attivamente esperienze nuove e sfidanti per ampliare le mie competenze.",l:"Non è prioritario",h:"È fondamentale"}]},
+   qs:[{q:"Accoglie con entusiasmo nuovi strumenti e metodologie, anche quando richiedono sforzo di apprendimento iniziale.",l:"Li evita",h:"Li ricerca"},{q:"È proattivo nel suggerire miglioramenti ai processi esistenti, anche quando funzionano.",l:"Raramente",h:"Continuamente"},{q:"In presenza di cambiamenti organizzativi importanti, si adatta velocemente senza perdere efficacia.",l:"Fatica ad adattarsi",h:"Si adatta subito"},{q:"Si trova a suo agio in ambienti di lavoro che cambiano frequentemente obiettivi e priorità.",l:"Preferisce stabilità",h:"Preferisce dinamismo"},{q:"Cerca attivamente esperienze nuove e sfidanti per ampliare le proprie competenze.",l:"Non è prioritario",h:"È fondamentale per lui/lei"}]},
   {id:"sprint",name:"Sprint Operativi",desc:"Capacità di concentrazione intensa, esecuzione rapida e produzione di risultati in tempi brevi",color:"#B5660A",
-   qs:[{q:"Riesco a entrare in modalità di produzione intensa per ore senza perdere qualità.",l:"Fatico",h:"È il mio normale"},{q:"Ho la disciplina per completare compiti noiosi o ripetitivi quando necessari.",l:"Procrastino spesso",h:"Li completo subito"},{q:"In fase di sprint, riesco a ignorare distrazioni e interruzioni mantenendo il focus.",l:"È una sfida",h:"Entro in flow"},{q:"Quando ricevo un compito urgente, ho strategie chiare per priorizzarlo rispetto ad altre attività.",l:"Mi confondo",h:"Ho un sistema"},{q:"Riesco a consegnare lavoro di qualità anche con risorse limitate (tempo, budget, team ridotto).",l:"La qualità cala",h:"Trovo sempre un modo"}]},
+   qs:[{q:"Riesce a entrare in modalità di produzione intensa per ore senza perdere qualità.",l:"Fatica",h:"È il suo normale"},{q:"Ha la disciplina per completare compiti noiosi o ripetitivi quando necessari, senza procrastinare.",l:"Procrastina spesso",h:"Li completa subito"},{q:"In fase di sprint, ignora distrazioni e interruzioni mantenendo il focus sugli obiettivi.",l:"Si distrae",h:"Entra in flow"},{q:"Quando riceve un compito urgente, sa priorizzarlo efficacemente rispetto alle altre attività in corso.",l:"Si confonde",h:"Ha un sistema chiaro"},{q:"Riesce a consegnare lavoro di qualità anche con risorse limitate (tempo, budget, team ridotto).",l:"La qualità cala",h:"Trova sempre un modo"}]},
   {id:"relations",name:"Capacità Relazionale",desc:"Efficacia nel costruire e mantenere relazioni, empatia e intelligenza interpersonale",color:"#1A6B4A",
-   qs:[{q:"Riesco a costruire rapidamente un rapporto di fiducia con persone che non conosco.",l:"Richiede tempo",h:"È immediato"},{q:"Riconosco quando un collega è in difficoltà anche se non lo dichiara esplicitamente.",l:"Fatico a notarlo",h:"Lo percepisco subito"},{q:"Gestisco i conflitti interpersonali cercando soluzioni win-win.",l:"Li evito",h:"Li gestisco bene"},{q:"La mia rete di contatti professionali è una risorsa attiva che mobilito per creare opportunità.",l:"È limitata",h:"È ampia e attiva"},{q:"Mi interfaccio con persone di livelli gerarchici molto diversi con la stessa efficacia.",l:"Con difficoltà",h:"Con naturalezza"}]},
+   qs:[{q:"Costruisce rapidamente un rapporto di fiducia con colleghi, clienti e interlocutori nuovi.",l:"Richiede molto tempo",h:"È immediato"},{q:"Riconosce quando un collega è in difficoltà anche se non lo dichiara esplicitamente.",l:"Fatica a notarlo",h:"Lo percepisce subito"},{q:"Gestisce i conflitti interpersonali cercando soluzioni costruttive e win-win.",l:"Li evita o li esaspera",h:"Li gestisce bene"},{q:"Sa interfacciarsi con interlocutori di livelli gerarchici molto diversi con la stessa efficacia.",l:"Con difficoltà",h:"Con naturalezza"},{q:"Mantiene relazioni professionali solide anche in momenti di tensione o disaccordo.",l:"Le relazioni ne risentono",h:"Le consolida"}]},
   {id:"communication",name:"Comunicazione",desc:"Chiarezza espressiva, ascolto attivo, capacità persuasiva e adattamento dello stile comunicativo",color:"#553B9A",
-   qs:[{q:"Riesco a presentare concetti complessi in modo chiaro a persone non esperte del settore.",l:"Con difficoltà",h:"Con naturalezza"},{q:"In una discussione, ascolto attivamente prima di rispondere e verifico di aver compreso.",l:"Tendo a parlare",h:"Ascolto prima"},{q:"So adattare il mio stile comunicativo in base all'interlocutore (analitico, emotivo, direttivo).",l:"Ho uno stile fisso",h:"Cambio istintivamente"},{q:"Riesco a comunicare cattive notizie o feedback critici in modo costruttivo.",l:"È difficile",h:"Lo faccio bene"},{q:"Le mie comunicazioni scritte sono chiare, concise e orientate all'azione.",l:"Tendono ad essere lunghe",h:"Sono sempre efficaci"}]},
+   qs:[{q:"Sa presentare concetti complessi in modo chiaro a persone non esperte del settore.",l:"Con difficoltà",h:"Con naturalezza"},{q:"In una discussione, ascolta attivamente prima di rispondere e verifica di aver compreso correttamente.",l:"Tende a parlare",h:"Ascolta prima"},{q:"Adatta il proprio stile comunicativo in base all'interlocutore (analitico, emotivo, direttivo).",l:"Ha uno stile fisso",h:"Si adatta istintivamente"},{q:"Sa comunicare cattive notizie o feedback critici in modo diretto ma costruttivo.",l:"Lo evita o lo gestisce male",h:"Lo fa bene"},{q:"Le sue comunicazioni scritte sono chiare, concise e orientate all'azione.",l:"Tendono a essere prolisse",h:"Sono sempre efficaci"}]},
   {id:"social",name:"Socializzazione e Team",desc:"Integrazione nel gruppo, contributo alla cultura aziendale e spirito di squadra",color:"#8B6914",
-   qs:[{q:"Partecipo attivamente alla vita sociale del team (eventi, pause, momenti informali).",l:"Preferisco il mio spazio",h:"Partecipo sempre"},{q:"Condivido spontaneamente conoscenze e best practice con i colleghi.",l:"Solo se richiesto",h:"È il mio default"},{q:"Mi sento parte della cultura aziendale e la promuovo nelle mie azioni.",l:"Non mi identifico",h:"Sono un ambassador"},{q:"In un team con personalità diverse, riesco a lavorare efficacemente con tutti.",l:"Con alcune persone fatico",h:"Con chiunque"},{q:"Supporto proattivamente i colleghi in difficoltà, anche oltre le mie responsabilità.",l:"Resto nel mio ruolo",h:"Sempre disponibile"}]}
+   qs:[{q:"Partecipa attivamente alla vita sociale del team (eventi, pause, momenti informali).",l:"Si isola",h:"È sempre presente"},{q:"Condivide spontaneamente conoscenze e best practice con i colleghi, senza aspettare di essere richiesto.",l:"Solo se richiesto",h:"È il suo default"},{q:"Si identifica con la cultura aziendale e la promuove nelle proprie azioni quotidiane.",l:"Non si identifica",h:"È un ambassador"},{q:"In un team con personalità diverse, riesce a lavorare efficacemente con tutti.",l:"Con alcune persone fatica",h:"Con chiunque"},{q:"Supporta proattivamente i colleghi in difficoltà, anche oltre le proprie responsabilità formali.",l:"Resta nel suo ruolo",h:"Sempre disponibile"}]}
 ];
 
 let employees=[];
@@ -669,7 +669,12 @@ function initBenchmarkTable(){
 function getBenchmarkForRole(role, fallback){
   return benchmarkTable[role] || fallback || 40000;
 }
-function avi(e,sz=30,fs=10){const c=aviColors[e.id%aviColors.length],ini=e.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();return`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${c}22;color:${c};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:500;font-family:var(--serif);flex-shrink:0">${ini}</div>`;}
+function avi(e,sz=30,fs=10){
+  const c=aviColors[e.id%aviColors.length];
+  const s=(e.surname||'').trim(), n=(e.name||'').trim();
+  const ini=((s?s[0]:'')+(n?n[0]:'')||n.slice(0,2)).toUpperCase()||'?';
+  return`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${c}22;color:${c};display:flex;align-items:center;justify-content:center;font-size:${fs}px;font-weight:600;font-family:var(--sans);flex-shrink:0;letter-spacing:-.5px">${ini}</div>`;
+}
 function fmt(n){return'€'+(n/1000).toFixed(0)+'k';}
 function fmt2(n){return'€'+Math.round(n).toLocaleString('it');}
 // Parse date string: accepts both DD/MM/YYYY and YYYY-MM-DD
@@ -769,8 +774,10 @@ function rowsHTML(data){
     const fc=s>=60?'var(--red)':s>=35?'var(--amber)':'var(--green)';
     const st=e.assessment?`<span class="pill pgold" style="font-size:9px">Assessment ✓</span>`:`<span style="font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em">— da fare</span>`;
     return`<div class="tbl-row" onclick="openDetail(${e.id})">
-      <div class="cell-sm" style="font-weight:500">${e.surname||'—'}</div>
-      <div class="emp-wrap">${avi(e,28,10)}<div class="emp-nm">${e.name}</div></div>
+
+      <div style="display:flex;align-items:center">${avi(e,30,11)}</div>
+      <div class="cell-sm" style="font-weight:500;align-self:center">${e.surname||'—'}</div>
+      <div class="emp-nm" style="align-self:center">${e.name}</div>
       <div class="emp-jt" style="align-self:center">${e.role}</div>
       <div class="cell-mu">${getAge(e)}</div>
       <div class="cell-mu">${getSeniority(e)}a</div>
@@ -811,7 +818,8 @@ let currentEmp=null,currentTab=0;
 function openDetail(id){
   currentEmp=employees.find(e=>e.id===id);currentTab=0;
   const s=calcRisk(currentEmp),r=riskInfo(s),ac=aviColors[currentEmp.id%aviColors.length];
-  const ini=currentEmp.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const _s=(currentEmp.surname||''). trim(), _n=(currentEmp.name||'').trim();
+  const ini=((_s?_s[0]:'')+(_n?_n[0]:'')||_n.slice(0,2)).toUpperCase()||'?';
   const dpAvi=document.getElementById('dp-avi');
   dpAvi.style.cssText=`width:52px;height:52px;border-radius:50%;background:${ac}22;color:${ac};display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;font-weight:500;flex-shrink:0`;
   dpAvi.textContent=ini;
@@ -1048,7 +1056,7 @@ function startAssessment(empId){
   AC.forEach(cat=>{asmAnswers[cat.id]=[];});
   const e=employees.find(x=>x.id===empId);
   document.getElementById('asm-title').textContent='Assessment — '+e.name;
-  document.getElementById('asm-subtitle').textContent='Questionario strutturato · 6 dimensioni · 30 domande · Scala 1–5';
+  document.getElementById('asm-subtitle').textContent='Valutazione del responsabile · 6 dimensioni · 30 domande · Scala 1–5';
   document.getElementById('asmModal').classList.add('open');
   renderAsmStep();
 }
